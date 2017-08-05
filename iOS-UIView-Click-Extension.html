@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>iOS 对 UIView 扩展 Click 事件</title>
+<!-- 2017-08-04 Fri 23:19 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,265 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
-</li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
+<h1 class="title">iOS 对 UIView 扩展 Click 事件</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">UIButton扩展 Click 事件</a></li>
+<li><a href="#sec-2">为 UIView 增加 Touch Event Handling 能力</a></li>
+<li><a href="#sec-3">UIGestureRecognizer 扩展 Click 事件</a></li>
+<li><a href="#sec-4">UIView Category 扩展 Click 事件</a>
+<ul>
+<li><a href="#sec-4-1">4.1 增加 UIControl</a></li>
+<li><a href="#sec-4-2">UIControl 绑定事件</a></li>
+<li><a href="#sec-4-3">Responder Chain 的可靠性</a></li>
+<li><a href="#sec-4-4">其他注意事项</a></li>
+</ul>
 </li>
 </ul>
 </div>
+</div>
+<p>
+UIView 增加 click 事件? 这是一个很好的想法。一般而言，iOS的UIView是木有处理 target-event 能力的。只有 UIControl 才有这样的能力。在实际项目中有许多的场景中需要在 UIView 上加入事件操作。UIView 与 UIControl 是继承关系，UIControl 增加了 Event 事件的处理接口。<br  />
+</p>
+
+<p>
+#+HTML&lt;!&#x2013;more&#x2013;&gt;<br  />
+</p>
+
+<pre class="example">
+{% plantuml %}
+NSObject &lt;|-- UIResponder
+UIResponder &lt;|-- UIView
+UIView &lt;|-- UIImageView
+UIView &lt;|-- UILabel
+UIView &lt;|-- UIControl
+UIControl &lt;|-- UIButton
+{% endplantuml %}
+</pre>
+
+<p>
+拿支付宝为例，App 首页采用了典型的 SpringBoard/LaunchPad 设计，每个 item 都由 icon 和 label 组成。SpringBoard 的模式必然需要在用户点击的时候进行事件响应，进行场景切换。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/zhifubao-service.png" alt="zhifubao-service.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 1:</span> 支付宝首页service入口布局</p>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">UIButton扩展 Click 事件</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+一般的 view 是没有点击事件能力的，对 view 进行点击事件的扩展较简单的方法就是在这个 view 加入一个 UIButton 的 subview，在 Responder Chain 上，代替 UIView 响应点击事件。由于是事件扩展，所以 UIButton 首先是透明的；其次 button 的可点击范围和 view 一样；另外如果 button 有点击效果，那么该 button 应该在 subview 的最下层。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">UIButton</span> *<span style="color: #2e8b57;">button</span> = [<span style="color: #00688b;">UIButton</span> buttonWithStyle:UIButtonTypeSystem];
+[button addTarget:<span style="color: #1c86ee;">self</span> action:<span style="color: #1c86ee;">@selector</span>(xxxClicked:)
+    forControlEvents:UIControlEventTouchUpInside];
+[view addSubview:button];
+button.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">为 UIView 增加 Touch Event Handling 能力</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+在 Responder Chain 中，一般的 UIView 并没有对 Event 进行响应，虽然 hittest 方法找到了该 view，但由于该 view 的 userInteractionEnabled 为 NO，所以系统不把事件交给该 view 处理。只有当 UIView 重载了 UIResponder 的 touch 事件来监听处理用户或系统发出的 Touch Event。不过这种方法就必须对 UIView 继承为某个具体的 NSUIView，并在以下的 UIResponder 方法中增加 Click 的能力。touchesEnded 中实现具体的 click逻辑，touchesBegan 和 touchesEnded/touchesCancelled 配对实现按下和完成的 UI 效果。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">NSUIView</span> : <span style="color: #00688b;">UIView</span>
+<span style="color: #7f7f7f;">//</span><span style="color: #7f7f7f;">...</span>
+<span style="color: #1c86ee;">@end</span>
+
+<span style="color: #1c86ee;">@implementation</span> <span style="color: #00688b;">NSUIView</span>
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">touchesBegan</span>:(<span style="color: #00688b;">NSSet</span>&lt;UITouch *&gt; *)<span style="color: #2e8b57;">touches</span> <span style="color: #cd9b1d;">withEvent</span>:(<span style="color: #00688b;">nullable</span> <span style="color: #00688b;">UIEvent</span> *)<span style="color: #2e8b57;">event</span> {...}
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">touchesMoved</span>:(<span style="color: #00688b;">NSSet</span>&lt;UITouch *&gt; *)<span style="color: #2e8b57;">touches</span> <span style="color: #cd9b1d;">withEvent</span>:(<span style="color: #00688b;">nullable</span> <span style="color: #00688b;">UIEvent</span> *)<span style="color: #2e8b57;">event</span> {...}
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">touchesEnded</span>:(<span style="color: #00688b;">NSSet</span>&lt;UITouch *&gt; *)<span style="color: #2e8b57;">touches</span> <span style="color: #cd9b1d;">withEvent</span>:(<span style="color: #00688b;">nullable</span> <span style="color: #00688b;">UIEvent</span> *)<span style="color: #2e8b57;">event</span> {...}
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">touchesCancelled</span>:(<span style="color: #00688b;">nullable</span> <span style="color: #2e8b57;">NSSet</span>&lt;<span style="color: #00688b;">UITouch</span> *&gt; *)<span style="color: #2e8b57;">touches</span> <span style="color: #cd9b1d;">withEvent</span>:(<span style="color: #00688b;">nullable</span> <span style="color: #00688b;">UIEvent</span> *)<span style="color: #2e8b57;">event</span> {...}
+<span style="color: #1c86ee;">@end</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">UIGestureRecognizer 扩展 Click 事件</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+以上方法都比较麻烦，不是要加 button，就是要实现事件处理的回调方法。那么是否有一种简单的方法，只提供一个 selector 或 block 就能实现了呢? 手势识别 (UIGestureRecognizer) 就非常符合这样的场景。UIGestureRecognizer 的功能非常强大，不仅支持单击，还支持双击。这样无需改动 UIView 就可以对任意的 view 添加点击事件。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">UITapGestureRecognizer</span> *<span style="color: #2e8b57;">tap</span>;
+tap = [[<span style="color: #00688b;">UITapGestureRecognizer</span> alloc] initWithTarget:<span style="color: #1c86ee;">self</span> action:<span style="color: #1c86ee;">@selector</span>(singleTap:)];
+tap.numberOfTapsRequired = 1;
+[<span style="color: #1c86ee;">self</span>.view addGestureRecognizer:tap];
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">UIView Category 扩展 Click 事件</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+虽然 手势识别非常方便，但是代码里面到处都是手势会不会不太好，而且手势识别的缺点是如果手势识别成功，那么事件就直接被 consume 掉了，而且手势之间可能还会发生冲突，所以这么方法不是太适合的解决方案。通过 category 来为 UIView 增强功能，达到如 UIButton、UIControl 一样的功能不失为一种很好的选择。基本思路和本文第一个 section1 的思路一致，在 UIView 的底部加上一层 UIControl，点击 view 后，事件传递给 UIControl。<br  />
+</p>
+
+<p>
+我们不使用像 section2 中继承的做法，转而使用 category 代替，虽然 category 其实也是侵入式的。<br  />
+</p>
+</div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">4.1 增加 UIControl</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+对于 category 来说，是没有办法直接增加属性的，不过 objective-c 早就替我们想好了，提供了 Associate Object 的功能，可以动态地将两个 Object 绑定在一起。以下代码使用了 Lazy Create 的方式生成一个 UIControl 的子view:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">static</span> <span style="color: #1c86ee;">const</span> <span style="color: #00688b;">void</span> * <span style="color: #2e8b57;">NS_ACTION_CONTROL</span> = &amp;NS_ACTION_CONTROL;
+
+- (<span style="color: #00688b;">UIControl</span> *)<span style="color: #cd9b1d;">createControlIfNotExist</span> {
+    <span style="color: #00688b;">UIControl</span> *<span style="color: #2e8b57;">control</span> = objc_getAssociatedObject(<span style="color: #1c86ee;">self</span>, NS_ACTION_CONTROL);
+    <span style="color: #1c86ee;">if</span> (!control) {
+        control = [[<span style="color: #00688b;">UIControl</span> alloc] initWithFrame:<span style="color: #1c86ee;">self</span>.bounds];
+        [<span style="color: #1c86ee;">self</span> addSubview:control];
+        objc_setAssociatedObject(<span style="color: #1c86ee;">self</span>, NS_ACTION_CONTROL,
+            control, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    <span style="color: #1c86ee;">return</span> control;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">UIControl 绑定事件</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+UIControl 绑定事件非常地简单，本身遵守 Cocoa 的 target-action 机制。所以我们只需要使用 addTarget:action:forControlEvents: 方法就可以了。这样我们就完成了 UIControl 扩展 UIView 的功能了。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">setClickAction</span>:(<span style="color: #00688b;">SEL</span>)<span style="color: #2e8b57;">action</span> {
+    <span style="color: #00688b;">UIControl</span> *<span style="color: #2e8b57;">control</span> = [<span style="color: #1c86ee;">self</span> createControlIfNotExist];
+    [control addTarget:<span style="color: #6e8b3d;">nil</span> action:action forControlEvents:UIControlEventTouchUpInside];
+}
+</pre>
+</div>
+
+<p>
+我们注意到 control 的 target 其实是 nil 的。查询 addTarget:action:forControlEvents: API 的文档:<br  />
+</p>
+<blockquote>
+<p>
+<i>/ add target/action for particular event. you can call this multiple times and you can<br  />
+/</i> specify multiple target/actions for a particular event.<br  />
+<i>/ passing in nil as the target goes up the responder chain. The action may optionally<br  />
+/</i> include the sender and the event in that order the action cannot be NULL. Note that<br  />
+// the target is not retained.<br  />
+</p>
+</blockquote>
+
+<p>
+如果target为nil，那么事件就会沿着响应链向上传递，找到链上某个能够响应 action 的 UIResponder。比如我们使用上述方法为 UIView 的 UIControl 增加了 @selector(clickVisitGoogle)的方法action。那么我们就可以在该 view 所在的 UIViewController(或者它的category) 中定义 clickVisitGoogle 方法。因为 UIViewController 在该 view 的nextResponder 的事件链中，所以点击 view 后，会执行 clickVisitGoogle 的方法。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/responder-chain.png" alt="responder-chain.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 2:</span> 响应链</p>
+</div>
+
+<p>
+以下代码可以显示从该 view 出发的响应链:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">showResponderChain</span>:(<span style="color: #00688b;">UIResponder</span> *)<span style="color: #2e8b57;">responder</span> {
+    NSLog(<span style="color: #2e8b57;">@</span><span style="color: #8b7355;">"----------------Responder Chain------------------"</span>);
+    <span style="color: #00688b;">NSMutableString</span> *<span style="color: #2e8b57;">spaces</span> = [<span style="color: #00688b;">NSMutableString</span> string];
+    <span style="color: #1c86ee;">while</span> (responder) {
+        NSLog(<span style="color: #2e8b57;">@</span><span style="color: #8b7355;">"%@%@"</span>, spaces, responder.class);
+        responder = responder.nextResponder;
+        [spaces appendString:@<span style="color: #8b7355;">"--"</span>];
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">Responder Chain 的可靠性</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+以上代码在大多数情况下执行是非常可靠的，只要能够在响应链上找到该 action。但是通过 showResponderChain 即便显示定义 action 的 UIResponder 在响应链上，也不代表真的能够执行该 action。比如 view 所在的 UIViewController 中存在某一 textfield，而且处于firstResponder 状态，那么点击 view 的时候，在响应链上找到的永远是 textfield，而且不会继续寻找下去，textfield 并没有定义 action。还有一种情况是直接由 UIWindow 加为子 view 某个 view, 例如半透明的浮层，其实这样的 view并不在响应链中，即使没有 textfield 干扰。<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/photo-choose-action.png" alt="photo-choose-action.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 3:</span> 头像设置的浮层</p>
+</div>
+
+<p>
+当然解决方法还是有的。如果 target 为 nil 不起作用，那么我们就沿着响应链主动寻找响应 action 的 target，其程序结构和 showResponderChain 是类似的。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">id</span>)<span style="color: #cd9b1d;">findTargetInResponderChain</span>:(<span style="color: #00688b;">SEL</span>)<span style="color: #2e8b57;">action</span> <span style="color: #cd9b1d;">startWith</span>:(<span style="color: #00688b;">UIResponder</span> *)<span style="color: #2e8b57;">responder</span> {
+    <span style="color: #00688b;">id</span> <span style="color: #2e8b57;">target</span> = <span style="color: #6e8b3d;">nil</span>;
+
+    <span style="color: #1c86ee;">while</span> (responder) {
+        <span style="color: #00688b;">BOOL</span> <span style="color: #2e8b57;">canResponds</span> = [responder respondsToSelector:action];
+        <span style="color: #1c86ee;">if</span> (canResponds) {
+            target = responder;
+            <span style="color: #1c86ee;">break</span>;
+        }
+        responder = responder.nextResponder;
+    }
+    <span style="color: #1c86ee;">return</span> target;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4">其他注意事项</h3>
+<div class="outline-text-3" id="text-4-4">
+<ol class="org-ol">
+<li>点击可以设定按下的高亮效果<br  />
+</li>
+<li>setClickAction 对应有 removeClickAction<br  />
+</li>
+<li>UIView 应当将 tag 传递给 UIControl，并且需要使用 Method Swizzling 技术来实现。<br  />
+</li>
+<li>以上扩展的功能还是可以的，但并没有完全实现 UIButton 所有的功能与效果。<br  />
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-23 Fri 16:37&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-04 Fri 23:19</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

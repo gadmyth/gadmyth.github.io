@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>iOS Welcome引导页</title>
+<!-- 2017-08-05 Sat 21:09 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,105 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
-</li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
+<h1 class="title">iOS Welcome引导页</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">使用UIScrollView实现引导页</a>
+<ul>
+<li><a href="#sec-1-1">引导页面跳过</a></li>
+<li><a href="#sec-1-2">引导页面图片尺寸适配和计算</a></li>
+</ul>
 </li>
 </ul>
 </div>
+</div>
+<p>
+引导页的主要作用是向用户介绍App的主要功能，通常有3到4页，划屏切换。<br  />
+</p>
+
+<!--more-->
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">使用UIScrollView实现引导页</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+iOS的引导页可以使用UIScrollView来实现，当切换到最后一页的时候，再向右划动，就会结束引导页的使命，正式地进入App。<br  />
+</p>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">引导页面跳过</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+当然引导页可以有很多很多页，比如有15页。个人直觉是并没有多少用户会认认真真地看会所有的引导页，那么用户就没有耐心划完所有的页再进入App。所以会在引导页的右上角加上一个"跳过"按钮，直接进入App。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/iOS-welcome-skip-button.png" alt="iOS-welcome-skip-button.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 1:</span> 引导页跳过按钮</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">引导页面图片尺寸适配和计算</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+对于不同的分辩率的设备，需要有不尺寸的引导图，以下就是获取图片在不同分辩率下的名字设定。<br  />
+</p>
+<pre class="example">
+welcome01@2x.png
+welcome01-568@2x.png
+welcome01-667@2x.png
+welcome01-736@3x.png
+</pre>
+
+<p>
+这些名字根据设备屏幕的高度的不同设定不同的名字，其算法如下:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">NSString</span> *)<span style="color: #cd9b1d;">createDeviceName</span>:(<span style="color: #00688b;">NSString</span> *)<span style="color: #2e8b57;">name</span> {
+    <span style="color: #00688b;">NSString</span>* <span style="color: #2e8b57;">deviceName</span> = <span style="color: #6e8b3d;">nil</span>;
+    <span style="color: #00688b;">NSString</span>* <span style="color: #2e8b57;">format</span> = <span style="color: #6e8b3d;">nil</span>;
+    <span style="color: #00688b;">NSString</span>* <span style="color: #2e8b57;">height</span> = <span style="color: #6e8b3d;">nil</span>;
+    <span style="color: #00688b;">NSString</span>* <span style="color: #2e8b57;">scale</span> = <span style="color: #6e8b3d;">nil</span>;
+    <span style="color: #1c86ee;">if</span> ([<span style="color: #00688b;">NSDeviceInfo</span> deviceScreenHeightInt] == 480) {
+        height = @<span style="color: #8b7355;">""</span>;
+        scale = @<span style="color: #8b7355;">"2x"</span>;
+        deviceName = @<span style="color: #8b7355;">"%@@2x.%@"</span>;
+    }
+    <span style="color: #1c86ee;">else</span> <span style="color: #1c86ee;">if</span> ([<span style="color: #00688b;">NSDeviceInfo</span> deviceScreenHeightInt] == 568) {
+        height = @<span style="color: #8b7355;">"-568"</span>;
+        scale = @<span style="color: #8b7355;">"2x"</span>;
+        deviceName = @<span style="color: #8b7355;">"%@-568@2x.%@"</span>;
+    }
+    <span style="color: #1c86ee;">else</span> <span style="color: #1c86ee;">if</span> ([<span style="color: #00688b;">NSDeviceInfo</span> deviceScreenHeightInt] == 667) {
+        height = @<span style="color: #8b7355;">"-667"</span>;
+        scale = @<span style="color: #8b7355;">"2x"</span>;
+        format = @<span style="color: #8b7355;">"%@-667@2x.%@"</span>;
+    }
+    <span style="color: #1c86ee;">else</span> {
+        height = @<span style="color: #8b7355;">"-736"</span>;
+        scale = @<span style="color: #8b7355;">"3x"</span>;
+    }
+    format = @<span style="color: #8b7355;">"%@%@@%@.%@"</span>;
+    deviceName = [<span style="color: #00688b;">NSString</span> stringWithFormat:format, name, height, scale, _suffix];
+    <span style="color: #1c86ee;">return</span> deviceName;
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-10 Sat 23:13&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-05 Sat 21:09</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

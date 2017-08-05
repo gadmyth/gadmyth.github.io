@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>App 大转盘抽奖活动 - API 发送问题思考</title>
+<!-- 2017-08-04 Fri 23:20 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,120 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
+<h1 class="title">App 大转盘抽奖活动 - API 发送问题思考</h1>
+<p>
+这期的 App 产品迭代中加入大转盘抽奖活动的功能。具体功能是购买理财产品后就跳出抽奖框，让用户进行抽奖，奖项显然是现金券或者加息券。问题的由来是后台开发者说该抽奖的 API 无法保证实时地返回结果，由于某些原因，需要异步地进行计算，延时后才能返回结果。另一个问题是，在没有单独的抽奖入口以及抽奖结果记录的情况下(当然，大家可以看到，这样的设计还是比较缺失的)，如果 API 请求失败该怎么办，结合第一种后台异步返回结果的情况下，是否需要有重试机制，失败后 UI 应当如何进行设计? 由于没有重试入口，那么用户退出该次抽奖后，是否意味着用户自动放弃了这次抽奖机会呢?<br  />
+</p>
+
+<!--more-->
+
+<p>
+以上问题中需要明确和研究清楚的是，API 请求失败的具体含义是什么。显然移动端的网络请求的失败率较 PC 高，失败原因也有多种情况。<br  />
+</p>
+
+<ol class="org-ol">
+<li>当手机处于弱网环境中时，网络请求会发生请求超时，没有返回结果;<br  />
 </li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
+<li>如果服务器不正常，那就会直接返回错误的 http code，如 404，500，502等等;<br  />
 </li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
+<li>当然当服务器正常的时候，由于后台系统异步返回结果，前端并不可能及时地拿到抽奖结果;<br  />
 </li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
+<li>服务器接收到了前端的请求，但是在请求返回的时候失败了，这时服务器可能已经有了抽奖结果;<br  />
 </li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
+</ol>
+
+<p>
+所以无论 API 是否返回成功，都可能拿不到抽奖结果。基于这些情况，API 的结果有如下几种情况:<br  />
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">API结果</th>
+<th scope="col" class="left">后台结果</th>
+<th scope="col" class="left">UI 结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">网络超时</td>
+<td class="left">没有收到请求</td>
+<td class="left">大转盘按钮 enable，可以重试 &lt;br&gt;大转盘按钮 disable 不可重试 &lt;br&gt; 显示抽奖结果</td>
+</tr>
+
+<tr>
+<td class="left">网络超时</td>
+<td class="left">收到请求，异步处理，可能已经有结果</td>
+<td class="left">/</td>
+</tr>
+
+<tr>
+<td class="left">请求成功</td>
+<td class="left">收到请求，异步处理，告诉前端正在处理</td>
+<td class="left">/</td>
+</tr>
+
+<tr>
+<td class="left">请求成功</td>
+<td class="left">告诉前端处理结果</td>
+<td class="left">/</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+对于网络超时或请求失败的情况，有两种选择，一种是建立重试机制，当网络状态不佳时，需要提示用户本次抽奖失败，需要重试，直到最后服务器返回结果为止。如果没有重试机制，用户可能就错过了这次抽奖机会。重试机制导致的多次请求需要以最新的请求结果为准，存入到数据库或缓存。请求结果既可以使用这样的更新原则，也可以使用先到先得的原则。多次请求发起后，先从缓存或数据库查看是否已有抽奖结果，所以由于某种原因发起多次抽奖请求，都应该保持幂等性，始终返回同样的抽奖结果。<br  />
+</p>
+
+<p>
+如果由于业务逻辑或架构设计的问题，服务器暂时无法解决异步返回抽奖结果，为了避免这种设计上的问题，当用户已有抽奖机会时，服务器马上提前为用户抽好奖，当用户真正发起抽奖请求时，才返回预先的结果。所以在用户抽奖页面弹出的时候，用户点击大转盘后，还需要发起确认抽奖结果的请求。当然由于同样是发送网络请求，所以又有上面提到的问题，优点是避免了抽奖结果的异步处理性。<br  />
+</p>
+
+<p>
+参考支付宝 花呗 使用后的抽奖模式，针对以上的设计，我们需要做的是:<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/mayi-huabei-entrance.png" alt="mayi-huabei-entrance.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 1:</span> 蚂蚁花呗抽奖入口</p>
+</div>
+
+<ol class="org-ol">
+<li>需要后台支持用户有抽奖次数，这样的话即使大转盘失败，或者用户退出，那么还可以在下一次抽奖中连抽两次<br  />
 </li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
+<li>需要为大转盘活动加入抽将入口。使得用户可以主动抽奖，当然由于业务规则的不同，我们可以为每次抽奖机会加入失效时间。<br  />
 </li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
+<li>后台抽奖 API 尽可能做成同步返回结果。<br  />
 </li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
+<li>API 的发起需要保证幂等性，防止羊毛客利用脚本进行薅羊毛。<br  />
 </li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
+<li>保证奖品池具有同步的特性，尤其是数量为 1 的大奖不能被抽中两次。<br  />
 </li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
+<li>在抽奖结果异步、没有抽奖记录页面的情况下，我们需要设计消息拉取机制，不定期地拉取抽奖结果，并在特定页面进行展示。<br  />
 </li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
+<li>如果场景不完备，那么我们就需要牺牲用户体验。比如，网络差抽不了奖，那么不好意思，请您多多原谅，下次产品迭代，我们再补偿您。<br  />
 </li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
-</li>
-</ul>
+</ol>
+
+<p>
+以上几点基本上可以解决网络不稳定情况下场景的完备性。<br  />
+</p>
 </div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-31 Mon 16:15&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-04 Fri 23:20</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

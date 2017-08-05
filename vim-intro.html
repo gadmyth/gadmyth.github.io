@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>Vim的简单使用方法</title>
+<!-- 2017-08-04 Fri 23:20 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,50 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
-</li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
-</li>
-</ul>
+<h1 class="title">Vim的简单使用方法</h1>
+<p>
+除了运维人员，后台开发，vim爱好者外，已经很少人使用vim了。因为vim的学习成本相对于其他编辑器非常高，好比现在用使拼音输入法的人比使用五笔等形码的人要多得多。现代编辑器易于使用，而且功能上面不比vim差。<br  />
+</p>
+<!-- more -->
+
+<p>
+那么我们是否有必要去学习vim呢? 在很多场景里，我们不得不使用vim，比如运维人员在服务器端修改配置文件。相比于一般的编辑器，vim在某些方面效率非常高，比如光标位置移动，字符串查找替换，对于经常编辑文件的人来说是十分方便的。<br  />
+</p>
+
+<p>
+假设某个初级运维人员需要修改服务器上的一个配置文件，如果他不会vim，而且服务器上没有其他的编辑器，那么他要修改一个文件的过程是这样的:<br  />
+首先需要打开这个配置文件，<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">vim config-file.txt
+</pre>
+</div>
+
+<p>
+这样就打开了这个配置文件，打开这个文件后，vim默认是normal mode，所以敲打键盘的时候并不会如想像中那样，文件插入了相应的字符。如果配置人员需要插入字符，那么就需要输入"i"，进入编辑模式。再敲打键盘就能够输入文字了。<br  />
+</p>
+
+<p>
+如果运维人员需要修改第10行，第5列的一个字符串，那么他需要移动上下左右键到第10行，第5列，然后按删除键，将文字删除，并敲打键盘，输入新的文字。这时候我们就完成了修改配置文件的操作，这个时候初级运维人员又遇到了一个问题，如何保存退出? 由于之前我们进入了insert mode的插入模式，所以我们首先要按下ESC键退回到normal mode。然后我们输入冒号，进入命令模式，输入wq，write and quit，保存并退出。<br  />
+</p>
+
+<p>
+所以对于初级人员来说，insert mode和normal mode已经很困扰了，而且保存退出居然还要输入命令，那么有没有更简单的方式呢? vim其实有个easy mode，就是进入vim的时候马上进入insert mode，并且按下ESC键后，并不会进入normal mode。这种模式对vim初级使用人员是非常友好的。那么如何进入这种模式呢? 我们退出到terminal，然后输入<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">vim -y config-file.txt
+</pre>
+</div>
+
+<p>
+这个时候就像使用正常的编辑器一样，不用担心不会使用vim了，vim这样退化成一个简单编辑器后，当然就没有快速移动，快速查找替换的功能了。当然因为easy mode总是在插入状态，所以还是无法退出。由于ESC键无法退到normal mode，vim的easy mode提供了ctrl-l进入临时的normal mode，再输入:wq保存退出。如果你是一个vim初学者，可以使用这个方法暂时过渡一下。 </p>
 </div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-03-30 16:03&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-04 Fri 23:20</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

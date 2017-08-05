@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>ObjC中ivar和propertytitle</title>
+<!-- 2017-08-04 Fri 23:20 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,292 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
-</li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
+<h1 class="title">ObjC中ivar和propertytitle</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">一个简单的类 Demo</a>
+<ul>
+<li><a href="#sec-1-1">命令行编译 Demo 类</a></li>
+<li><a href="#sec-1-2">对 Demo 类继承，测试 testName 的继承性</a></li>
+<li><a href="#sec-1-3">子类的 extension 中增加相同名字的 property 定义</a></li>
+<li><a href="#sec-1-4">property 开放到头文件中，测试 property 继承性</a></li>
+<li><a href="#sec-1-5">编译成 cpp 文件，查看 property 不能继承的原因</a></li>
+<li><a href="#sec-1-6">声明 ivar 实现继承</a></li>
+</ul>
 </li>
 </ul>
 </div>
+</div>
+<p>
+iOS 发展到现在，开发们喜欢定义一个 interface，然后里面什么都不写，最多开出一些 method 出来供外部使用，所有的属性都放到 .m 文件中的 extension 中定义，而且直接使用property，已经很少用 ivar 定义了。<br  />
+</p>
+
+<!--more-->
+
+<p>
+不过我最近碰到的情况就是 ivar 还是需要的。不仅是需要，理解 ivar 和 property 的关系是很有必要的。<br  />
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">一个简单的类 Demo</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">Test.h</span>
+<span style="color: #cdad00;">#import</span> <span style="color: #8b7355;">&lt;Foundation/Foundation.h&gt;</span>
+
+<span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">MyTestClass</span> : <span style="color: #00688b;">NSObject</span>
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">test</span>;
+<span style="color: #1c86ee;">@end</span>
+
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">Test.m</span>
+<span style="color: #cdad00;">#import</span> <span style="color: #8b7355;">"Test.h"</span>
+
+<span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">MyTestClass</span>()
+@property (<span style="color: #00688b;">nonatomic</span>, <span style="color: #00688b;">strong</span>) <span style="color: #00688b;">NSString</span>* <span style="color: #2e8b57;">testName</span>;
+<span style="color: #1c86ee;">@end</span>
+
+<span style="color: #1c86ee;">@implementation</span> <span style="color: #00688b;">MyTestClass</span>
+
+- (<span style="color: #00688b;">instancetype</span>)<span style="color: #cd9b1d;">init</span> {
+    <span style="color: #1c86ee;">if</span> (<span style="color: #1c86ee;">self</span> = [<span style="color: #1c86ee;">super</span> init]) {
+        _testName = @<span style="color: #8b7355;">"This is the testName"</span>;
+    }
+    <span style="color: #1c86ee;">return</span> <span style="color: #1c86ee;">self</span>;
+}
+
+- (<span style="color: #00688b;">void</span>) <span style="color: #cd9b1d;">test</span> {
+    NSLog(<span style="color: #2e8b57;">@</span><span style="color: #8b7355;">"test: %@"</span>, _testName);
+}
+<span style="color: #1c86ee;">@end</span>
+
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">main.m</span>
+<span style="color: #cdad00;">#import</span> <span style="color: #8b7355;">&lt;Foundation/Foundation.h&gt;</span>
+<span style="color: #cdad00;">#import</span> <span style="color: #8b7355;">"Test.h"</span>
+
+<span style="color: #00688b;">int</span> <span style="color: #cd9b1d;">main</span>(<span style="color: #00688b;">int</span> <span style="color: #2e8b57;">argc</span>, <span style="color: #00688b;">char</span> * <span style="color: #2e8b57;">argv</span>[]) {
+    @autoreleasepool {
+        <span style="color: #00688b;">MyTestClass</span> *<span style="color: #2e8b57;">mc</span> = [[<span style="color: #00688b;">MyTestClass</span> alloc] init];
+        [mc test];
+        <span style="color: #1c86ee;">return</span> 0;
+    }
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">命令行编译 Demo 类</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+如上的代码显示了一个类的通常的做法，就是通常将属性隐藏，将方法暴露。我们对以上的测试代码进行编译:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">$ clang -fobjc-arc -framework Foundation Test.m  main.m -o main
+$ ./main
+2016-10-31 11:07:37.335 main[2725:3352045] test: This is the testName
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">对 Demo 类继承，测试 testName 的继承性</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+我们发现 testName 被正确的打印出来了。不过如果想对 MyTestClass 类进行继承，覆盖 test 方法，不过也需要对 testName 属性进行引用，那么我们就进行以下代码。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">Test2.h</span>
+<span style="color: #cdad00;">#import</span> <span style="color: #8b7355;">&lt;Foundation/Foundation.h&gt;</span>
+<span style="color: #cdad00;">#import</span> <span style="color: #8b7355;">"Test.h"</span>
+
+<span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">MyTestClass2</span> : <span style="color: #00688b;">MyTestClass</span>
+<span style="color: #1c86ee;">@end</span>
+
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">Test2.m</span>
+<span style="color: #cdad00;">#import</span> <span style="color: #8b7355;">"Test2.h"</span>
+
+<span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">MyTestClass2</span>()
+<span style="color: #1c86ee;">@end</span>
+
+<span style="color: #1c86ee;">@implementation</span> <span style="color: #00688b;">MyTestClass2</span>
+
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">override the "test" method</span>
+- (<span style="color: #00688b;">void</span>) <span style="color: #cd9b1d;">test</span> {
+    NSLog(<span style="color: #2e8b57;">@</span><span style="color: #8b7355;">"override test: %@"</span>, _testName);
+}
+<span style="color: #1c86ee;">@end</span>
+</pre>
+</div>
+
+<p>
+同样的，我们使用命令行对 MyTestClass2 进行编译，得到以下错误:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">$ clang -fobjc-arc -framework Foundation Test.m Test2.m main.m -o main2
+Test2.m:11:33: error: use of undeclared identifier <span style="color: #8b7355;">'_testName'</span>
+    NSLog(@<span style="color: #8b7355;">"override test: %@"</span>, _testName);
+                                ^
+1 error generated.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">子类的 extension 中增加相同名字的 property 定义</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+这个时候，以上代码是编译不过的。说明 MyTestClass2 并不知道 testName 这个属性的存在，或者说，这个属性并没有被 testName 所继承。于是我们试图在 MyTestClass2 的 extension 中加入 testName 的 property 来补充一下，看看是否可以将 MyTestClass 中原有的 testName 给调出来:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">MyTestClass2</span>()
+@property (<span style="color: #00688b;">strong</span>, <span style="color: #00688b;">nonatomic</span>) <span style="color: #00688b;">NSString</span>* <span style="color: #2e8b57;">testName</span>;
+<span style="color: #1c86ee;">@end</span>
+</pre>
+</div>
+
+<p>
+我们再在 main.m 里面加入对 MyTestClass2 的测试:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">MyTestClass2</span> *<span style="color: #2e8b57;">mc2</span> = [[<span style="color: #00688b;">MyTestClass2</span> alloc] init];
+[mc2 test];
+</pre>
+</div>
+
+<p>
+我们决定在 MyTestClass2 的 extension 中补充加入 testName 属性，看看会如何。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">$ clang -fobjc-arc -framework Foundation Test.m Test2.m main.m -o main2
+$ ./main2 
+2016-10-31 11:12:28.346 main2[2949:3354889] test: This is the testName
+2016-10-31 11:12:28.347 main2[2949:3354889] override test: (null)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">property 开放到头文件中，测试 property 继承性</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+我们发现，其实新加的 testName 是个新的 property，并不是原来的 MyTestClass 的那个 testName 的property。那么这样吧，我们将 testName 放到 Test.h 里面，开放出来好了:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">MyTestClass</span> : <span style="color: #00688b;">NSObject</span>
+@property (<span style="color: #00688b;">nonatomic</span>, <span style="color: #00688b;">strong</span>) <span style="color: #00688b;">NSString</span>* <span style="color: #2e8b57;">testName</span>;
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">test</span>;
+<span style="color: #1c86ee;">@end</span>
+</pre>
+</div>
+
+<p>
+然后在其他地方将testName的定义给去除，再次编译:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">clang -fobjc-arc -framework Foundation Test.m Test2.m main.m -o main2
+Test2.m:10:33: error: use of undeclared identifier <span style="color: #8b7355;">'_testName'</span>
+    NSLog(@<span style="color: #8b7355;">"override test: %@"</span>, _testName);
+                                ^
+1 error generated.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">编译成 cpp 文件，查看 property 不能继承的原因</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+发现还是会出现以上问题。说明即使是头文件中使用 property，它也是不会被继承的。我们将 Test2.m 中编译不通过的代码先注释掉，然后使用 &#x2013;rewrite-objc 的 option 对以上的测试代码进行重写:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">$ clang -fobjc-arc -framework Foundation -rewrite-objc -w Test.m Test2.m
+</pre>
+</div>
+
+<p>
+会得到 Test.cpp 和 Test2.cpp 两个文件。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">Test.cpp</span>
+<span style="color: #1c86ee;">extern</span> <span style="color: #8b7355;">"C"</span> <span style="color: #00688b;">unsigned</span> <span style="color: #00688b;">long</span> <span style="color: #2e8b57;">OBJC_IVAR_$_MyTestClass$_testName</span>;
+<span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">MyTestClass_IMPL</span> {
+    <span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">NSObject_IMPL</span> <span style="color: #2e8b57;">NSObject_IVARS</span>;
+    NSString *__strong _testName;
+};
+
+<span style="color: #1c86ee;">static</span> <span style="color: #00688b;">NSString</span> * <span style="color: #cd9b1d;">_I_MyTestClass_testName</span>(<span style="color: #00688b;">MyTestClass</span> * <span style="color: #2e8b57;">self</span>, <span style="color: #00688b;">SEL</span> <span style="color: #2e8b57;">_cmd</span>) { <span style="color: #1c86ee;">return</span> (*(NSString *__strong *)((<span style="color: #00688b;">char</span> *)self + OBJC_IVAR_$_MyTestClass$_testName)); }
+<span style="color: #1c86ee;">static</span> <span style="color: #00688b;">void</span> <span style="color: #cd9b1d;">_I_MyTestClass_setTestName_</span>(<span style="color: #00688b;">MyTestClass</span> * <span style="color: #2e8b57;">self</span>, <span style="color: #00688b;">SEL</span> <span style="color: #2e8b57;">_cmd</span>, <span style="color: #00688b;">NSString</span> *<span style="color: #2e8b57;">testName</span>) { (*(NSString *__strong *)((<span style="color: #00688b;">char</span> *)self + OBJC_IVAR_$_MyTestClass$_testName)) = testName; }
+
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">Test2.cpp</span>
+<span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">MyTestClass_IMPL</span> {
+    <span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">NSObject_IMPL</span> <span style="color: #2e8b57;">NSObject_IVARS</span>;
+};
+
+<span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">MyTestClass2_IMPL</span> {
+    <span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">MyTestClass_IMPL</span> <span style="color: #2e8b57;">MyTestClass_IVARS</span>;
+};
+</pre>
+</div>
+
+<p>
+可以看到 cpp 文件中是将 interface 类定义为一个结构体，MyTestClass_IMPL，其中我们关心的是定义了 <span class="underline">testName 这个 ivar，并且还有 _I_MyTestClass_testName 和 _I_MyTestClass_setTestName</span> 这两个 get/set 方法。也就是说，property 的作用实际上是定义 _testName 这个 ivar 和相应的 get/set 方法。这就是 property 的作用。<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">声明 ivar 实现继承</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+但是，如果看 Test2.cpp，MyTestClass2_IMPL 中并没有 testName 相关的 ivar 和 property，编译器并没有找到 testName。那么我们将 Test.m 中的 testName 改成原始的 ivar 定义再 rewrite 会如何呢?<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #cdad00;">#import</span> <span style="color: #8b7355;">&lt;Foundation/Foundation.h&gt;</span>
+
+<span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">MyTestClass</span> : <span style="color: #00688b;">NSObject</span> {
+    <span style="color: #00688b;">NSString</span>* <span style="color: #2e8b57;">_testName</span>;
+}
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">test</span>;
+<span style="color: #1c86ee;">@end</span>
+</pre>
+</div>
+
+<p>
+rewrite 后发现 Test.cpp 里除了没有 get/set 方法外基本没有差别。反而是 Test2.cpp中定义的 MyTestClass 中保有了 testName 的 ivar:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">MyTestClass_IMPL</span> {
+    <span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">NSObject_IMPL</span> <span style="color: #2e8b57;">NSObject_IVARS</span>;
+    NSString *__strong _testName;
+};
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-31 Mon 10:18&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-04 Fri 23:20</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>App升级提示策略</title>
+<!-- 2017-08-05 Sat 21:09 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,141 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
-</li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
+<h1 class="title">App升级提示策略</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">App升级流程设计</a></li>
+<li><a href="#sec-2">App升级提示视觉设计</a></li>
+<li><a href="#sec-3">App升级API设计</a></li>
+<li><a href="#sec-4">完成效果图</a></li>
+<li><a href="#sec-5">注意点</a>
+<ul>
+<li><a href="#sec-5-1">不再显示某版本升级框优化</a></li>
+<li><a href="#sec-5-2">苹果App Store更新bug</a></li>
+<li><a href="#sec-5-3">流程优化</a></li>
+<li><a href="#sec-5-4">强制升级框显示优化</a></li>
+</ul>
 </li>
 </ul>
 </div>
+</div>
+<p>
+当App开发到一定程序后，不可避免地要提示用户进行升级，否则新增功能就无法使用。<br  />
+</p>
+
+<!-- more -->
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">App升级流程设计</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+App的升级流程如图所示。App拿着当前的版本号向服务器进行请求，服务器返回是否需要升级的信息，App根据返回信息显示升级对话框。<br  />
+升级信息包含该版本是否更新，是否强制更新，以及更新消息体。<br  />
+如果不是强制升级，App提供给用户该版本的升级框不再显示的勾选框，用户勾上后，下次App请求服务器时，就不再显示该对话框。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/app-upgrade-flow.png" alt="app-upgrade-flow.png" width="550px" /><br  />
+</p>
+<p><span class="figure-number">Figure 1:</span> 升级提示流程</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">App升级提示视觉设计</h2>
+<div class="outline-text-2" id="text-2">
+
+<div class="figure">
+<p><img src="images/iOS-force-upgrade-dialog.png" alt="iOS-force-upgrade-dialog.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 2:</span> 强制升级</p>
+</div>
+
+
+<div class="figure">
+<p><img src="images/iOS-upgrade-dialog.png" alt="iOS-upgrade-dialog.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 3:</span> 非强制升级</p>
+</div>
+
+
+<div class="figure">
+<p><img src="images/iOS-upgrade-dialog-mark.png" alt="iOS-upgrade-dialog-mark.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 4:</span> 尺寸标注</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">App升级API设计</h2>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">完成效果图</h2>
+<div class="outline-text-2" id="text-4">
+
+<div class="figure">
+<p><img src="images/iOS-upgrade-dialog-old.png" alt="iOS-upgrade-dialog-old.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 5:</span> 老版本升级框</p>
+</div>
+
+
+<div class="figure">
+<p><img src="images/iOS-upgrade-dialog-new.png" alt="iOS-upgrade-dialog-new.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 6:</span> 新版本升级框</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">注意点</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1">不再显示某版本升级框优化</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+如果用户勾选了不再显示某版本的升级框，那么就不应该再发起upgrade的API，而不是现在的流程: 每次都触发upgrade API，再判断版本号，以此决定是否显示升级框。<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2">苹果App Store更新bug</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+苹果App Store的升级bug是，如果你从App Store上将某App升级到最新版本，实际上你下载到的还是老版本，甚至是更旧的版本，这可能是苹果CDN的bug。<br  />
+苹果App Store的升级bug会导致App出现"提示升级&#x2013;&gt;升级&#x2013;&gt;老版本&#x2013;&gt;提示升级&#x2013;&gt;升级&#x2013;&gt;老版本&#x2026;."的无限循环中，用户需要重启手机才有可能恢复正常。有的时候，明明已经升级到了最新版本，但App调用upgrade API时填入的当前App版本号还是老的，导致App已经是最新的，但是升级框还一直显示，如果是该版本升级属性是强制升级，那么导致用户即使是最新版却无法使用的问题。<br  />
+对于第一种问题，我们可能无能为力，因为升级到旧版本只能等苹果服务器解决该问题；而对于第二种问题，我们可以在App中预先内置每个版本唯一的版本标识码，可以用uuid来实现，以代替升级到最新版本后，app version code没有更新的问题。<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3">流程优化</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+本文的升级框显示流程图中的橙色部分就是新加入的流程，如果某版本是强制升级，那么就意味着服务器不再支持老版本的使用，用户使用老版本发起API，服务器就应该返回强制升级的错误信息，弹框提示用户升级使用。<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-4" class="outline-3">
+<h3 id="sec-5-4">强制升级框显示优化</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+对于强制升级框来说，如果App弹出了强制升级框，那么用户即使点击了升级按钮跳转App Store，升级框也不应该消失。从逻辑上说，这样的处理比较完整；从用户体验上说，比较暴力。<br  />
+</p>
+</div>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-04-26 15:20&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-05 Sat 21:09</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

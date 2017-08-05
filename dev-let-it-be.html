@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>开发中的不了了之</title>
+<!-- 2017-08-04 Fri 23:19 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,42 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
+<h1 class="title">开发中的不了了之</h1>
+<p>
+这个话题其实很早以前就想讲了，由于一开始的系统设计的问题，或者根本就是产品设计的问题，导致开发的时候各种妥协，各种问题解决不了，或者叫做不了了之。<br  />
+这篇文章应该会不断地更新，而且这篇的内容也仅仅做了备注，看看我们的产品设计和实现的时候存在哪些惯性问题。惯性大家都懂的，习惯嘛，没那么容易改掉的，根据我们的大脑思维模式，只有理性的慢思考才可能更进或解决这些问题，或者我们可以称之为复盘。不过在软件行业，往前看的多，向后复盘的少之又少。<br  />
+</p>
+
+<!--more-->
+
+<ol class="org-ol">
+<li>API 文档应该写在哪里? 写在 word 的 PRD 里? 直接发 QQ? 文档改了怎么办? 写在 Conference 里? 改了 API 后忘了更新怎么办?<br  />
 </li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
+
+<li>API 信息拉取频率机制怎么设计? 到某个展示页面必须拉取用户信息?<br  />
 </li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
+
+<li>自己写的 SDK 里某个字段写死了，妹的，什么情况? 扩展性，大哥请考虑一下。<br  />
 </li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
+
+<li>异步加载，同步加载。信息没刷新? 数据还在获取好不好? 没获取好网络数据，这个按钮不应该点进去好不好?<br  />
 </li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
+
+<li>就这个按钮可以点击的条件要加一下，其他的不变。什么? 我的所有这一批的按钮都这个入口好不好? 让我为了这个按钮 hardcode 一个条件?<br  />
 </li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
+
+<li>我要在这个打电话的入口中加一条友盟数据统计。妹的，要改的地方调用的基础方法太深了，在这个地方加个参数的话，TMD 调用它的方法都得加参数。算了，用UserDefault/Preference暂存一下好了。做个标志位设置和清除的 hardcode 写法。<br  />
 </li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
-</li>
-</ul>
+</ol>
+
+<p>
+更新到这里今天先。<br  />
+</p>
 </div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-29 Thu 20:04&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-04 Fri 23:19</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

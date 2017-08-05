@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>iPhone 分辨率</title>
+<!-- 2017-08-04 Fri 23:19 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,668 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
+<h1 class="title">iPhone 分辨率</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 各设备分辨率</a></li>
+<li><a href="#sec-2">Launch Image尺寸讨论</a></li>
+<li><a href="#sec-3">非Launch Image的图片尺寸讨论</a>
+<ul>
+<li><a href="#sec-3-1">1x, 2x, 3x 图片</a></li>
+<li><a href="#sec-3-2">load 不同 scale 的图片</a></li>
+</ul>
 </li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
+<li><a href="#sec-4">计算方法</a></li>
+<li><a href="#sec-5">Android 手机分辨率</a>
+<ul>
+<li><a href="#sec-5-1">单位解释</a></li>
+</ul>
 </li>
 </ul>
 </div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">1. 各设备分辨率</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+下面的表格是iPhone各设备的分辨率的总结，在开发或UI设计时可以进行参考。尤其是iPhone4s之后的设备，需要为App配置专门的启动引导页的图片，如果没有配置相关尺寸的图片(图片名要按照一定的规范命令)，那么启动页面会呈现全黑。<br  />
+</p>
+
+<!--more-->
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">physical system</th>
+<th scope="col" class="right">iPhone 3GS</th>
+<th scope="col" class="right">iPhone4</th>
+<th scope="col" class="right">iPhone5</th>
+<th scope="col" class="right">iPhone6,7</th>
+<th scope="col" class="right">iPhone6P,7P</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">width (pixel)</td>
+<td class="right">320</td>
+<td class="right">640</td>
+<td class="right">640</td>
+<td class="right">750</td>
+<td class="right">1080</td>
+</tr>
+
+<tr>
+<td class="left">height (pixel)</td>
+<td class="right">480</td>
+<td class="right">960</td>
+<td class="right">1136</td>
+<td class="right">1334</td>
+<td class="right">1920</td>
+</tr>
+
+<tr>
+<td class="left">size (inch)</td>
+<td class="right">3.5</td>
+<td class="right">3.5</td>
+<td class="right">4</td>
+<td class="right">4.7</td>
+<td class="right">5.5</td>
+</tr>
+
+<tr>
+<td class="left">PPI (pixels per inch)</td>
+<td class="right">165</td>
+<td class="right">330</td>
+<td class="right">326</td>
+<td class="right">326</td>
+<td class="right">401</td>
+</tr>
+</tbody>
+</table>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">corditnate system</th>
+<th scope="col" class="right">iPhone 3GS</th>
+<th scope="col" class="right">iPhone4</th>
+<th scope="col" class="right">iPhone5</th>
+<th scope="col" class="right">iPhone6,7</th>
+<th scope="col" class="right">iPhone6P,7P</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">width (point)</td>
+<td class="right">320</td>
+<td class="right">320</td>
+<td class="right">320</td>
+<td class="right">375</td>
+<td class="right">414</td>
+</tr>
+
+<tr>
+<td class="left">height (point)</td>
+<td class="right">480</td>
+<td class="right">480</td>
+<td class="right">568</td>
+<td class="right">667</td>
+<td class="right">736</td>
+</tr>
+
+<tr>
+<td class="left">scale</td>
+<td class="right">1</td>
+<td class="right">2</td>
+<td class="right">2</td>
+<td class="right">2</td>
+<td class="right">3</td>
+</tr>
+
+<tr>
+<td class="left">width (scaled)</td>
+<td class="right">320</td>
+<td class="right">640</td>
+<td class="right">640</td>
+<td class="right">750</td>
+<td class="right">1242</td>
+</tr>
+
+<tr>
+<td class="left">height (scaled)</td>
+<td class="right">480</td>
+<td class="right">960</td>
+<td class="right">1136</td>
+<td class="right">1334</td>
+<td class="right">2208</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+可以看到iPhone4比iPhone 3GS的PPI的物理尺寸是一样的，但是PPI提高了一倍。iPhone5比iPhone4的长度大了176 pixel，所以size变成了4 inch，但PPI降低了。iPhone6其实就是iPhone5直接的等比例放大版本。iPhone6P比较奇怪，涉及到down-sampling的概念，就是iPhone6P的尺寸应当是1242x2208的，但苹果做了Down Sampling，当用户的图片是3x的时候，显示到物理设备上时会对其做相应的降采样。也就是如果是一张启动页图片，设计师出的图片不能是1080x1920的，而应该是1242x2208的，机器根据图片的3x自动变换为1080x1920。但如果启动页直接做成是1080x1920，那么就会黑屏。也就是说参与计算 pt 的是 [1242x2208]，参与计算 ppi 的是[1080x1920]。<br  />
+</p>
+
+<p>
+所以以上的参数其实是属于两套系统，一套是物理分辨率关系，另一套是属于与物理分辩率无关的<a href="https://developer.apple.com/ios/human-interface-guidelines/graphics/image-size-and-resolution/">cordinate system</a>，用于各种尺寸计算。<br  />
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">physical system</th>
+<th scope="col" class="left">cordinate system</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">pixel-width&lt;br/&gt;pixel-height&lt;br/&gt;size&lt;br/&gt;PPI</td>
+<td class="left">pt-width&lt;br/&gt;pt-height&lt;br/&gt;scale&lt;br/&gt;scaled-width&lt;br/&gt; scaled-height</td>
+</tr>
+
+<tr>
+<td class="left">PPI = ( pixel-width &lt;sup&gt;2&lt;/sup&gt; + pixel-height &lt;sup&gt;2&lt;/sup&gt; ) &lt;sup&gt;1/2&lt;/sup&gt;</td>
+<td class="left">scaled-width = scale \* pt-width &lt;br/&gt; scaled-height = scale \* pt-height &lt;br/&gt; pixel-width = scaled-width ( &lt; 6P, 7P ) &lt;br/&gt;pixel-height = scaled-height ( &lt; 6P, 7P ) &lt;br/&gt; pixel-width = downsampling(scaled-width) ( 6P, 7P )&lt;br/&gt;pixel-height = downsampling(scaled-height) ( 6P, 7P )</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+我们知道高分辨率的图片如果显示区域故意变小，那么图片就会模糊不清。Down Sampling 的作用估计就是大尺寸图片降分辨率，以适应在物理尺寸上的最佳显示效果。<br  />
+</p>
+
+<p>
+<a href="https://www.paintcodeapp.com/news/ultimate-guide-to-iphone-resolutions">PaintCode</a> 这款应用的网站上给出了 iPhone 分辨率的详图，可供参考。<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/ultimate-guide-to-iPhone-resolutions.png" alt="ultimate-guide-to-iPhone-resolutions.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 1:</span> The Ultimate Guide To iPhone Resolutions</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Launch Image尺寸讨论</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+有关Launch Image的尺寸问题，<a href="https://developer.apple.com/ios/human-interface-guidelines/graphics/launch-screen/">Apple Developer网站</a> 上也给出了下面表格中的建议:<br  />
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Device</th>
+<th scope="col" class="left">Portrait size</th>
+<th scope="col" class="left">Landscape size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">iPhone 6s Plus, iPhone 6 Plus</td>
+<td class="left">1080px by 1920px</td>
+<td class="left">1920px by 1080px</td>
+</tr>
+
+<tr>
+<td class="left">iPhone 6s, iPhone 6</td>
+<td class="left">750px by 1334px</td>
+<td class="left">1334px by 750px</td>
+</tr>
+
+<tr>
+<td class="left">iPhone SE</td>
+<td class="left">640px by 1136px</td>
+<td class="left">1136px by 640px</td>
+</tr>
+
+<tr>
+<td class="left">12.9-inch iPad Pro</td>
+<td class="left">2048px by 2732px</td>
+<td class="left">2732px by 2048px</td>
+</tr>
+
+<tr>
+<td class="left">9.7-inch iPad Pro, iPad Air 2, iPad mini 4, iPad mini 2</td>
+<td class="left">1536px by 2048px</td>
+<td class="left">2048px by 1536px</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+但第一行的iPhone6P的Launch Image给的尺寸是有问题的。如果给出的图是1080x1920，那么Xcode自己就会报出Warning，并且给出建议应当提供1242x2208分辨率的图片。如果你不听 Xcode 的劝告，强行使用 1080x1920 的 LaunchImage，那么启动 App 的时候由于没有尺寸匹配而发生启动黑屏。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/launchimage-warning.png" alt="launchimage-warning.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 2:</span> LaunchImage Xcode Warning</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">非Launch Image的图片尺寸讨论</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+在 Xcode 中可以在 Assets.xcassets 中新建 Image Set，来配置不同 scale 的图片。<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/normal-image-config.png" alt="normal-image-config.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 3:</span> normal image</p>
+</div>
+
+<p>
+2x 和 3x 图片具体的物理尺寸如下所示，大小关系是 2:3 的比例关系。由于 3gs 机器基本上已经淘汰，所以我们不再配置 1x 的图片。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/icon-size-detail.png" alt="icon-size-detail.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 4:</span> image size detail info</p>
+</div>
+
+<p>
+最后在屏幕上的显示效果为:<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/remove-3x-result.png" alt="remove-3x-result.png" /><br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">1x, 2x, 3x 图片</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+1x, 2x, 3x的命令原因是为了一套代码，多套设备，多套分辨率图片。其原理我认为是 系统 scale 为 3 (iPhone 6P,7P) 时，会根据图片的命令规则去找 3x 的图片，如果找不到会找 2x 的图片，再找不到会找 1x 的图片。当找到图片后，图片有两种参数，image scale 和 image physical size，如果找到的是 2x 图，image scale 就是 2，找到 1x 图，image scale 就是 1。<br  />
+</p>
+
+<p>
+知道 image physical size (scaled-size) 和 image scale 后，就可以反推出 pt-size。然后根据各个设备的 scaled-size 和 physical-size 之间的映射关系，所谓的up-sampling，down-sampling，计算出图在真正在设备上显示的 physical size。<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">load 不同 scale 的图片</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+以下代码 load 某张 icon_salary_test@[1x,2x,3x].png 的图片。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">NSString</span> *<span style="color: #2e8b57;">iconName</span> = @<span style="color: #8b7355;">"icon_salary_test"</span>;
+<span style="color: #00688b;">UIImage</span> *<span style="color: #2e8b57;">image</span> = [<span style="color: #00688b;">UIImage</span> imageNamed:iconName];
+<span style="color: #00688b;">UIImageView</span> *<span style="color: #2e8b57;">iconView</span> = [[<span style="color: #00688b;">UIImageView</span> alloc] initWithImage:image];
+NSLog(<span style="color: #2e8b57;">@</span><span style="color: #8b7355;">"iconName: %@, iconSize: %@"</span>, iconName, [<span style="color: #00688b;">NSValue</span> valueWithCGSize:image.size]);
+</pre>
+</div>
+
+<p>
+如果我们将3x的图片移除，那么在 plus 的机器上，系统还是会找到 icon_salary_test@2x.png，由于是 2x 的图片，所以会根据 cordinate system，image physical size 为 (52, 58) px，image scale 为 2，我们就可以计算出 pt-size 为 (26, 29) pt，呈两倍关系。我们再计算下最后在屏幕的占的大小 scaled-size = system-scale * pt-size = (78, 87) px。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/remove-3x.png" alt="remove-3x.png" /><br  />
+</p>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">2016-11-02 15:04:57.650 TestApp[12208:125805] iconName: icon_salary_test, iconSize: NSSize: {26, 29}
+</pre>
+</div>
+<p>
+根据上图和打印出来的 log，我们可以看到，2x 图片的物理尺寸为 [52, 58]px，打印出来的和像素无关的 size 为 [26, 29]pt，所以 scale 为 2，验证了 iOS 系统在没有找到 3x 图时，会找到 2x 图。<br  />
+</p>
+
+<p>
+更进一步，我们将 2x 的图片移到 1x 的位置，这时，1x 的 physical-image-size 就是 [52, 58]px。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/move-2x-to-1x.png" alt="move-2x-to-1x.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 7:</span> only 1x image</p>
+</div>
+
+<p>
+于是系统在找不到 2x 和 3x 图片的情况下，找到 1x 图片，所以 image-scale 就是 1，计算出 pt-size 为 [52, 58]pt，如下面的 log 所示。 然后我们根据 pt-size * system-scale，计算出 scaled-size 为 [156, 174]px。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/move-2x-to-1x-result.png" alt="move-2x-to-1x-result.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 8:</span> only 1x image result</p>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">2016-11-02 15:21:30.345 TestApp[14982:142915] iconName: icon_salary_test, iconSize: NSSize: {52, 58}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">计算方法</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+iPhone分辨率的数据结构和计算方法如下，可以使用Emacs的elisp脚本来计算:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">;;; </span><span style="color: #7f7f7f;">package --- iphone.el</span>
+<span style="color: #7f7f7f;">;;; </span><span style="color: #7f7f7f;">Commentary:</span>
+<span style="color: #7f7f7f;">;;; </span><span style="color: #7f7f7f;">Code:</span>
+
+
+(<span style="color: #1c86ee;">defstruct</span> iphone-device
+  width
+  height
+  size
+  scale)
+
+(<span style="color: #1c86ee;">defvar</span> <span style="color: #2e8b57;">iphone3gs</span> (make-iphone-device
+                   <span style="color: #cd6600;">:width</span>  320
+                   <span style="color: #cd6600;">:height</span> 640
+                   <span style="color: #cd6600;">:size</span> 3.5
+                   <span style="color: #cd6600;">:scale</span> 1))
+
+(<span style="color: #1c86ee;">defvar</span> <span style="color: #2e8b57;">iphone4</span> (make-iphone-device
+                 <span style="color: #cd6600;">:width</span> 640
+                 <span style="color: #cd6600;">:height</span> 960
+                 <span style="color: #cd6600;">:size</span> 3.5
+                 <span style="color: #cd6600;">:scale</span> 2))
+
+(<span style="color: #1c86ee;">defvar</span> <span style="color: #2e8b57;">iphone5</span> (make-iphone-device
+                 <span style="color: #cd6600;">:width</span> 640
+                 <span style="color: #cd6600;">:height</span> 1136
+                 <span style="color: #cd6600;">:size</span> 4
+                 <span style="color: #cd6600;">:scale</span> 2))
+
+(<span style="color: #1c86ee;">defvar</span> <span style="color: #2e8b57;">iphone6</span> (make-iphone-device
+                 <span style="color: #cd6600;">:width</span> 750
+                 <span style="color: #cd6600;">:height</span> 1334
+                 <span style="color: #cd6600;">:size</span> 4.7
+                 <span style="color: #cd6600;">:scale</span> 2))
+
+(<span style="color: #1c86ee;">defvar</span> <span style="color: #2e8b57;">iphone6p</span> (make-iphone-device
+                  <span style="color: #cd6600;">:width</span> 1080
+                  <span style="color: #cd6600;">:height</span> 1920
+                  <span style="color: #cd6600;">:size</span> 5.5
+                  <span style="color: #cd6600;">:scale</span> 2.46))
+
+(<span style="color: #1c86ee;">defvar</span> <span style="color: #2e8b57;">iphone6p-a</span> (make-iphone-device
+                  <span style="color: #cd6600;">:width</span> 1242
+                  <span style="color: #cd6600;">:height</span> 2208
+                  <span style="color: #cd6600;">:size</span> 5.5
+                  <span style="color: #cd6600;">:scale</span> 3))
+
+(<span style="color: #1c86ee;">defvar</span> <span style="color: #2e8b57;">iphone6p-b</span> (make-iphone-device
+                  <span style="color: #cd6600;">:width</span> 1080
+                  <span style="color: #cd6600;">:height</span> 1920
+                  <span style="color: #cd6600;">:size</span> 5.5
+                  <span style="color: #cd6600;">:scale</span> 3))
+
+(<span style="color: #1c86ee;">defvar</span> <span style="color: #2e8b57;">iphone6p-c</span> (make-iphone-device
+                  <span style="color: #cd6600;">:width</span> 1080
+                  <span style="color: #cd6600;">:height</span> 1920
+                  <span style="color: #cd6600;">:size</span> 5.5
+                  <span style="color: #cd6600;">:scale</span> 2))
+
+
+(<span style="color: #1c86ee;">defun</span> <span style="color: #cd9b1d;">get-ppi</span> (i-device)
+  <span style="color: #cd853f;">"I-DEVICE."</span>
+  (<span style="color: #1c86ee;">interactive</span> <span style="color: #8b7355;">"XPlease input the device(iphone3gs, iphone4, iphone5, iphone6, iphone6p[-a, -b, -c]): "</span>)
+  (<span style="color: #1c86ee;">let*</span> ((width (iphone-device-width i-device))
+         (height (iphone-device-height i-device))
+         (size (iphone-device-size i-device))
+         (ppi (/ (sqrt (+ (* width width) (* height height))) size)))
+    (message <span style="color: #8b7355;">"%f"</span> ppi)
+    ppi))
+
+(<span style="color: #1c86ee;">defun</span> <span style="color: #cd9b1d;">get-logic-res</span> (i-device)
+  <span style="color: #cd853f;">"I-DEVICE."</span>
+  (<span style="color: #1c86ee;">interactive</span> <span style="color: #8b7355;">"XPlease input the device(iphone3gs, iphone4, iphone5, iphone6, iphone6p[-a, -b, -c]): "</span>)
+  (<span style="color: #1c86ee;">let*</span> ((width (iphone-device-width i-device))
+         (height (iphone-device-height i-device))
+         (scale (iphone-device-scale i-device))
+         (res `(,(/ width scale) . ,(/ height scale))))
+    (message <span style="color: #8b7355;">"[%f, %f]"</span> (car res) (cdr res))
+    res))
+
+(<span style="color: #1c86ee;">provide</span> '<span style="color: #6e8b3d;">iphone</span>)
+<span style="color: #7f7f7f;">;;; </span><span style="color: #7f7f7f;">iphone.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Android 手机分辨率</h2>
+<div class="outline-text-2" id="text-5">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">VGA</td>
+<td class="right">480</td>
+<td class="right">640</td>
+<td class="left">/</td>
+<td class="left">/</td>
+<td class="right">/</td>
+</tr>
+
+<tr>
+<td class="left">QVGA</td>
+<td class="right">240</td>
+<td class="right">320</td>
+<td class="left">ldpi</td>
+<td class="left">/</td>
+<td class="right">2x</td>
+</tr>
+
+<tr>
+<td class="left">HVGA</td>
+<td class="right">320</td>
+<td class="right">480</td>
+<td class="left">mdpi</td>
+<td class="left">120~160</td>
+<td class="right">2x</td>
+</tr>
+
+<tr>
+<td class="left">SVGA</td>
+<td class="right">600</td>
+<td class="right">800</td>
+<td class="left">/</td>
+<td class="left">/</td>
+<td class="right">/</td>
+</tr>
+
+<tr>
+<td class="left">WVGA</td>
+<td class="right">480</td>
+<td class="right">800</td>
+<td class="left">hdpi</td>
+<td class="left">160~240</td>
+<td class="right">3x</td>
+</tr>
+
+<tr>
+<td class="left">FWVGA</td>
+<td class="right">480</td>
+<td class="right">854</td>
+<td class="left">hdpi</td>
+<td class="left">/</td>
+<td class="right">/</td>
+</tr>
+
+<tr>
+<td class="left">HD</td>
+<td class="right">1080</td>
+<td class="right">1920</td>
+<td class="left">/</td>
+<td class="left">/</td>
+<td class="right">/</td>
+</tr>
+
+<tr>
+<td class="left">QHD</td>
+<td class="right">540</td>
+<td class="right">960</td>
+<td class="left">/</td>
+<td class="left">/</td>
+<td class="right">/</td>
+</tr>
+
+<tr>
+<td class="left">720p</td>
+<td class="right">720</td>
+<td class="right">1280</td>
+<td class="left">xhpi</td>
+<td class="left">240~320</td>
+<td class="right">4x</td>
+</tr>
+
+<tr>
+<td class="left">1080p</td>
+<td class="right">1080</td>
+<td class="right">1920</td>
+<td class="left">xxhdpi</td>
+<td class="left">320~480</td>
+<td class="right">6x</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1">单位解释</h3>
+<div class="outline-text-3" id="text-5-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">unit</td>
+<td class="left">comment</td>
+</tr>
+
+<tr>
+<td class="left">px</td>
+<td class="left">像素</td>
+</tr>
+
+<tr>
+<td class="left">dip</td>
+<td class="left">Density Independent Pixels, 密度无关像素</td>
+</tr>
+
+<tr>
+<td class="left">dp</td>
+<td class="left">same as dip</td>
+</tr>
+
+<tr>
+<td class="left">dpi</td>
+<td class="left">dot per inch, 160dpi: 1dp = 1px</td>
+</tr>
+
+<tr>
+<td class="left">sp</td>
+<td class="left">scale-Independent Pixels</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-12 Mon&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-04 Fri 23:19</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

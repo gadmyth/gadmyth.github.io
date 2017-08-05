@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>iOS 多网络请求</title>
+<!-- 2017-08-05 Sat 21:09 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,154 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
-</li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
-</li>
+<h1 class="title">iOS 多网络请求</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">异步请求，同步结束</a></li>
+<li><a href="#sec-2">GCD dispatch_group: 多请求的解决方案</a></li>
 </ul>
 </div>
+</div>
+<p>
+App 开发的多网络请求是个常见的话题，用户登录成功之后拉取各种信息就是一个典型的例子。由于各种信息拉取接口彼此相互独立，并且这些信息必须拉取结束后才能使隐藏登录页面。无论这些网络请求成功或失败，只有当所有的请求都结束后才能标识多请求结束。这篇文章就来讨论一下我们如何实现这种需求。<br  />
+</p>
+
+<!--more-->
+
+
+<div class="figure">
+<p><img src="images/iOS-multi-request.png" alt="iOS-multi-request.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 1:</span> 多网络请求流程</p>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">异步请求，同步结束</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+为了加快 App 的响应速度，在用户登录成功后，我们多线程地进行数据拉取。我们为每个请求设置一个结束标志位，当所有的标志位成功后，我们结束整个登录流程。以下是某个信息拉取接口的实现:<br  />
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">static</span> <span style="color: #00688b;">NSUInteger</span> <span style="color: #2e8b57;">INFO_FINISH_FLAG</span> = 0x0001;
+[<span style="color: #00688b;">InfoRequest</span> post:^(<span style="color: #00688b;">InfoResponse</span>* <span style="color: #2e8b57;">res</span>) {
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">store something or notify something</span>
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">...</span>
+    checkRequestFinish(INFO_FINISH_FLAG);
+
+} <span style="color: #6e8b3d;">fail</span>:^(<span style="color: #00688b;">NSError</span> *<span style="color: #2e8b57;">error</span>) {
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">deal with the error</span>
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">...</span>
+    checkRequestFinish(INFO_FINISH_FLAG);
+}];
+</pre>
+</div>
+
+<p>
+该实现中无论是请求成功还是失败，都需要检查是否多请求已经结束，在该检查(checkRequestFinish)中，我们先将该请求的标志位置好，然后检查是否与设定的标志位一致:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">void</span> (^checkRequestFinish)(<span style="color: #00688b;">NSUInteger</span> <span style="color: #2e8b57;">bit</span>) = ^(<span style="color: #00688b;">NSUInteger</span> <span style="color: #2e8b57;">bit</span>) {
+        *requestFlagP |= bit;
+        <span style="color: #1c86ee;">if</span> (*requestFlagP == REQUEST_SUCCESS_FLAG) {
+            <span style="color: #1c86ee;">if</span> (success) success();
+        }
+    };
+</pre>
+</div>
+
+<p>
+当 requestFlag 的等于 REQUEST_SUCCESS_FLAG 时，我们认为，所有请求已经返回。REQUEST_SUCCESS_FLAG 是所有网络请求的`逻辑或`标志位。<br  />
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#25152;&#26377;&#35831;&#27714;&#26631;&#24535;&#20301;&#36923;&#36753;&#25110;</span>
+__block <span style="color: #00688b;">NSUInteger</span> <span style="color: #2e8b57;">REQUEST_SUCCESS_FLAG</span> = 0x0111;
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#26631;&#24535;&#20301;&#20869;&#23384;&#20998;&#37197;</span>
+<span style="color: #1c86ee;">static</span> <span style="color: #00688b;">NSUInteger</span> <span style="color: #2e8b57;">requestFlag</span>;
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#26631;&#24535;&#20301;&#36171;&#20540;&#65292;&#19981;&#21487;&#20197;&#19982;&#19978;&#19968;&#34892;&#19968;&#36215;&#22768;&#26126;, &#19981;&#28982;&#37325;&#20837;&#26102;&#65292;&#19981;&#20250;&#32622;0</span>
+requestFlag = 0;
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#25351;&#38024;&#25351;&#21521;&#26631;&#24535;&#20301;&#20869;&#23384;</span>
+__block <span style="color: #00688b;">NSUInteger</span> *<span style="color: #2e8b57;">requestFlagP</span>;
+requestFlagP = &amp;requestFlag;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">GCD dispatch_group: 多请求的解决方案</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+以上的方案可以解决问题，但是结束标志位需要手动设置，而且需要多处配置 check 逻辑，与业务逻辑混合在一起，是一种比较直观的解决方案，但不够优雅。在 iOS 多线程模型中，我们使用 GCD 的dispatch_group 分组机制来解决问题。通过 dispatch_group，可以并发地执行多线程任务。以下代码显示了一个 GCD group 是如何创建的。<br  />
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">dispatch_group_t</span> <span style="color: #2e8b57;">group</span> = dispatch_group_create();
+</pre>
+</div>
+
+<p>
+网络请求的分发必须在并行队列中执行，串行队列对于多请求的场景并不适用，达不到并发的作用了，所以没有意义。<br  />
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#21019;&#24314;&#24182;&#21457;&#38431;&#21015;</span>
+<span style="color: #00688b;">dispatch_queue_t</span> <span style="color: #2e8b57;">queue</span> = 
+    dispatch_queue_create(<span style="color: #8b7355;">"org.gadmyth.multi-request"</span>, DISPATCH_QUEUE_CONCURRENT);
+</pre>
+</div>
+
+<p>
+GCD group 会将各个任务分发到指定的 concurrent queue 中。<a href="https://developer.apple.com/reference/dispatch/1452803-dispatch_group_enter">dispatch_group_enter</a> 和 <a href="https://developer.apple.com/reference/dispatch/1452872-dispatch_group_leave?language=objc">dispatch_group_leave</a> 配对使用。<br  />
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#23558;&#21508;&#35831;&#27714;&#25918;&#20837; GCD &#20998;&#32452;&#20013;&#25191;&#34892;</span>
+<span style="color: #1c86ee;">for</span> (<span style="color: #00688b;">NSUInteger</span> <span style="color: #2e8b57;">i</span> = 0; i &lt; reqList.count; i++) {
+    dispatch_group_enter(group);
+    [reqList[i] post:^(<span style="color: #00688b;">id</span> <span style="color: #2e8b57;">result</span>) {
+        <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">store or notify something</span>
+        <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">...</span>
+        dispatch_group_leave(group);
+    }
+    <span style="color: #6e8b3d;">failed</span>:^(<span style="color: #00688b;">NSError</span> *<span style="color: #2e8b57;">error</span>) {
+        <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">handle the error</span>
+        <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">...</span>
+        dispatch_group_leave(group);
+    }];
+}
+</pre>
+</div>
+
+<p>
+当所有的任务都执行完毕 leave group 后，以下的配置就会通知 group，所有的任务执行完毕。<br  />
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#20998;&#32452;&#25191;&#34892;&#23436;&#27605;&#65292;&#21457;&#20986;&#32467;&#26463;&#36890;&#30693;</span>
+dispatch_group_notify(group, queue, ^{
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">finish the multi-request</span>
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">...</span>
+});
+</pre>
+</div>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-08 Sat 15:02&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-05 Sat 21:09</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

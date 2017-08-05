@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>iOS block capture scope研究</title>
+<!-- 2017-08-04 Fri 23:20 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,210 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
-</li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
-</li>
+<h1 class="title">iOS block capture scope研究</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">block 底层 c++ 的实现</a></li>
+<li><a href="#sec-2">__block 关键字</a></li>
 </ul>
 </div>
+</div>
+<p>
+iOS 的 block 相当于闭包的概念，它可以访问其所在 scope 的变量。由于 objc 使用了引用计数的概念，所以我们在使用 block 引用外部变量的时候需要特别注意循环引用的问题。这一篇我们想讲的是，如何从 block 底层实现的方面来研究 block 的各个方面。<br  />
+</p>
+
+<!--more-->
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">block 底层 c++ 的实现</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+iOS 的 block 底层其实是由 c++ 的 struct 来实现的，外部变量同样也被封装成 struct 供 block 来访问。以下是一段示例代码:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #cdad00;">#import</span> <span style="color: #8b7355;">&lt;Foundation/Foundation.h&gt;</span>
+
+<span style="color: #00688b;">int</span> <span style="color: #cd9b1d;">main</span>(<span style="color: #00688b;">int</span> <span style="color: #2e8b57;">argc</span>, <span style="color: #1c86ee;">const</span> <span style="color: #00688b;">char</span> * <span style="color: #2e8b57;">argv</span>[]) {
+    @autoreleasepool {
+        <span style="color: #00688b;">int</span> <span style="color: #2e8b57;">happy</span> = 10;
+        <span style="color: #00688b;">void</span> (^blockTester)() = ^{
+            NSLog(<span style="color: #2e8b57;">@</span><span style="color: #8b7355;">"%d\n"</span>, happy);
+        };
+        happy = 20;
+        blockTester();
+    }
+
+    <span style="color: #1c86ee;">return</span> 0;
+}
+</pre>
+</div>
+
+<p>
+在这段代码中，我们定义了一个 block 来访问外部的 happy 变量。在 block 调用前，改变 happy 的值，然后调用 block，那么在 block 里执行打印出的 happy 值应该是多少呢? 学过 objc 的朋友都知道传入 happy 值后，在定义 block 之后无论引用值如何变化，block 调用时引用值不变。为了深入研究其深层次的原因，需要对这段代码进行 c++ 重写:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">xcrun clang -fobjc-arc -framework Foundation -rewrite-objc -w struct_test.mm
+</pre>
+</div>
+
+<p>
+大家可以自己使用命令行试一下，执行后会得到新的 struct_test.cpp 文件。通过研究该文件，我们发现其实 block 就是一种 struct，存储了 block 执行体 impl，block 的 metadata，impl 调用时所需的对外引用变量:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">__main_block_impl_0</span> {
+  <span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">__block_impl</span> <span style="color: #2e8b57;">impl</span>;
+  <span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">__main_block_desc_0</span>* <span style="color: #2e8b57;">Desc</span>;
+  <span style="color: #00688b;">int</span> <span style="color: #2e8b57;">happy</span>;
+};
+</pre>
+</div>
+<p>
+按道理来说，impl 其实只要是 void* 的函数指针就可以了，不过它还是被定义成了 struct，由函数指针 FuncPtr 和其余的 metadata 组成。<br  />
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">__block_impl</span> {
+  <span style="color: #00688b;">void</span> *<span style="color: #2e8b57;">isa</span>;
+  <span style="color: #00688b;">int</span> <span style="color: #2e8b57;">Flags</span>;
+  <span style="color: #00688b;">int</span> <span style="color: #2e8b57;">Reserved</span>;
+  <span style="color: #00688b;">void</span> *<span style="color: #2e8b57;">FuncPtr</span>;
+};
+</pre>
+</div>
+
+<p>
+真正的执行函数是 FuncPtr，由于外部引用变量在 __main_block_impl_0 中，那么我们不难发现其真正的类型是<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-haskell">__main_block_impl_0 -&gt; void
+</pre>
+</div>
+
+<p>
+FuncPtr 必须传入 __main_block_impl_0 结构体。我们先把 blockTester 的内部逻辑用 FuncPtr 实现一下<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#23450;&#20041; block &#25191;&#34892;&#20307;</span>
+<span style="color: #1c86ee;">static</span> <span style="color: #00688b;">void</span> <span style="color: #cd9b1d;">real_block_func</span>(<span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">__main_block_impl_0</span> *<span style="color: #2e8b57;">__cself</span>) {
+    <span style="color: #00688b;">int</span> <span style="color: #2e8b57;">happy</span> = __cself-&gt;happy;
+    NSLog(@<span style="color: #8b7355;">"%d\n"</span>, happy);
+}
+</pre>
+</div>
+
+<p>
+然后我们理应由 FuncPtr 来构建 __block_impl，再构建 __main_block_impl_0，在 c++ 代码中，FuncPtr 构建 __block_impl 这一步被 __main_block_impl_0 的构造函数替代了，fp 就是 FuncPtr。这样就实现了，定义一个 FuncPtr 来构造整个 __main_block_impl_0 的思路。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#23450;&#20041; block &#30340;&#26500;&#36896;&#20989;&#25968;</span>
+__main_block_impl_0(<span style="color: #00688b;">void</span> *<span style="color: #2e8b57;">fp</span>, <span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">__main_block_desc_0</span> *<span style="color: #2e8b57;">desc</span>, <span style="color: #00688b;">int</span> <span style="color: #2e8b57;">_happy</span>, <span style="color: #00688b;">int</span> <span style="color: #6e8b3d;">flags</span>=0) : <span style="color: #cd9b1d;">happy</span>(_happy) {
+    impl.isa = &amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+}
+</pre>
+</div>
+
+<p>
+最后的调用方法，显然是从 __main_block_impl_0 中获取 impl，由 impl 获取 FuncPtr，往 FuncPtr 中传入 __main_block_impl_0，FuncPtr 从参数中获取 happy 值，进而执行 block。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#23454;&#20363;&#21270;&#22806;&#37096;&#21464;&#37327;</span>
+<span style="color: #00688b;">int</span> <span style="color: #2e8b57;">happy</span> = 10;
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#23454;&#20363;&#21270; block metadata</span>
+<span style="color: #00688b;">__main_block_desc_0</span> <span style="color: #2e8b57;">desc</span> = {0, <span style="color: #1c86ee;">sizeof</span>(__main_block_impl_0)};
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#23454;&#20363;&#21270; block</span>
+<span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">block_wrapper_struct</span> = __main_block_impl_0( (<span style="color: #00688b;">void</span>*)real_block_func, &amp;desc, happy);
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#25913;&#21464; happy &#20540;</span>
+happy = 20;
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#25191;&#34892; block</span>
+block_wrapper_struct.impl.FuncPtr(&amp;block_wrapper_struct);
+</pre>
+</div>
+
+<p>
+以上的示例代码在 gist<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup> 上，对以上代码和编译出的 cpp 代码做了简化。编译出来的 c++ 文件中有各种类型转换，将 struct 的引用转换为 void*，再由 void* 转换为 struct 的。另外还用到了 block_wrapper_struct.impl.FuncPtr 直接由指针从 struct 指到 Funtr，原因是，FunPtr 是 impl 的第一个参数，内存地址其实是一样的。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #00688b;">void</span> (*<span style="color: #cd9b1d;">blockTester</span>)() = ((<span style="color: #00688b;">void</span> (*)())&amp;block_wrapper_struct;
+((<span style="color: #00688b;">void</span> (*)(<span style="color: #00688b;">__block_impl</span> *))((<span style="color: #00688b;">__block_impl</span> *)blockTester)-&gt;FuncPtr)((<span style="color: #00688b;">__block_impl</span> *)blockTester);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">__block 关键字</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+学习 block 的时候，我们学习了 __block 关键字，原因是因为它可以使得外部变量可以在 block 内部被改变，或者，外部变量无论如何改变，block 总是会取得其最新值。__block 的关键字其底层实现就是将外部变量变成了一个 struct，再将该 struct 的引用传给 block。__block 变量之后的赋值，在 c++ 代码中就变成了 struct 变量改变内部存储值。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">__Block_byref_happy_0</span> {
+  <span style="color: #00688b;">void</span> *<span style="color: #2e8b57;">__isa</span>;
+<span style="color: #00688b;">__Block_byref_happy_0</span> *<span style="color: #2e8b57;">__forwarding</span>;
+ <span style="color: #00688b;">int</span> <span style="color: #2e8b57;">__flags</span>;
+ <span style="color: #00688b;">int</span> <span style="color: #2e8b57;">__size</span>;
+ <span style="color: #00688b;">int</span> <span style="color: #2e8b57;">happy</span>;
+};
+</pre>
+</div>
+
+<p>
+我们对该 struct 实例化:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">__Block_byref_happy_0</span> <span style="color: #2e8b57;">happy</span> = __Block_byref_happy_0((<span style="color: #00688b;">void</span>*)0, &amp;happy, 0, 0, 10);
+</pre>
+</div>
+
+<p>
+改变 happy 的值:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c">(happy-&gt;__forwarding)-&gt;happy = 20;
+</pre>
+</div>
+
+<p>
+__block 关键字的 c++ 代码的简化示例已放在 gist<sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup> 上。<br  />
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p class="footpara">
+: <a href="https://gist.github.com/gadmyth/82426506f4d4b4d6364ec9091059f9e8">https://gist.github.com/gadmyth/82426506f4d4b4d6364ec9091059f9e8</a><br  />
+</p></div>
+
+<div class="footdef"><sup><a id="fn.2" name="fn.2" class="footnum" href="#fnr.2">2</a></sup> <p class="footpara">
+: <a href="https://gist.github.com/gadmyth/5bfcb998bc9b360462e9277f771e8bd1">https://gist.github.com/gadmyth/5bfcb998bc9b360462e9277f771e8bd1</a><br  />
+</p></div>
+
+
+</div>
+</div></div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-11-27 Sun 17:18&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-04 Fri 23:20</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

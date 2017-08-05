@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>iOS UIView Border 相关</title>
+<!-- 2017-08-05 Sat 21:09 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,271 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
+<h1 class="title">iOS UIView Border 相关</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">UIView 自身相关属性</a>
+<ul>
+<li><a href="#sec-1-1">自身属性的局限性</a></li>
+</ul>
 </li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
+<li><a href="#sec-2">UIView 直接实现Border</a>
+<ul>
+<li><a href="#sec-2-1">UIView-Border的局限性</a></li>
+</ul>
 </li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
+<li><a href="#sec-3">CALayer 实现 Border，Corner</a>
+<ul>
+<li><a href="#sec-3-1">border 类型定义</a></li>
+<li><a href="#sec-3-2">使用 CGPath 灰色填充实现 Border</a></li>
+<li><a href="#sec-3-3">Associate Object 存储 layer</a></li>
+<li><a href="#sec-3-4">使用 CGPath 灰色 Stoke 实现圆角</a></li>
+<li><a href="#sec-3-5">CGPath Stroke 不能实现 Border</a></li>
+</ul>
 </li>
 </ul>
 </div>
+</div>
+<p>
+在 iOS 设计与开发中，view 的边框、圆角是最为常见的一种设计。开发 App 意味着必须要和 Border，Corner 打交道。比如圆形的头像，比如带圆角的 button。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/circle-photo.png" alt="circle-photo.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 1:</span> 圆形的头像</p>
+</div>
+
+<p>
+这一篇文章就让我们来讨论一下 UIView 的边框圆角的实现。<br  />
+</p>
+
+<!--more-->
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">UIView 自身相关属性</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+UIView 的 CALayer 有三个和 border 相关的属性，borderWidth, borderColor, cornerRadius，上图中的圆形头像的实现方式就可以使用 cornerRadius 实现:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">profile imageview</span>
+<span style="color: #00688b;">UIImageView</span> *<span style="color: #2e8b57;">profile</span> = [[<span style="color: #00688b;">UIImageView</span> alloc] initWithImage:image];
+
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">make profile image view to square</span>
+<span style="color: #00688b;">CGFloat</span> <span style="color: #2e8b57;">side</span> = fmin(profile.frame.size.width, profile.frame.size.height);
+<span style="color: #00688b;">CGRect</span> <span style="color: #2e8b57;">rect</span> = profile.frame;
+profile.frame = (CGRect) {rect.origin, (CGSize) {side, side}};
+
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">make circle</span>
+profile.clipToBounds = <span style="color: #6e8b3d;">YES</span>;
+profile.layer.cornerRadius = profile.frame.size.width / 2;
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="images/iOS-CALayer-hierachy.png" alt="iOS-CALayer-hierachy.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 2:</span> CALayer类</p>
+</div>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">自身属性的局限性</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+UIView 的这三个属性只能满足全边框的实现。然而在 HTML5 的 css 样式中到是可以指定边框的。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-css"><span style="color: #cd9b1d;">.some-border </span>{
+    <span style="color: #2e8b57;">border-style</span>: dotted solid dotted solid;
+    <span style="color: #2e8b57;">border-width</span>: 1px 2px 4px 8px;
+    <span style="color: #2e8b57;">border-color</span>: red green blue black;
+}
+</pre>
+</div>
+<p>
+以上 css 的效果图如下所示，可以自定义边框的类型、宽度、颜色。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-html">&lt;<span style="color: #cd9b1d;">div</span> <span style="color: #2e8b57;">style</span>=<span style="color: #8b7355;">"margin:auto; width: 300px; border-style: dotted solid dotted solid; border-width: 1px 2px 4px 8px; border-color: red green blue black;"</span>&gt;
+  &lt;<span style="color: #cd9b1d;">br</span>&gt;
+  &lt;<span style="color: #cd9b1d;">h2</span> <span style="color: #2e8b57;">class</span>=<span style="color: #8b7355;">"one"</span> <span style="color: #2e8b57;">style</span>=<span style="color: #8b7355;">"text-align:center"</span>&gt;<span style="font-weight: bold; font-style: italic; text-decoration: underline;">css border example.</span>&lt;/<span style="color: #cd9b1d;">h2</span>&gt;
+  &lt;<span style="color: #cd9b1d;">br</span>&gt;
+&lt;/<span style="color: #cd9b1d;">div</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">UIView 直接实现Border</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+以下图片显示了通常情况下 App 登录页面的边框。<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/login-form-border.png" alt="login-form-border.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 3:</span> 登录表单-边框示例</p>
+</div>
+
+<p>
+如果开发人员使用的是 StoryBoard 来进行场景创作，通常的做法就是在 两个 textfield 之间加入一个大小为 (CGSize) {NS_SCREEN_WIDTH, 1px} 的 view，背景颜色为 Gray。当然也可以使用代码进行布局。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">UIView</span> *<span style="color: #2e8b57;">separator</span> = [[<span style="color: #00688b;">UIView</span> alloc] initWithFrame: CGRectMake(0, 0, NS_SCREEN_WIDTH, 1.0f)];
+[contentView addSubview:separator];
+[separator bottomTo:nameField margin:0.0f];
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">UIView-Border的局限性</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+使用 UIView 实现的 Border 是一个单独的 view，无论是 StoryBoard 布局还是代码布局都增加了 layout 和 subview 管理的复杂性。尤其在 StoryBoard 中使用 Constraints 的情况下，一旦需要加入新的 textfield 和 Border View，那么 Constaints 需要重新设定。<br  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">CALayer 实现 Border，Corner</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+由于以上实现方法的局限性，我们使用对 UIView 进行 Category 的 extension，为 UIView 加入 setBorder 方法，将 border 和 corner 画在画个 CALayer 上。<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/iOS-NSBorder-category.png" alt="iOS-NSBorder-category.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 4:</span> NSBorder Category</p>
+</div>
+
+<p>
+首先我们需要定义 Border 的类型，基本 border type 为 top, left, bottom, right, horizontal, vertical, all。<br  />
+</p>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">border 类型定义</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">typedef</span> <span style="color: #00688b;">NS_ENUM</span>(<span style="color: #00688b;">NSUInteger</span>, <span style="color: #00688b;">NSBorder</span>) {
+    NSBorderTop = 0x0001,
+    NSBorderLeft = 0x0010,
+    NSBorderBottom = 0x0100,
+    NSBorderRight = 0x1000,
+    NSBorderHorizontal = NSBorderLeft|NSBorderRight,
+    NSBorderVertical = NSBorderTop|NSBorderBottom,
+    NSBorderAll = NSBorderHorizontal|NSBorderVertical,
+    NSBorderNone = 0,
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">使用 CGPath 灰色填充实现 Border</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+然后我们为 view 加入 Border 的 CALayer，根据不同的 border type，我们在 CALayer 上加入不同位置的Path，并对 Path 进行灰色填充:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">CGFloat</span> <span style="color: #2e8b57;">margin</span> = 2.0f;
+<span style="color: #1c86ee;">const</span> <span style="color: #00688b;">CGAffineTransform</span> *<span style="color: #2e8b57;">transform</span> = &amp;CGAffineTransformIdentity;
+
+<span style="color: #00688b;">CAShapeLayer</span> *<span style="color: #2e8b57;">shape</span> = [<span style="color: #1c86ee;">self</span> sideBorderLayer];
+<span style="color: #00688b;">CGMutablePathRef</span> <span style="color: #2e8b57;">path</span> = CGPathCreateMutable();
+<span style="color: #1c86ee;">if</span> (NSBorderTop &amp; border) {
+   CGPathAddRect(<span style="color: #2e8b57;">path</span>, transform, CGRectMake(margin, 0, <span style="color: #1c86ee;">self</span>.frame.size.width - 2 * margin, 0.5f));
+}
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">check and add other borders</span>
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">...</span>
+shape.path = path;
+<span style="color: #00688b;">CGPathRelease</span>(<span style="color: #2e8b57;">path</span>);
+shape.fillColor = [<span style="color: #00688b;">UIColor</span> grayColor].CGColor;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Associate Object 存储 layer</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+我们使用 Association Object 来存储 Border Layer，其目的就是 Border 的设置都在该 layer 上，如果 view 的 border 的设置是动态的，那么 border 就可以在该 layer 上动态修改。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">const</span> <span style="color: #00688b;">void</span> *<span style="color: #2e8b57;">key</span> = NS_SIDE_BORDER_KEY;
+<span style="color: #00688b;">CAShapeLayer</span> *<span style="color: #2e8b57;">layer</span> = objc_getAssociatedObject(<span style="color: #1c86ee;">self</span>, key);
+<span style="color: #1c86ee;">if</span> (!layer) {
+    layer = [<span style="color: #00688b;">CAShapeLayer</span> layer];
+    objc_setAssociatedObject(<span style="color: #1c86ee;">self</span>, key, layer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [<span style="color: #1c86ee;">self</span>.layer addSublayer:layer];
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4">使用 CGPath 灰色 Stoke 实现圆角</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+对于圆角来说，就不能像 Border 一样使用 CGRect 填充，而应当使用 CGPath Stroke 来描绘圆弧段。下面的例子为左上角的 corner 绘制。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">CGFloat</span> <span style="color: #2e8b57;">radius</span> = 4.0f;
+<span style="color: #00688b;">CGFloat</span> <span style="color: #2e8b57;">margin</span> = radius;
+<span style="color: #00688b;">CAShapeLayer</span> *<span style="color: #2e8b57;">shape</span> = [<span style="color: #1c86ee;">self</span> cornerBorderLayer];
+<span style="color: #00688b;">CGMutablePathRef</span> <span style="color: #2e8b57;">path</span> = CGPathCreateMutable();
+<span style="color: #1c86ee;">const</span> <span style="color: #00688b;">CGAffineTransform</span> *<span style="color: #2e8b57;">transform</span> = &amp;CGAffineTransformIdentity;
+
+<span style="color: #1c86ee;">if</span> ((NSBorderTop &amp; border) &amp;&amp; (NSBorderLeft &amp; border)) {
+    CGPathMoveToPoint(<span style="color: #2e8b57;">path</span>, transform, margin, radius);
+    CGPathAddArcToPoint(<span style="color: #2e8b57;">path</span>, transform, margin, margin, radius, margin, radius);
+}
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">check and add other corners</span>
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">...</span>
+shape.path = path;
+<span style="color: #00688b;">CGPathRelease</span>(<span style="color: #2e8b57;">path</span>);
+shape.lineWidth = 0.5f;
+shape.strokeColor = [<span style="color: #00688b;">UIColor</span> grayColor].CGColor;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5">CGPath Stroke 不能实现 Border</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+对于 Border 来说，只能使用 CGRect 的 fill 来实现，如果使用 CGPath stroke 就会发虚，效果不好。后续将对该问题做深入研究。<br  />
+</p>
+</div>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-26 Mon 14:51&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-05 Sat 21:09</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

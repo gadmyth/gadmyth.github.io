@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>iOS 信息拉取机制</title>
+<!-- 2017-08-05 Sat 21:09 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,207 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
-</li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
+<h1 class="title">iOS 信息拉取机制</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">每切必拉</a></li>
+<li><a href="#sec-2">定时拉取</a></li>
+<li><a href="#sec-3">触发式拉取</a></li>
+<li><a href="#sec-4">询问拉取</a></li>
+<li><a href="#sec-5">推送拉取</a></li>
+<li><a href="#sec-6">网络失败处理</a>
+<ul>
+<li><a href="#sec-6-1">默认的初始页面</a></li>
+<li><a href="#sec-6-2">失败重试</a></li>
+<li><a href="#sec-6-3">分数更新频烦是否必要</a></li>
+</ul>
 </li>
 </ul>
 </div>
+</div>
+<p>
+iOS信息拉取是什么意思? 一看标题就云里雾里的。其实非常地简单，无论是 iOS 还是 Android，大部分的 App 都需要与服务器进行 API 网络请求，注册、登录、拉取用户信息、发起微信支付、拉取城市列表 &#x2026;。大家看到了，信息拉取，尤其是用户的信息拉取，就属于 API 请求中的一个具体的需求，而且可能是一个必不可少的 需求。<br  />
+</p>
+
+<p>
+在我们刚刚要上线的一个 App 中，就在纠结一件 case，用户信息应当在什么时候拉取? 拉取的频率应当是怎样的? 什么时候触发拉取?<br  />
+</p>
+
+<!--more-->
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">每切必拉</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+比如下面的页面是 4 个 tab 中的一个 ViewController，下图是支付宝的芝麻信用分的信息，那么是否只要点击切换到该 tab 时就应该向服务器拉取信息? 如果该信息不存在某一接口单独拉取信息分信息，而是该信息存在于某一个大信息量的 API 中，例如 `查询用户信息`，该 API 中的信息至少有 20 项，包含了用户名，手机号，性别，城市，爱好&#x2026;，那么每次切换到该 tab 时，这种每切必拉的做法非常粗放，丝毫不考虑用户的流量，其实对于我们程序员哥哥来说，心里面也是不太好受，因为这种做法实在是不优雅，自己看得都难受。不过这种方法至少保证了信息的实时性。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/credit-score.png" alt="credit-score.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 1:</span> 芝麻信用分</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">定时拉取</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+虽然现在手机流量很便宜了，不过毕竟是白花花的银子，对于用户的流量浪费还是于心不忍。对于那些不必要的 `每切必拉`，我们痛下杀手，直接来个定时拉取，每隔半小时拉一次，每隔4小时拉一次。这么做后，用户发现流量跑得没这么快了。所以说，还不快赶紧谢谢程序员哥哥。定时拉取的实现还是很简单的，以下代码不算真正的定时拉取，而是手动 check 拉取，也就是 queryIfNeeded，check 一下当前时间和上次 query 的时间，大于 4 小时的时候，就 query，并更新 query 时间。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">CFAbsoluteTime</span> <span style="color: #2e8b57;">current</span> = CFAbsoluteTimeGetCurrent();
+<span style="color: #00688b;">CFAbsoluteTime</span> <span style="color: #2e8b57;">last</span> = [[<span style="color: #00688b;">NSUserDefaults</span> standardUserDefaults] objectForKey:@<span style="color: #8b7355;">"Last_Query_Time"</span>].doubleValue;
+<span style="color: #1c86ee;">if</span>  (current - last &gt; 4 * 60) {
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">query...</span>
+    [[<span style="color: #00688b;">NSUserDefaults</span> standardUserDefaults] setObject:@(current) forKey:@<span style="color: #8b7355;">"Last_Query_Time"</span>];
+}
+</pre>
+</div>
+<p>
+真的要定时拉取? 想提一提分数，做完后居然不会及时更新。用户开始抓狂了，他喵的居然不给我更新分数? 分分钟卸载！<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">触发式拉取</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+所以说，定时拉取还真不靠谱，比如成交了一笔交易，这时候服务器就该给我提升信用分了; 再比如说，我想去借个款，服务器说你的信用分不够哦，做个问卷调查吧，做完就给你升个分数，再来借款呗。于是做了个调查，分数没变，款还是借不了，这不是骗子 App 那还能是什么？产品经理最终还是发话了，程序员哥哥还不得乖乖地改？这辈子都逃脱不了产品经理的爪子。于是改成触发式的好了，只要问卷调查的 API 调用成功，那么我就告诉自己，你下次点这个 tab 进这个页面的时候就更新下哈。<br  />
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #7f7f7f;">//</span><span style="color: #7f7f7f;">&#20570;&#38382;&#21367;&#35843;&#26597;&#23436;&#21518;</span>
+[[<span style="color: #00688b;">NSUserDefaults</span> standardUserDefaults] setObject:@(0.0) forKey:@<span style="color: #8b7355;">"Last_Query_Time"</span>];
+</pre>
+</div>
+<p>
+触发式拉取 在 定时拉取 的基础上，在问卷调查等触发动作成功后，将上次查询时间置0。再次进入该 tab 时，计算出的查询间隔肯定就大于 4 小时了。<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">询问拉取</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+上面讲得不错，大家拍手鼓掌。设置个标志位? 挺烦人的，都是客户端的行为，够复杂。既然要省流量，那服务器是不是也要努力努力? 光靠客户端一个人怎么生好孩子? 要两个人一起好好配合才能优生优育。简单的说，单独为信用分接口加个单独的接口好了，即使 `每切必拉`，拉去呗，就一个字段，没啥流量，我拉，我拉，我拉拉拉。优雅点的话，做个询问好了，问下服务器，我能否拉信息呀? 服务器告诉我，没更新，你拉了没用；或者，我有新版本，你更新下好了。这不就很好嘛，我在 API 里加个版本号，request 的时候加个版本号，如果有更新，服务器带着更新的信息和新版本号给我好了，然后给我差异化的数据; 如果木有更新，传个原来的版本号就行了，不带任何更新数据。<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/iOS-info-request-flow.png" alt="iOS-info-request-flow.png" width="600px" /><br  />
+</p>
+<p><span class="figure-number">Figure 2:</span> 拉取信息流程</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">推送拉取</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+主动询问还行吧，要是能做推送就好了，建立个长链接，而且前长链接前台运行就行了，没必要后台运行，又不是要做后台消息推送。App 跑到前台时，和服务器建立下长链接，然后该推的消息都推过来好了。App 就等着接收消息更新好了，这种被动的接收方式只需要写好接收接口，存储数据就完事儿了。等我实现了再告诉大家哈。<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">网络失败处理</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+网络请求的失败是不可避免的，很难保证 100% 成功。在 App Native 端 Feature 实现的讨论中，我们发现经常有开发同学谈到如果某个网络请求失败了怎么办，界面上应该如何显示的问题。的确，当网络请求失败的时候，界面上的数据确实不会更新，而且页面上最好有初始状态的页面来代码空页面。尤其是 App 的首页。<br  />
+</p>
+</div>
+
+<div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1">默认的初始页面</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+一般页面的加载过程是发起网络请求，然后获取数据，最终渲染到页面上。发起网络请求时会有一转圈的 Toast，提示正在拉取数据，如果数据拉取失败，那么页面依然会显示初始页面。初始页面的设计我能想到的有以下几种。<br  />
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">种类</th>
+<th scope="col" class="left">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">空白页面</td>
+<td class="left">什么都没有的空白页面比如列表页面</td>
+</tr>
+
+<tr>
+<td class="left">指明性空白页面</td>
+<td class="left">有数据的时候是列表，无数据的时候列表为空，但补上一个 icon 和 空白说明文字</td>
+</tr>
+
+<tr>
+<td class="left">失败后可重试提示</td>
+<td class="left">在 webview 中的设计比较常见，用于显示的 view (UILabel，UIButton，UIImageView) 都可以提示点击复试</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2">失败重试</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+当网络请求失败时，对用户开放重试操作显得非常重要。iPhone 页面设计中常见的重试入口有列表页 (当然不止是列表页) 的下拉刷新，webview 的右上角 &lt;刷新&gt; 按钮等。最近新出现一些设计中将 progress view 和刷新入口合二为一，如知乎的 点击关注 按钮，而不是点击后在整个页面放入一个大大的转圈。这种合二为一的方式弱化了页面的提示，并且使得用户体验更加柔和，在网络发起的过程中，用户并没有被 process view 阻塞住，还能够进行页面的浏览操作等，这在批量网络操作的情况下显得很有优势。如果网络失败了，发起网络的按钮恢复到可点击的状态上。<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6-3" class="outline-3">
+<h3 id="sec-6-3">分数更新频烦是否必要</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+说实话，我觉得以上的需求属于伪需求。基于产品设计力求简单、产品的开发力求简单的原则，任何复杂的产品实现对应的都是复杂的产品设计。做过好多款 App，经历过各种各样的需求实现后发现，和微信比，和支付宝比，以上实现或设计显得多此一举。上面提到的支付宝的芝麻信用分其实是每月更新一次，即使有提升信用分的入口 (根据以上讨论，称为触发式)，那么做完这些提升信用分的任务后，也是一月一次更新，而且并不是实时更新。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/credit-liftup.png" alt="credit-liftup.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 3:</span> 信用分提升</p>
+</div>
+
+<p>
+之前的几款产品也遇到了实时更新页面信息的问题，如在某子页面干了点啥，回到上一页面时，要求马上更新页面信息。当看到大公司的产品里多数不这样更新信息，及时更新信息会导致业务复杂化，另外对代码的整洁性也会产生一定的影响。产品设计往往从用户角度出发，类似于 白居易式 的写试方法，力求不识字的人也能轻松地听懂他的诗讲些什么。类似的产品经理为了照顾小白用户，在某些程序上可能低估了用户的场景感知、识别和学习能力，出现过多的引导和提示，这样的话可能用错了力道。在某个问题域中，如果没有创新地加入或减小某些东西，从而打破稳定的系统，那么，问题难以解决。我是想说的是，想要解决问题，有时候不解决问题就是解决问题。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/change-not-change.png" alt="change-not-change.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 4:</span> 问题的形成和解决的原则</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-30 10:55&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-05 Sat 21:09</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

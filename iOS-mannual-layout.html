@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>iOS手动布局</title>
+<!-- 2017-08-04 Fri 23:19 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,375 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
+<h1 class="title">iOS手动布局</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">基本的位置关系</a></li>
+<li><a href="#sec-2">与位置关系相关的两个View</a>
+<ul>
+<li><a href="#sec-2-1">sibling关系的对齐</a></li>
+<li><a href="#sec-2-2">superview/subview关系的对齐</a></li>
+<li><a href="#sec-2-3">sibling关系下的居左关系</a></li>
+<li><a href="#sec-2-4">手动布局 API 定义</a></li>
+</ul>
 </li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
+<li><a href="#sec-3">手动布局的缺陷</a></li>
+<li><a href="#sec-4">自动布局</a>
+<ul>
+<li><a href="#sec-4-1">可声明的属性</a></li>
+<li><a href="#sec-4-2">Equation Constraints</a></li>
+<li><a href="#sec-4-3">UnEquation Constaints</a></li>
+</ul>
 </li>
 </ul>
 </div>
+</div>
+<p>
+在没有 nib, xib, StoryBoard 之前，iOS 的界面布局其实就是手动布局，因为 iPhone3GS 和 iPhone4 的年代，Screen的大小也就是320x480，而且手机的大部分应用是 Portait Only 的。不需要考虑屏幕尺寸的变化。所以我们只需要 new 一个 UIView，指定好 frame 后，然后就可以 addSubview 了，subview 就可以在指定的绝对位置显示在 superview 上。所以本文要讨论的就是这种比较原始的布局方式。<br  />
+</p>
+
+<!--more-->
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">基本的位置关系</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+基本的位置关系有对齐 align，居左 leftTo，居右 rightTo，居上 topTo，居下 bottomTo，水平居中 center horizontal，垂直居中 center vertical。其基本原理其实就是根据两个view之间的应该呈现的关系改变其中一个的frame。<br  />
+</p>
+
+<p>
+所以我们先定义对齐的位置关系，除了以上提及的四种对齐方式，还有一些 fixed 的对齐方式，这些方式是在对齐的时候不改变其相对的frame属性。比如 NSFixedAlignLeft，其主要作用是改变 frame.origin.x 的时候，保持 frame 的 right 不变(虽然frame是没有right属性的)。<br  />
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">typedef</span> <span style="color: #00688b;">NS_ENUM</span>(<span style="color: #00688b;">NSUInteger</span>, <span style="color: #00688b;">NSAlign</span>) {
+    NSAlignLeft,
+    NSAlignRight,
+    NSAlignTop,
+    NSAlignBottom,
+    NSAlignCenterVertical,
+    NSAlignCenterHorizontal,
+    NSFixedAlignLeft,
+    NSFixedAlignRight,
+    NSFixedAlignTop,
+    NSFixedAlignBottom
+};
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">与位置关系相关的两个View</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+在以上的讨论中，无论是左对齐还是居中，都是两个View之间的位置关系。通常情况下，这两个View (view1, view2) 在同一层级树 (View hierachy) 中，并且有三种关系:<br  />
+</p>
+
+<ol class="org-ol">
+<li>view1 是 view2 的 superview 或 subview<br  />
+</li>
+<li>view1 和 view2 兄弟结点 ([sibling](<a href="https://en.wikipedia.org/wiki/Sibling">https://en.wikipedia.org/wiki/Sibling</a>))<br  />
+</li>
+<li>其他，但 view1 和 view2 肯定有共同的 root，UIApplication<br  />
+</li>
+</ol>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">sibling关系的对齐</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+我们预先定义一些宏来简化语法，可以简单地设置frame的属性:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">LEFT</span>(<span style="color: #2e8b57;">view</span>)               view.frame.origin.x
+<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">TOP</span>(<span style="color: #2e8b57;">view</span>)                view.frame.origin.y
+<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">WIDTH</span>(<span style="color: #2e8b57;">view</span>)              view.frame.size.width
+<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">HEIGHT</span>(<span style="color: #2e8b57;">view</span>)             view.frame.size.height
+<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">SET_LEFT</span>(<span style="color: #2e8b57;">view</span>, <span style="color: #2e8b57;">left</span>)     view.frame = CGRectMake(left, TOP(view), WIDTH(view), HEIGHT(view));
+<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">SET_TOP</span>(<span style="color: #2e8b57;">view</span>,   <span style="color: #2e8b57;">top</span>)     view.frame = CGRectMake(LEFT(view), top, WIDTH(view), HEIGHT(view));
+<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">SET_WIDTH</span>(<span style="color: #2e8b57;">view</span>,   <span style="color: #2e8b57;">width</span>) view.frame = CGRectMake(LEFT(view), TOP(view), width, HEIGHT(view));
+<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">SET_HEIGHT</span>(<span style="color: #2e8b57;">view</span>, <span style="color: #2e8b57;">height</span>) view.frame = CGRectMake(LEFT(view), TOP(view), WIDTH(view), height);
+</pre>
+</div>
+<p>
+我们拿sibling关系的左对齐来说，其逻辑非常简单，只要保证 view1 和 view2 的 left 一致就可以了。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">SET_LEFT(<span style="color: #1c86ee;">self</span>, LEFT(view) + <span style="color: #cd9b1d;">margin</span>);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">superview/subview关系的对齐</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+这种关系下的左对齐就比较简单的，因为相对于i superview 来说，参数的 left 其实就是0:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">SET_LEFT(<span style="color: #1c86ee;">self</span>, 0 + margin);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">sibling关系下的居左关系</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+view1 在 view2 的左边，这种关系其实就是 view1 的 right 等于 view2 的 left，但 frame 没有 right 属性，所以我们应当在 view2 的 left 的基础上再减去 view1 的 width:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">UIView</span> *<span style="color: #2e8b57;">reference</span> = xxx;
+<span style="color: #00688b;">CGFloat</span> <span style="color: #2e8b57;">left</span> = LEFT(reference) - <span style="color: #cd9b1d;">WIDTH</span>(<span style="color: #1c86ee;">self</span>) - <span style="color: #cd9b1d;">margin</span>;
+SET_LEFT(<span style="color: #1c86ee;">self</span>, left);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4">手动布局 API 定义</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+以上讲了实现手动布局的基本思路，本质是参照 refrence view，改变另一个 view frame 属性。API的定义可以如下:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">alignTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">type</span>:(<span style="color: #00688b;">NSAlign</span>)<span style="color: #2e8b57;">align</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">leftTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">rightTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">bottomTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">topTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">手动布局的缺陷</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+相对于iOS自带的Constraints，手动布局有明显的缺陷。以上的手动布局都是主动式布局，而非声明式。主动式布局的前提条件是两个view的 frame 的 size 是处于稳定的状态，然后某个 view 作为参考对象，改变另一个 view 的 frame 属性。当然我们不排除某个 view 的 frame 改变了，这个时候就需要再次进行主动的进行手动布局。而iOS自带的 Constraints 就明显是声明式布局，它认为我只要声明了多个 view 之间的关系，那么牵一发而动全身，其他的 view 为了满足Constraints，它的 frame 属性会作相应的变化。<br  />
+</p>
+
+<p>
+由于iOS的布局大多数人喜欢使用StoryBoard，所以可以在使用鼠标手动点击配置 view 之间的Constraints，对 StoryBoard 的布局流派来说真的方便之及。不过对代码布局流派来说，Constraints的 API 真的是不忍直视。<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">自动布局</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+从 iOS 7.0 开始，苹果就加入了 AutoLayout 的自动布局方式。自动布局声明了 view 之间的位置约束 (constraints) 关系，对 frame 的各种属性动态计算，减少了手动 update 的繁琐性，当 view 之间的属性关系确定后，不再需要手动 update frame。<br  />
+</p>
+</div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">可声明的属性</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+借用下 <a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/AnatomyofaConstraint.html">Develper</a> 网站上的图，我们来讲一下 AutoLayout 的属性，自动布局的可约束关系所对应的 <a href="https://developer.apple.com/reference/uikit/nslayoutattribute">属性</a> 常用的有以下几种:<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/autolayout-attributes.png" alt="autolayout-attributes.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 1:</span> AutoLayout Attributes</p>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">NSLayoutAttribute 属性</th>
+<th scope="col" class="left">意义</th>
+<th scope="col" class="left">UIView 属性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">width</td>
+<td class="left">宽度</td>
+<td class="left">frame.size.width</td>
+</tr>
+
+<tr>
+<td class="left">height</td>
+<td class="left">高度</td>
+<td class="left">frame.size.height</td>
+</tr>
+
+<tr>
+<td class="left">centerY</td>
+<td class="left">中心点Y</td>
+<td class="left">center.y</td>
+</tr>
+
+<tr>
+<td class="left">centerX</td>
+<td class="left">中心点X</td>
+<td class="left">center.x</td>
+</tr>
+
+<tr>
+<td class="left">Baseline</td>
+<td class="left">基准线</td>
+<td class="left">/</td>
+</tr>
+
+<tr>
+<td class="left">top</td>
+<td class="left">顶部</td>
+<td class="left">frame.origin.y</td>
+</tr>
+
+<tr>
+<td class="left">bottom</td>
+<td class="left">底部</td>
+<td class="left">frame.origin.y + frame.size.height</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">Equation Constraints</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+自动布局约束使用下图中的约束表达式。约束表达式是一种是简单的数学等式，可以理解为二元一次方程。二元变量就是两个 view 中呈现约束关系的变量，如下图中的 leading 和 trailing。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/autolayout-equation-formula.png" alt="autolayout-equation-formula.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 2:</span> Autolayout Equation</p>
+</div>
+
+<p>
+我们利用手动布局来理解一下自动布局，上图中的约束关系可以使用 rightTo 的 API 来描述，我们可以演示一下 rightTo 的方法:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">rightToSibling</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span> {
+    <span style="color: #00688b;">CGFloat</span> <span style="color: #2e8b57;">left</span> = R(view) + <span style="color: #cd9b1d;">margin</span>;
+    setL(<span style="color: #1c86ee;">self</span>, left);
+}
+</pre>
+</div>
+
+<p>
+如果使用 AutoLayout 来实现，可以使用如下代码:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">autoLeftTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span> {
+
+    <span style="color: #00688b;">NSLayoutConstraint</span> *<span style="color: #2e8b57;">constraint</span> =
+    [<span style="color: #00688b;">NSLayoutConstraint</span> constraintWithItem:<span style="color: #1c86ee;">self</span>
+                             attribute:NSLayoutAttributeRight
+                             relatedBy:NSLayoutRelationEqual
+                                toItem:view
+                             attribute:NSLayoutAttributeLeft
+                            multiplier:1.0f
+                              constant:margin];
+    [<span style="color: #1c86ee;">self</span> addConstraint:constraint];
+}
+</pre>
+</div>
+
+<p>
+下表说明了代码中每个属性的关系和意义:<br  />
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="right" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">attr1</th>
+<th scope="col" class="left">relation</th>
+<th scope="col" class="right">multiplier</th>
+<th scope="col" class="left">attr2</th>
+<th scope="col" class="left">constant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">self.right</td>
+<td class="left">=</td>
+<td class="right">1x</td>
+<td class="left">view.left</td>
+<td class="left">+ marign</td>
+</tr>
+
+<tr>
+<td class="left">NSLayoutAttributeRight</td>
+<td class="left">NSLayoutRelationEqual</td>
+<td class="right">1x</td>
+<td class="left">NSLayoutAttributeLeft</td>
+<td class="left">+ margin</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+我们的 SDK 中不仅要有手动布局的 API，自动布局的 API 也必不可少，以下列出了与手动布局相对应的自动布局 API 声明:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">autoAlignTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">type</span>:(<span style="color: #00688b;">NSAutoAlign</span>)<span style="color: #2e8b57;">align</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">autoLeftTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">autoRightTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">autoBottomTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">autoTopTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">UnEquation Constaints</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+2B-CONT&#x2026;<br  />
+</p>
+</div>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-13 Tue 16:10&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-04 Fri 23:19</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

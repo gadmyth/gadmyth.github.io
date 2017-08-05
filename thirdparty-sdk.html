@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>App开发接入第三方SDK注意事项</title>
+<!-- 2017-08-04 Fri 23:20 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,176 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
-</li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
-</li>
+<h1 class="title">App开发接入第三方SDK注意事项</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">远离非专业人士，不接入集成难度大的SDK</a></li>
+<li><a href="#sec-2">区分DEBUG和RELEASE</a></li>
+<li><a href="#sec-3">真机和模拟器的兼容性</a></li>
 </ul>
 </div>
+</div>
+<p>
+现代社会的运行机制是基本社会化大分工的基础上提高社会运行效率，在App依然盛行的互联网时代同样如此。如果你的公司开发了一款App，那么一定会接入一些第三方功能，这些功能会以SDK的形式集成到你们的App中。<br  />
+</p>
+
+<!-- more -->
+
+<p>
+所以今天要谈的是接入第三方SDK需要注意的事项。<br  />
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">远离非专业人士，不接入集成难度大的SDK</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+最近我们的App有这样一个需求，在线下某广场里，掏出手机，扫描广场商户的图标，识别后根据地理位置显示商户线下服务和优惠信息。这是一个非常棒的AR识别功能。坑爹的是提供该功能的厂商在App开发方面的专业度有相当的水份，厂商的SDK是使用Unity游戏框架开发，开发完毕后导出为Android和iOS两个工程。所以我认为该厂商的开发人员对Unity引擎较Android和iOS的更为熟悉。<br  />
+</p>
+
+<p>
+厂商提供的iOS SDK还不能称之为一个SDK，因为集成难度大于其他第三方SDK，如微信SDK，友盟统计SDK。一般这些优秀的SDK在集成方面也是非常友好的，SDK包括静态库和头文件，或者以iOS framework的形式呈现。集成时将framework集成到工程中，并写入少量启动代码和回调函数就完成了集成，工作量是非常少的。<br  />
+</p>
+
+<p>
+而这家厂商所谓的、由Unity导出的SDK，里面包含了Unity框架的开源源码，几千个头文件，和其他资源文件，集成后整个git的repo达到了1.4G。集成时需要按照文档一步一步将源码拷贝到工程中，工程编译时所花的时间也非常长，因为工程clean后MacBook Pro的风扇转得很厉害，CPU温度很高，可以说编译体验相当地不好。<br  />
+</p>
+
+<p>
+由于是Unity导出工程，所以每次修改后再导出的SDK，里面的头文件和源码都会发生变化，这对git管理也是非常不友好的。另外整个工程的main.m行动入口也被替换掉了，AppDelegate被换成了SDK自己的Delegate，由于该Delegate代码中还有C语言的部分，所以只能将我们的AppDelegate反过来插入到SDK的Delegate中。这样的集成体验是非常不好的。<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">区分DEBUG和RELEASE</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+一般来说SDK区分debug和release的方式是提供不同的AppKey。所以我们在集成的时候尤其需要注意这一点。iOS中只需要使用宏定义就能区分AppKey:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #cdad00;">#ifdef</span> DEBUG
+<span style="color: #cdad00;">#define</span> <span style="color: #2e8b57;">UMENG_APP_KEY</span> @<span style="color: #8b7355;">"eecd2755d73701aa057cd2a32bd7b1e2"</span>
+<span style="color: #cdad00;">#else</span>
+<span style="color: #cdad00;">#define</span> <span style="color: #2e8b57;">UMENG_APP_KEY</span> @<span style="color: #8b7355;">"148b7d5b39e4a06c021786e773589f88"</span>
+<span style="color: #cdad00;">#fi</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">真机和模拟器的兼容性</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+一般来说，第三方SDK需要提供真机和模拟器的兼容性，既可以在模拟上调试，也可以装到真机上进行调试。解决兼容性的方法是需要在x86和arm架构下编译两份静态库，并将这两种架构的库合并成一个库。以下代码就是提供了如何生成合成库(fat library)的方法。虽然这篇文章是说集成第三方SDK的兼容性，但在这里顺便提一下如何生成一个兼容性的SDK:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #7f7f7f;">#</span><span style="color: #7f7f7f;">!/bin/</span><span style="color: #1c86ee;">bash</span>
+
+<span style="color: #cd9b1d;">build_fat_framework</span>() {
+    <span style="color: #cd6600;">set</span> -e
+    <span style="color: #cd6600;">set</span> +u
+    <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">Avoid recursively calling this script.</span>
+    <span style="color: #1c86ee;">if</span> [[ $<span style="color: #2e8b57;">MASTER_SCRIPT_RUNNING</span> ]]
+    <span style="color: #1c86ee;">then</span>
+        <span style="color: #1c86ee;">exit</span> 0
+    <span style="color: #1c86ee;">fi</span>
+    <span style="color: #cd6600;">set</span> -u
+    <span style="color: #cd6600;">export</span> <span style="color: #2e8b57;">MASTER_SCRIPT_RUNNING</span>=1
+
+
+    <span style="color: #1c86ee;">if</span> [[ <span style="color: #8b7355;">"$SDK_NAME"</span> =~ ([A-Za-z]+) ]]
+    <span style="color: #1c86ee;">then</span>
+        <span style="color: #2e8b57;">SDK_PLATFORM</span>=${<span style="color: #2e8b57;">BASH_REMATCH</span>[1]}
+    <span style="color: #1c86ee;">else</span>
+        <span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">"Could not find platform name from SDK_NAME: $SDK_NAME"</span>
+        <span style="color: #1c86ee;">exit</span> 1
+    <span style="color: #1c86ee;">fi</span>
+
+    <span style="color: #1c86ee;">if</span> [[ <span style="color: #8b7355;">"$SDK_NAME"</span> =~ ([0-9]+.*$) ]]
+    <span style="color: #1c86ee;">then</span>
+        <span style="color: #2e8b57;">SDK_VERSION</span>=${<span style="color: #2e8b57;">BASH_REMATCH</span>[1]}
+    <span style="color: #1c86ee;">else</span>
+        <span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">"Could not find sdk version from SDK_NAME: $SDK_NAME"</span>
+        <span style="color: #1c86ee;">exit</span> 1
+    <span style="color: #1c86ee;">fi</span>
+
+    <span style="color: #1c86ee;">if</span> [[ <span style="color: #8b7355;">"$SDK_PLATFORM"</span> = <span style="color: #8b7355;">"iphoneos"</span> ]]
+    <span style="color: #1c86ee;">then</span>
+        <span style="color: #2e8b57;">OTHER_PLATFORM</span>=iphonesimulator
+    <span style="color: #1c86ee;">else</span>
+        <span style="color: #2e8b57;">OTHER_PLATFORM</span>=iphoneos
+    <span style="color: #1c86ee;">fi</span>
+
+    <span style="color: #1c86ee;">if</span> [[ <span style="color: #8b7355;">"$BUILT_PRODUCTS_DIR"</span> =~ (<span style="color: #cd6600;">.</span>*)-$<span style="color: #2e8b57;">SDK_PLATFORM</span>$ ]]
+    <span style="color: #1c86ee;">then</span>
+        <span style="color: #2e8b57;">OTHER_BUILT_PRODUCTS_DIR</span>=<span style="color: #8b7355;">"${BASH_REMATCH[1]}-${OTHER_PLATFORM}"</span>
+        <span style="color: #2e8b57;">UNIVERSAL_PRODUCTS_DIR</span>=<span style="color: #8b7355;">"${BASH_REMATCH[1]}-Universal-${SDK_PLATFORM}"</span>
+    <span style="color: #1c86ee;">else</span>
+        <span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">"Could not find platform name from build products directory: $BUILT_PRODUCTS_DIR"</span>
+        <span style="color: #1c86ee;">exit</span> 1
+    <span style="color: #1c86ee;">fi</span>
+
+
+
+    <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">begin build fat lib</span>
+    <span style="color: #2e8b57;">TARGET_NAME</span>=<span style="color: #8b7355;">"$1"</span>
+    <span style="color: #2e8b57;">FRAMEWORK_NAME</span>=<span style="color: #8b7355;">"${TARGET_NAME}.framework"</span>
+    <span style="color: #2e8b57;">EXECUTABLE_PATH</span>=<span style="color: #8b7355;">"${FRAMEWORK_NAME}/${TARGET_NAME}"</span>
+
+    <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">Build the other platform.</span>
+    xcodebuild -project <span style="color: #8b7355;">"${PROJECT_FILE_PATH}"</span> -target <span style="color: #8b7355;">"${TARGET_NAME}"</span> -configuration <span style="color: #8b7355;">"${CONFIGURATION}"</span> -sdk ${<span style="color: #2e8b57;">OTHER_PLATFORM</span>}${<span style="color: #2e8b57;">SDK_VERSION</span>} <span style="color: #2e8b57;">BUILD_DIR</span>=<span style="color: #8b7355;">"${BUILD_DIR}"</span> <span style="color: #2e8b57;">OBJROOT</span>=<span style="color: #8b7355;">"${OBJROOT}"</span> <span style="color: #2e8b57;">BUILD_ROOT</span>=<span style="color: #8b7355;">"${BUILD_ROOT}"</span> <span style="color: #2e8b57;">SYMROOT</span>=<span style="color: #8b7355;">"${SYMROOT}"</span> $<span style="color: #2e8b57;">ACTION</span>
+
+    <span style="color: #1c86ee;">if</span> [ ! -d <span style="color: #8b7355;">"${UNIVERSAL_PRODUCTS_DIR}"</span> ]; <span style="color: #1c86ee;">then</span>
+        mkdir <span style="color: #8b7355;">"${UNIVERSAL_PRODUCTS_DIR}"</span>
+    <span style="color: #1c86ee;">fi</span>
+    cp -r <span style="color: #8b7355;">"${TARGET_BUILD_DIR}/${FRAMEWORK_NAME}"</span> <span style="color: #8b7355;">"${UNIVERSAL_PRODUCTS_DIR}/"</span>
+
+    <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">Smash the two libraries into one fat binary</span>
+    lipo -create <span style="color: #8b7355;">"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}"</span> <span style="color: #8b7355;">"${OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}"</span> -output <span style="color: #8b7355;">"${UNIVERSAL_PRODUCTS_DIR}/${EXECUTABLE_PATH}"</span>
+}
+
+
+<span style="color: #1c86ee;">while </span><span style="color: #cd6600;">getopts</span> <span style="color: #8b7355;">":F:"</span> optname
+<span style="color: #1c86ee;">do</span>
+    <span style="color: #1c86ee;">case</span> <span style="color: #8b7355;">"$optname"</span><span style="color: #1c86ee;"> in</span>
+        <span style="color: #8b7355;">"F"</span>)
+            <span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">"input filename is $OPTARG"</span>
+            build_fat_framework <span style="color: #8b7355;">"$OPTARG"</span>
+            ;;
+        <span style="color: #8b7355;">"?"</span>)
+            <span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">"Unknown option $OPTARG"</span>
+            ;;
+        <span style="color: #8b7355;">":"</span>)
+            <span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">"No argument value for option $OPTARG"</span>
+            ;;
+        *)
+            <span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">"Unknown error while processing options"</span>
+            ;;
+    <span style="color: #1c86ee;">esac</span>
+<span style="color: #1c86ee;">done</span>
+</pre>
+</div>
+
+<p>
+使用方式是在Xcode的Build Phrases里加入一条Run Script，上面的脚本可以保存在Run Script目录下，文件名为fat_framework.sh。NSFoundation就是我们编译的framework名字:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">bash ${<span style="color: #2e8b57;">PROJECT_DIR</span>}/Run<span style="color: #8b7355;">\ </span>Scripts/fat_framework.sh -F NSFoundation
+</pre>
+</div>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-03-31 10:40&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-04 Fri 23:20</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

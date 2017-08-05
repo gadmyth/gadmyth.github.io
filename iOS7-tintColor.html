@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>iOS tintColor 和 颜色系统</title>
+<!-- 2017-08-04 Fri 23:20 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,275 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
-</li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
+<h1 class="title">iOS tintColor 和 颜色系统</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">UIImage render mode</a></li>
+<li><a href="#sec-2">色彩理论初步</a>
+<ul>
+<li><a href="#sec-2-1">RGB 模型</a></li>
+<li><a href="#sec-2-2">纯色</a></li>
+<li><a href="#sec-2-3">RGB 到 HSL/HSV 转换</a></li>
+<li><a href="#sec-2-4">tint, shade, tone 理解</a></li>
+</ul>
 </li>
 </ul>
 </div>
+</div>
+<p>
+什么是 tintColor。从 iOS7 UIView 引用 tintColor 的属性。它可以灵活地设置图片的颜色，将图片中每个像素的颜色值使用 tintColor 代替。按苹果的说法，这是一种图片模版，可以按照用户自己的喜好对模版进行配色。这种做法很像前一段时间非常流行的摹本《秘密花园》，它为用户制作好了模板，只等用户按照自己的喜好进行填色。<br  />
+</p>
+
+<!--more-->
+
+
+<div class="figure">
+<p><img src="images/secret-garden.png" alt="secret-garden.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 1:</span> secret garden</p>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">UIImage render mode</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+与 tintColor 配对出现的，是 UIImage 的 renderingMode 属性，该属性有三个可选值，其中 UIImageRenderingModeAlwaysTemplate 表示 image 总是使用 tintColor 进行 render，这样 UIImage 就实现了模版的功能。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">typedef</span> <span style="color: #00688b;">NS_ENUM</span>(<span style="color: #00688b;">NSInteger</span>, <span style="color: #00688b;">UIImageRenderingMode</span>) {
+    UIImageRenderingModeAutomatic,
+    UIImageRenderingModeAlwaysOriginal,
+    UIImageRenderingModeAlwaysTemplate,
+} NS_ENUM_AVAILABLE_IOS(7_0);
+</pre>
+</div>
+
+<p>
+我们先展示一下 image 使用 template 之前时的正常显示，其 rendering mode 为默认的 UIImageRenderingModeAutomatic:<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/normal-color-icon.png" alt="normal-color-icon.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 2:</span> original image</p>
+</div>
+
+<p>
+然后我们设置 rendering mode 为 UIImageRenderingModeAlwaysTemplate，并且将父视图的 tintColor 设为绿色:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#35774;&#32622; renderingMode</span>
+<span style="color: #00688b;">UIImage</span> *<span style="color: #2e8b57;">image</span> = [<span style="color: #00688b;">UIImage</span> imageNamed:iconName];
+image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">&#35774;&#32622; image view</span>
+imageView.image = image;
+<span style="color: #7f7f7f;">//</span><span style="color: #7f7f7f;">&#21152;&#20837;&#21040; parentView &#20013;</span>
+[parentView addSubview:imageView];
+<span style="color: #7f7f7f;">//</span><span style="color: #7f7f7f;">&#35774;&#32622; tintColor</span>
+parentView.tintColor = [<span style="color: #00688b;">UIColor</span> greenColor];
+</pre>
+</div>
+
+<p>
+于是就可以看到，所有的 icon 变成绿色，其中需要注意的是，图中白色的部分是透明挖空的，也就是全透明的，这样颜色作用于全透明的部分还是透明的。<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/tint-color-icon.png" alt="tint-color-icon.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 3:</span> image using tintColor</p>
+</div>
+
+<p>
+template image 和 UIView tintColor 之间的关系类似于 HTML5 中 CSS 的设计，父节点的属性可以作用于子节点，子节点也可以自己定义新的属性值。<br  />
+</p>
+
+<p>
+所以我们可以想像一下 view 的 tintColor 改变后的场景。tintColor 改变后，按照深度或广度遍历，找出子孙 view 中的 template image，并设置 template color。遍历回溯的条件是，遍历到子节点的 tintColor 不为 nil，也就是当子孙节点的 tintColor 属性有自己的值的时候，那么该分支的深度遍历就停止了。<br  />
+</p>
+
+<p>
+从 template image 找 tintColor 的角度来看，image 向上找 superview，如果 superview 的tintColor 为 nil，继续找 superview 的 superview，直到找到不为 nil 的 tintColor，或者直到根结点rootview，tintColor 还是为 nil，那么就使用系统的 tintColor。<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">色彩理论初步</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+至于苹果为什么取名为 tintColor，不得而知，知道的朋友可以 email 我。从搜索 tint color 后的结果看，我们知道了这是属于一种纯色和白色的混合色，在纯色的基础上有一点加亮的效果。一般来说提到 tints，就会提到 <a href="https://www.craftsy.com/blog/2013/05/hues-tints-tones-and-shades/">tones 和 shades</a>，tones 是灰色和纯色进行混合，shades 是黑色和纯色进行混合。<br  />
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">RGB 模型</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+RGB<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup> 表示颜色的三个分量，Red, Green, Blue 是光的三原色，所有的其他颜色都是由这三个分量组合而成。如果将 RGB 放入 Cartesian coordinate system 中，坐标原点就是 (0, 0, 0)，代表黑色，(255, 255, 255) 代表白色。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/RGB_color_solid_cube.png" alt="RGB_color_solid_cube.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 4:</span> RGB cube</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">纯色</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+提到纯色，不得不先提及 HSL/HSV<sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup> 的颜色模型。 从 Hue<sup><a id="fnr.3" name="fnr.3" class="footref" href="#fn.3">3</a></sup> 的色相图可以看出，图中所有颜色的 RGB 三个分量中，总有一个 255 的 Max 值和 0 的 Min 值。如下图所示，在 Mac OSX 上使用 Digital Color Meter 软件查看 Hue 纯色图就验证了这一点。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/Hue-rgb-inspect.png" alt="Hue-rgb-inspect.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 5:</span> Hue RGB</p>
+</div>
+
+<p>
+所以纯色的公式为<br  />
+</p>
+<pre class="example">
+R = 255, G = 0，B ∊ [0, 255]
+G = 255, B = 0, R ∊ [0, 255]
+B = 255, R = 0, G ∊ [0, 255]
+
+G = 255, R = 0，B ∊ [0, 255]
+B = 255, G = 0, R ∊ [0, 255]
+R = 255, B = 0, G ∊ [0, 255]
+</pre>
+
+<p>
+RGB 三个值当中有只要有一个值为常量，就相当于降维，也就是 R = 255 本身就表示一个平面，G = 0 也是一个平面，所以，G = 255, G = 0 表示两平面相交的直线，B &amp;#8714; [0, 255] 进一步限定了最后结果是一条线段。不难看出，纯色就是 RGB 正方形的 6 条棱。<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">RGB 到 HSL/HSV 转换</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+但是如果我们要解释清楚 tint, shade, tone 的话，光靠 RGB 颜色模型其实是说不清楚的，这些概念需要在 HSL/HSV 模型下才有意义。那么，我们先把 RGB 模型转换为 HSL/HSV。<br  />
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Hsl-and-hsv.svg/800px-Hsl-and-hsv.svg.png" alt="800px-Hsl-and-hsv.svg.png" /><br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4">tint, shade, tone 理解</h3>
+<div class="outline-text-3" id="text-2-4">
+
+<div class="figure">
+<p><img src="images/HSL_HSV_model.png" alt="HSL_HSV_model.png" /><br  />
+</p>
+<p><span class="figure-number">Figure 6:</span> HSL/HSV model</p>
+</div>
+
+<p>
+模型分为圆柱形和圆锥形模型。在 HSV 模型中，H 表示 Hue，表示色相，你也可以理解为纯色。其位置处于圆锥的最外面的圆，由于是处于极坐标中，所以不同的颜色处于不同的相位上。<br  />
+</p>
+
+<p>
+S 代表饱合度，饱合度越小，颜色越淡，要是饱合度为 0 时，其实就是模型中的中轴线，在 RGB 模型中的中轴线就是 (0, 0, 0) 到 (255, 255, 255) 的线段，RGB 三个值相等其实就是灰度模型。也就是说饱合度为 0 时，Hue 的值就没有意义了，分辩不出颜色相位了。所以 S 的变化是圆锥每一个切面。由于 tint 是由纯色变化饱合度而来，所以，tint 就是纯色圆所在的切面。<br  />
+</p>
+
+<p>
+V 代表明度，表示亮度的大小，或者说是与黑色的混合比例。锥体越向下的部分就越暗。由于 shade 是由纯色和黑色混合而来，其实就是将纯色的 V 值变小，使得纯色变暗。在圆锥中表现为锥面。<br  />
+</p>
+
+<p>
+tone 可以理解为同时改变 S 和 V。也就是锥体内部的颜色。<br  />
+</p>
+
+<p>
+我们可以发现 HSV 和 HSL 之间的某些关系，HSV 中的 S [0, 1] 对应于 HSL 中的 L [1, 1/2]，HSV 中的 V [0, 1] 对应于 HSL 中的 L [0, 1/2]。由于有这样的对应关系，我们列一下各种颜色与模型对应的关系。<br  />
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">model</th>
+<th scope="col" class="left">pure color</th>
+<th scope="col" class="left">tint color</th>
+<th scope="col" class="left">shade color</th>
+<th scope="col" class="left">tone color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">RGB</td>
+<td class="left">6 条棱</td>
+<td class="left">图中面向我们的三个侧面</td>
+<td class="left">图中背对我们的三个面</td>
+<td class="left">正方体体内任意一点</td>
+</tr>
+
+<tr>
+<td class="left">HSV</td>
+<td class="left">圆锥底部的圆</td>
+<td class="left">圆锥底部的圆盘</td>
+<td class="left">圆锥的锥面</td>
+<td class="left">圆锥体内部任意一点</td>
+</tr>
+
+<tr>
+<td class="left">HSL</td>
+<td class="left">圆锥中间的圆</td>
+<td class="left">圆锥上锥面</td>
+<td class="left">圆锥下锥面</td>
+<td class="left">圆锥体内部任意一点</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p class="footpara">
+: <a href="https://en.wikipedia.org/wiki/RGB_color_model">https://en.wikipedia.org/wiki/RGB_color_model</a><br  />
+</p></div>
+
+<div class="footdef"><sup><a id="fn.2" name="fn.2" class="footnum" href="#fnr.2">2</a></sup> <p class="footpara">
+<a href="https://en.wikipedia.org/wiki/HSL_and_HSV#Basic_principle">https://en.wikipedia.org/wiki/HSL_and_HSV#Basic_principle</a> <br  />
+</p></div>
+
+<div class="footdef"><sup><a id="fn.3" name="fn.3" class="footnum" href="#fnr.3">3</a></sup> <p class="footpara">
+<a href="https://en.wikipedia.org/wiki/Hue">https://en.wikipedia.org/wiki/Hue</a><br  />
+</p></div>
+
+
+</div>
+</div></div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-11-03 Thu 14:05&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-04 Fri 23:20</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

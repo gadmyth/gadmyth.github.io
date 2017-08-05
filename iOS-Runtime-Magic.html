@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>iOS Runtime 黑魔法</title>
+<!-- 2017-08-04 Fri 23:19 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,187 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
-<ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
-</li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
-</li>
+<h1 class="title">iOS Runtime 黑魔法</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">如何处理公共库里的某些hardcode</a></li>
+<li><a href="#sec-2">父类的方法没有在头文件中声明，如何使用 [super xxxx] 调用?</a></li>
+<li><a href="#sec-3">AOP 实现</a></li>
+<li><a href="#sec-4">API 前向声明</a></li>
 </ul>
 </div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">如何处理公共库里的某些hardcode</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+iOS的源码管理可以使用CocoaPods。开发小组可以自定义CocoaPods的Repo源，在多个项目之间进行模块化管理。但是由于某些原因，CocoaPods里的共享组件并非完全可靠，其扩展性、可配置性由于业务场景的不同和变化并没有达到完全适用的状态。比如公共库里不小心引入的某些 hardcode 代码。<br  />
+</p>
+
+<!--more-->
+
+<p>
+比如以下代码:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">NSBaiduMapUtil</span>()&lt;BMKLocationServiceDelegate&gt;
+<span style="color: #1c86ee;">@end</span>
+
+@implimentation NSBaiduMapUtil
+<span style="color: #7f7f7f;">//</span><span style="color: #7f7f7f;">...</span>
+-(<span style="color: #00688b;">void</span>)start
+{
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">before code</span>
+    ret = [_mapManager start:@<span style="color: #8b7355;">"2b1726a99ad465449804ccbbb03e3f3c"</span>  generalDelegate:<span style="color: #6e8b3d;">nil</span>];
+    <span style="color: #1c86ee;">if</span> (ret) {
+        <span style="color: #7f7f7f;">//</span><span style="color: #7f7f7f;">......</span>
+    }
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">after code</span>
+}
+<span style="color: #7f7f7f;">//</span><span style="color: #7f7f7f;">...</span>
+<span style="color: #1c86ee;">@end</span>
+</pre>
+</div>
+
+<p>
+以上示例代码是公共库中的百度地图工具类，其中百度地图开始识别的 start 代码中 hardcode 了 App 在百度SDK网站上注册的 appkey。可能是一不小心带入的，并没有注意到之后的扩展性。<br  />
+我们使用偷懒的方法，直接对 _mapManager 的类 (BMKMapManager) 的 start 方法进行 Method Swizzling，强行替换 appkey 为本项目的 sdk 的 appkey。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">@implementation</span> <span style="color: #00688b;">BMKMapManager</span> (<span style="color: #00688b;">Hack</span>)
+
+
++ (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">load</span> {
+    <span style="color: #00688b;">SEL</span> <span style="color: #2e8b57;">originalSelector</span> = <span style="color: #1c86ee;">@selector</span>(start:generalDelegate:);
+    <span style="color: #00688b;">SEL</span> <span style="color: #2e8b57;">swizzledSelector</span> = <span style="color: #1c86ee;">@selector</span>(EXT_start:generalDelegate:);
+    <span style="color: #00688b;">Method</span> <span style="color: #2e8b57;">originalMethod</span> = class_getInstanceMethod(<span style="color: #1c86ee;">self</span>, originalSelector);
+    <span style="color: #00688b;">Method</span> <span style="color: #2e8b57;">swizzledMethod</span> = class_getInstanceMethod(<span style="color: #1c86ee;">self</span>, swizzledSelector);
+
+    <span style="color: #00688b;">IMP</span> <span style="color: #2e8b57;">swizzledIMP</span> = method_getImplementation(swizzledMethod);
+    <span style="color: #1c86ee;">const</span> <span style="color: #00688b;">char</span> *<span style="color: #2e8b57;">swizzledType</span> = method_getTypeEncoding(swizzledMethod);
+    <span style="color: #00688b;">BOOL</span> <span style="color: #2e8b57;">added</span> = class_addMethod(<span style="color: #1c86ee;">self</span>, originalSelector, swizzledIMP, swizzledType);
+
+    <span style="color: #1c86ee;">if</span> (added) {
+        <span style="color: #00688b;">IMP</span> <span style="color: #2e8b57;">originalIMP</span> = method_getImplementation(originalMethod);
+        <span style="color: #1c86ee;">const</span> <span style="color: #00688b;">char</span> *<span style="color: #2e8b57;">originalType</span> = method_getTypeEncoding(originalMethod);
+        class_replaceMethod(<span style="color: #1c86ee;">self</span>, swizzledSelector, originalIMP, originalType);
+    } <span style="color: #1c86ee;">else</span> {
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    }
+}
+
+-(<span style="color: #00688b;">BOOL</span>)<span style="color: #cd9b1d;">EXT_start</span>:(<span style="color: #00688b;">NSString</span>*)<span style="color: #2e8b57;">key</span> <span style="color: #cd9b1d;">generalDelegate</span>:(<span style="color: #00688b;">id</span>&lt;<span style="color: #00688b;">BMKGeneralDelegate</span>&gt;)<span style="color: #2e8b57;">delegate</span> {
+    <span style="color: #1c86ee;">return</span> [<span style="color: #1c86ee;">self</span> EXT_start:NS_BAIDU_MAP_KEY generalDelegate:delegate];
+}
+
+<span style="color: #1c86ee;">@end</span>
+</pre>
+</div>
+
+<p>
+以上代码就是典型的 Method Swizzling。直接将 hardcode 的appkey 替换掉，当然以上代码大家随便在哪个讲 Method Swizzling 的网站上都可以找得到。<br  />
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">父类的方法没有在头文件中声明，如何使用 [super xxxx] 调用?</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+同样由于公共库由于某些原因，由于某些方法没有放在头文件中，所以我们无法调用 [super xxxxxx] 的方法。所以我们想到了 message send 消息机制，只要给 super 发送 xxxxxx 的 selector 就可以了。但 super 并不是一个 object，它和 self 是有区别的。所以经过查证，我们使用以下方法，对 super 的结构体进行发送消息:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">struct</span> <span style="color: #00688b;">objc_super</span> <span style="color: #00688b;">superInfo</span> = { <span style="color: #1c86ee;">self</span>, <span style="color: #1c86ee;">self</span>.superclass };
+<span style="color: #00688b;">BOOL</span> <span style="color: #2e8b57;">ret</span> = ((<span style="color: #00688b;">BOOL</span>(*)(<span style="color: #00688b;">void</span>*, <span style="color: #00688b;">SEL</span>, <span style="color: #00688b;">id</span>))objc_msgSendSuper)(&amp;superInfo, <span style="color: #1c86ee;">@selector</span>(canHandleUrl:), params);
+</pre>
+</div>
+
+<p>
+我们构造 objc_super 的结构体，通过 objc_msgSendSuper 对该结构体发送 selector 和相关参数。<br  />
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">AOP 实现</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+以上 Swizzling Method 同样是实现 AOP 的好主意。那么先要介绍一下什么是 AOP。AOP 的意思就是面向切面编程，AOP 的概念大家 Google 一下，这里不详细讲了，简单来说就是同一方法的不同实现中都要加入某段代码时，那么这个时候就可以生成一个 Aspect，插入某种逻辑。<br  />
+但是如果我想将引用的第三方 SDK 中的页面也同时引入的话，以上方法就无法做到了。这时候就只能使用 Method Swizzling 方法，对 UIViewController 做 category:<br  />
+比如所有的网络请求之前 (网络请求就是前面说的同一方法)，我们要先验证一下 accessToken，以便认为该用户是有效用户；再比如一个老生常谈的例子，友盟统计有两个方法 <a href="http://cocoadocs.org/docsets/UMengAnalytics/4.0.4/Classes/MobClick.html#//api/name/beginLogPageView:">beginLogPageView</a> 、<a href="http://cocoadocs.org/docsets/UMengAnalytics/4.0.4/Classes/MobClick.html#//api/name/endLogPageView:">endLogPageView</a> ，配对使用时就可以用做自动页面时长统计。那么多页面，不可能在每一个 UIViewController 的 viewWillAppear 和 viewWillDisappear 里都写一遍，通常有两种做法，一种自己写一个 NSBaseViewController，然后在这个类里实现所谓的页面时长统计，其他的业务逻辑类都继承这个类就可以了。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">mobclick_viewWillAppear</span>:(<span style="color: #00688b;">BOOL</span>)<span style="color: #2e8b57;">animated</span>
+{
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">do the origin implementation</span>
+    [mobclick_viewWillAppear:animated];
+
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">do mobclick page log</span>
+    <span style="color: #00688b;">NSString</span> *<span style="color: #2e8b57;">cls</span> = NSStringFromClass(<span style="color: #1c86ee;">self</span>.class);
+    [<span style="color: #00688b;">MobClick</span> beginLogPageView:cls];
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">API 前向声明</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+在 iOS10 上，老的 @selector(openURL:) 方法已经 deprecated 了，代表的意思是该方法将会向前兼容到某一版本。目前看来，该方法在 iOS10 上还是有效的，可能会在 iOS14 上彻底不能使用。由于我们的 APP 还需要兼容 iOS8，所以即使该方法已经 deprecated，我们依然需要使用该方法。<br  />
+为了避免在 iOS14 出现时 @selector(openURL:) 突然就不能使用的尴尬，我们需要同时兼容新老 API:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">UIApplication</span>* <span style="color: #2e8b57;">application</span> = [<span style="color: #00688b;">UIApplication</span> sharedApplication];
+
+<span style="color: #cdad00;">#pragma</span> clang diagnostic push
+<span style="color: #cdad00;">#pragma</span> clang diagnostic ignored <span style="color: #8b7355;">"-Wundeclared-selector"</span>
+<span style="color: #00688b;">SEL</span> <span style="color: #2e8b57;">sel</span> = <span style="color: #1c86ee;">@selector</span>(openURL:options:completionHandler:);
+<span style="color: #cdad00;">#pragma</span> clang diagnostic pop
+
+<span style="color: #1c86ee;">if</span> ([application respondsToSelector:sel]) {
+    <span style="color: #00688b;">NSURL</span> *<span style="color: #2e8b57;">url</span> = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+    [<span style="color: #00688b;">application</span> openURL:url options:@{} <span style="color: #6e8b3d;">completionHandler</span>:<span style="color: #6e8b3d;">nil</span>];
+}
+<span style="color: #1c86ee;">else</span> {
+    <span style="color: #00688b;">NSURL</span> *<span style="color: #2e8b57;">url</span> = [NSURL URLWithString:@<span style="color: #8b7355;">"prefs:root=Privacy&amp;path=CAMERA"</span>];
+    [application openURL:url];
+}
+</pre>
+</div>
+
+<p>
+现在关键的问题来了，在 Xcode7上还没有安装 iOS10 的 SDK，所以新的 API @selector(openURL:options:completionHandler:) 是不存在的。那么想到的第一个办法是使用 objc_msgSend 的 runtime 消息机制，但不幸的是该方法 crash 了，没有找出原因。所以我们就使用第二种方法，定义一个 UIApplication 的 Category，前向声明新的方法:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">UIApplication</span>(<span style="color: #00688b;">WDCredit</span>)
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">openURL</span>:(<span style="color: #00688b;">NSURL</span> *)<span style="color: #2e8b57;">url</span> <span style="color: #cd9b1d;">options</span>:(<span style="color: #00688b;">NSDictionary</span> *)<span style="color: #2e8b57;">options</span> <span style="color: #cd9b1d;">completionHandler</span>:(<span style="color: #00688b;">void</span>(^)(<span style="color: #00688b;">BOOL</span> <span style="color: #2e8b57;">success</span>))<span style="color: #2e8b57;">handler</span>;
+<span style="color: #1c86ee;">@end</span>
+</pre>
+</div>
+
+<p>
+Xcode8 现在还不稳定，我就不升级，你拿我怎么办?<br  />
+</p>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-23 Fri 12:01&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-04 Fri 23:19</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

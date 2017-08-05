@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Gadmyth Workspace</title>
-<!-- 2017-08-05 Sat 21:19 -->
+<title>iOS10富文本推送通知</title>
+<!-- 2017-08-04 Fri 23:20 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1639,75 +1639,404 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Gadmyth Workspace</h1>
+<h1 class="title">iOS10富文本推送通知</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Xcode推送开关</a></li>
+<li><a href="#sec-2">APNs推送格式定义</a>
+<ul>
+<li><a href="#sec-2-1">普通推送的格式</a></li>
+<li><a href="#sec-2-2">iOS10富文本推送扩展字段</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">推送消息处理</a>
+<ul>
+<li><a href="#sec-3-1">新建一个Notification Service Extension</a></li>
+<li><a href="#sec-3-2">bundle identifier命名</a></li>
+<li><a href="#sec-3-3">NotificationService类</a>
+<ul>
+<li><a href="#sec-3-3-1">暂存处理资源</a></li>
+<li><a href="#sec-3-3-2">解析图片地址</a></li>
+<li><a href="#sec-3-3-3">下载图片</a></li>
+<li><a href="#sec-3-3-4">缓存图片内容</a></li>
+<li><a href="#sec-3-3-5">Attachment封装</a></li>
+<li><a href="#sec-3-3-6">图片推送样式</a></li>
+<li><a href="#sec-3-3-7">Service Time Expire的回调处理</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-4">推送消息界面</a>
+<ul>
+<li><a href="#sec-4-1">新建Notification Content Extention</a></li>
+<li><a href="#sec-4-2">自定义界面</a></li>
+<li><a href="#sec-4-3">自定义界面对应的类</a></li>
+<li><a href="#sec-4-4">category设置</a></li>
+<li><a href="#sec-4-5">最终效果</a></li>
+<li><a href="#sec-4-6">其他需要注意的点</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">参考资料</a></li>
+</ul>
+</div>
+</div>
+<p>
+苹果在iOS10系统时推出了UNNotification用户消息framework，这个framework相比以往的Remote Notification和Local Notification，增加了不少功能。<br  />
+列出iOS10 Notification的新功能。<br  />
+这篇文章我们讨论的是新增的Rich Notification部分。<br  />
+</p>
+
+<!-- more -->
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Xcode推送开关</h2>
+<div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li><a href="iOS-WebView-ProgressBar.html">2017-07-06 iOS UIWebView加载进度条</a><br  />
+<li>App远程推送开关:<br  />
+如果你的App要使用推送功能，首先需要打开App的远程推送开关。<br  />
+<img src="images/enable-push-notifications.png" alt="enable-push-notifications.png" /><br  />
 </li>
-<li><a href="AFN-analynize.html">2017-06-21 AFNetworking结构分析</a><br  />
-</li>
-<li><a href="working-efficency.html">2017-06-10 总有些人效率低</a><br  />
-</li>
-<li><a href="iOS10-Rich-Notification.html">2017-06-01 iOS10富文本推送通知</a><br  />
-</li>
-<li><a href="hexo-renderer-org.html">2017-05-31 使用Emacs Org-Mode写Hexo博客</a><br  />
-</li>
-<li><a href="iOS-upgrade-strategy.html">2017-04-26 App升级提示策略</a><br  />
-</li>
-<li><a href="thirdparty-sdk.html">2017-03-31 App开发接入第三方SDK注意事项</a><br  />
-</li>
-<li><a href="vim-intro.html">2017-03-30 Vim的简单使用方法</a><br  />
-</li>
-<li><a href="iOS-H5-local-resource-config.html">2016-11-28 iOS H5资源本地化</a><br  />
-</li>
-<li><a href="iOS-block-implementation.html">2016-11-27 iOS block capture scope研究</a><br  />
-</li>
-<li><a href="app-forbid-batch-register.html">2016-11-20 防止App批量注册</a><br  />
-</li>
-<li><a href="iOS7-tintColor.html">2016-11-03 iOS tintColor 和 颜色系统</a><br  />
-</li>
-<li><a href="Roundabout-network-failed.html">2016-10-31 App 大转盘抽奖活动 - API 发送问题思考</a><br  />
-</li>
-<li><a href="iOS-ivar-property.html">2016-10-31 ObjC中ivar和propertytitle</a><br  />
-</li>
-<li><a href="Docker-On-Mac-OSX.html">2016-10-26 Docker On Mac OSX</a><br  />
-</li>
-<li><a href="iOS-jailbreak-make-deb-package.html">2016-10-14 iOS 越狱开发讨论：Cydia 源和 deb 安装包</a><br  />
-</li>
-<li><a href="iOS-Controller-category.html">2016-10-09 iOS category 拆分 Controller</a><br  />
-</li>
-<li><a href="Xcode-Embed-Framework-Debug-Only.html">2016-10-09 Xcode Embed Framework Debug Only</a><br  />
-</li>
-<li><a href="iOS-multi-request.html">2016-10-08 iOS 多网络请求</a><br  />
-</li>
-<li><a href="iOS-source-manage.html">2016-10-08 iOS CocoaPods 源码管理</a><br  />
-</li>
-<li><a href="lacking-example.html">2016-10-06 稀缺事例</a><br  />
-</li>
-<li><a href="iOS-info-request.html">2016-09-30 iOS 信息拉取机制</a><br  />
-</li>
-<li><a href="dev-let-it-be.html">2016-09-29 开发中的不了了之</a><br  />
-</li>
-<li><a href="iOS-UIView-Border-Extension.html">2016-09-26 iOS UIView Border 相关</a><br  />
-</li>
-<li><a href="iOS-UIView-Click-Extension.html">2016-09-23 iOS 对 UIView 扩展 Click 事件</a><br  />
-</li>
-<li><a href="iOS-Runtime-Magic.html">2016-09-23 iOS Runtime 黑魔法</a><br  />
-</li>
-<li><a href="iOS-App-version.html">2016-09-21 iOS的版本号</a><br  />
-</li>
-<li><a href="iOS-inner-server.html">2016-09-19 iOS内置Server</a><br  />
-</li>
-<li><a href="iOS-mannual-layout.html">2016-09-13 iOS手动布局</a><br  />
-</li>
-<li><a href="iPhone-resolution.html">2016-09-12 iPhone 分辨率</a><br  />
-</li>
-<li><a href="iOS-welcome-page.html">2016-09-10 iOS Welcome引导页</a><br  />
+<li>打开推送的后台模式:<br  />
+iOS7开始，苹果提供了后台接收远程消息的功能，进程在后台存活时也能接收到消息<br  />
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">application</span>:(<span style="color: #00688b;">UIApplication</span> *)<span style="color: #2e8b57;">application</span> <span style="color: #cd9b1d;">didReceiveRemoteNotification</span>:(<span style="color: #00688b;">NSDictionary</span> *)<span style="color: #2e8b57;">userInfo</span> <span style="color: #cd9b1d;">fetchCompletionHandler</span>:(<span style="color: #00688b;">void</span> (^)(<span style="color: #00688b;">UIBackgroundFetchResult</span> <span style="color: #2e8b57;">result</span>))<span style="color: #2e8b57;">completionHandler</span> <span style="color: #cd9b1d;">NS_AVAILABLE_IOS</span>(7_0);
+</pre>
+</div>
+
+<div class="figure">
+<p><img src="images/remote-notification-background-modes.png" alt="remote-notification-background-modes.png" /><br  />
+</p>
+</div>
 </li>
 </ul>
 </div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">APNs推送格式定义</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">普通推送的格式</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+以下是一个普通的APNs推送消息收到后的消息体，包含了title, body, sound, badge等基本的消息元素。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js">{
+    <span style="color: #8b7355;">"aps"</span>: {
+        <span style="color: #8b7355;">"alert"</span>: {
+            <span style="color: #8b7355;">"title"</span>: <span style="color: #8b7355;">"Wanda Wealth Big Gift!"</span>,
+            <span style="color: #8b7355;">"body"</span>: <span style="color: #8b7355;">"Wanda Wealth will give you 100,000 bonus if you participate our Moon Lover's Activity!"</span>
+        },
+        <span style="color: #8b7355;">"sound"</span>: <span style="color: #8b7355;">"default"</span>,
+        <span style="color: #8b7355;">"badge"</span>: 10
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">iOS10富文本推送扩展字段</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+富文本推送本质上是允许App改变推送消息的UI样式，所以需要在aps消息体里加入字段mutable-content。<br  />
+</p>
+
+<p>
+category字段表示该条消息属于哪个类别，将会由相对象的Notification Service来做相应的处理，iOS10后允许开发者建立多个Notification Service来处理相应APNs消息体。<br  />
+</p>
+
+<p>
+attachment-image是我们自定义的字段，表示该条推送附带的图片URL地址。你也可以根据自己业务逻辑自定义字段语义，比如可以定义attach-url, attach-type，这样可以区别是附带的图片还是视频。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js">{
+    <span style="color: #8b7355;">"aps"</span>: {
+        <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">alert, sound, badge, ...</span>
+        <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">......</span>
+        <span style="color: #8b7355;">"mutable-content"</span>: 1,
+        <span style="color: #8b7355;">"category"</span>: <span style="color: #8b7355;">"push-message-category"</span>,
+    }
+    <span style="color: #8b7355;">"attachment-image"</span>: <span style="color: #8b7355;">"https://caifu.xinshengdaxue.com/assets/logo.png"</span>
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">推送消息处理</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+推送消息收到后，我们需要先下载attachment-image，保存在缓存中。苹果提供了Notification Service Extension的消息推送服务扩展，开发者可以在这里拿到消息体，解析得到attachment-image自定义字段后作下载缓存处理。<br  />
+</p>
+</div>
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">新建一个Notification Service Extension</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+下图展示了新建的过程，在Xcode里点击File-&gt;New-&gt;Target-&gt;Notficiation Service Extension<br  />
+<img src="images/create-NSE-target.png" alt="create-NSE-target.png" /><br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">bundle identifier命名</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+在命名BundleID的时候需要注意的是，其前缀最好包含App Target的bundleID。<br  />
+<img src="images/NSE-bundle-identifier.png" alt="NSE-bundle-identifier.png" /><br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">NotificationService类</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+当新建好Extension后，Xcode为我们新建了NotificationService类，它继承了UNNotificationServiceExtension框架类。<br  />
+该类有两个回调方法，第一个是接收到推送消息后的回调，用于下载富文本内容。<br  />
+</p>
+
+<p>
+serviceExtensionTimeWillExpire提醒App，Extension将要结束，我们可以在这里做一些暂停下载，标记标志位等工作，以等下次App重新唤醒的时候在UIApplicationDelegate的回调中继续下载。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">UNNotificationServiceExtension</span> : <span style="color: #00688b;">NSObject</span>
+
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">Call contentHandler with the modified notification content to deliver. If the handler is not called before the service's time expires then the unmodified notification will be delivered.</span>
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">You are expected to override this method to implement push notification modification.</span>
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">didReceiveNotificationRequest</span>:(<span style="color: #00688b;">UNNotificationRequest</span> *)<span style="color: #2e8b57;">request</span> <span style="color: #cd9b1d;">withContentHandler</span>:(<span style="color: #00688b;">void</span> (^)(<span style="color: #00688b;">UNNotificationContent</span> *<span style="color: #2e8b57;">contentToDeliver</span>))<span style="color: #2e8b57;">contentHandler</span>;
+
+<span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">Will be called just before this extension is terminated by the system. You may choose whether to override this method.</span>
+- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">serviceExtensionTimeWillExpire</span>;
+<span style="color: #1c86ee;">@end</span>
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-3-3-1" class="outline-4">
+<h4 id="sec-3-3-1">暂存处理资源</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<p>
+didReceiveRemoteNotification回调提供了contentHandler回调block，调用后系统会知道这条消息是否已被处理。由于图片、文件或视频的下载可能是异步下载，所以需要暂存这些处理资源。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">self</span>.contentHandler = contentHandler;
+<span style="color: #1c86ee;">self</span>.bestAttemptContent = [request.content mutableCopy];
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-3-2" class="outline-4">
+<h4 id="sec-3-3-2">解析图片地址</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<p>
+我们先要从UNNotficationRequest参数中解析到attachment-image内容<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">NSString</span> *<span style="color: #2e8b57;">attachUrl</span> = [request.content.userInfo objectForKey:@<span style="color: #8b7355;">"attachment-image"</span>];
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-3-3" class="outline-4">
+<h4 id="sec-3-3-3">下载图片</h4>
+<div class="outline-text-4" id="text-3-3-3">
+<p>
+以下的代码使用的是同步下载方案，仅为Demo代码，后续上生产环境需要使用异步代码完成。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">UIImage</span> *)<span style="color: #cd9b1d;">getImageFromUrl</span>:(<span style="color: #00688b;">NSString</span> *)<span style="color: #2e8b57;">url</span> {
+    NSLog(<span style="color: #2e8b57;">@</span><span style="color: #8b7355;">"NotificationService, getImageFromUrl: %@"</span>, url);
+    <span style="color: #00688b;">UIImage</span> *<span style="color: #2e8b57;">result</span>;
+    <span style="color: #00688b;">NSData</span> *<span style="color: #2e8b57;">data</span> = [<span style="color: #00688b;">NSData</span> dataWithContentsOfURL:[NSURL URLWithString:url]];
+    result = [<span style="color: #00688b;">UIImage</span> imageWithData:data];
+    <span style="color: #1c86ee;">return</span> result;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-3-4" class="outline-4">
+<h4 id="sec-3-3-4">缓存图片内容</h4>
+<div class="outline-text-4" id="text-3-3-4">
+<p>
+下载好图片后，需要缓存图片内容。其中uuidStr是缓存图片名，saveImage将UIImage存储到Document目录下(其实应当存在Cache)目录下。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">NSString</span> *<span style="color: #2e8b57;">uuidStr</span> = @<span style="color: #8b7355;">"2B3CB2BD-1626-4192-A72A-0FA3B1A02279"</span>;
+<span style="color: #00688b;">NSString</span> *<span style="color: #2e8b57;">localPath</span> = [<span style="color: #1c86ee;">self</span> saveImage:image withFileName:uuidStr ofType:@<span style="color: #8b7355;">"png"</span> inDirectionary:docPath];
+<span style="color: #1c86ee;">if</span> (localPath.length &gt; 0) {
+    <span style="color: #00688b;">NSURL</span> *<span style="color: #2e8b57;">localPathUrl</span> = [NSURL URLWithString:[@<span style="color: #8b7355;">"file://"</span> stringByAppendingString:localPath]];
+
+ }
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-3-5" class="outline-4">
+<h4 id="sec-3-3-5">Attachment封装</h4>
+<div class="outline-text-4" id="text-3-3-5">
+<p>
+图片下载后，就可以封装成UNNotificationAttachment供系统回调调用。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">UNNotificationAttachment</span> *<span style="color: #2e8b57;">attachment</span> = [<span style="color: #00688b;">UNNotificationAttachment</span> attachmentWithIdentifier:kPushNotificationImageAttachment URL:localPathUrl options:<span style="color: #6e8b3d;">nil</span> error:<span style="color: #6e8b3d;">nil</span>];
+<span style="color: #1c86ee;">if</span> (attachment) {
+    <span style="color: #1c86ee;">self</span>.bestAttemptContent.attachments = @[attachment];
+}
+<span style="color: #1c86ee;">self</span>.contentHandler(<span style="color: #1c86ee;">self</span>.bestAttemptContent);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-3-6" class="outline-4">
+<h4 id="sec-3-3-6">图片推送样式</h4>
+<div class="outline-text-4" id="text-3-3-6">
+<p>
+经过上面几步操作，我们最终在系统消息中心显示了带图片的推送样式。<br  />
+<img src="iOS10-Rich-Notification/rich-notificotion-in-center.png" alt="rich-notificotion-in-center.png" /><br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-3-7" class="outline-4">
+<h4 id="sec-3-3-7">Service Time Expire的回调处理</h4>
+<div class="outline-text-4" id="text-3-3-7">
+<p>
+以下代码简单地处理了Time Expire回调，简单地将bestAttemptContent回调给系统。在这里可能图片并没有下载完全，所以bestAttempContent仅仅是文字的显示。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">serviceExtensionTimeWillExpire</span> {
+    <span style="color: #1c86ee;">self</span>.contentHandler(<span style="color: #1c86ee;">self</span>.bestAttemptContent);
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">推送消息界面</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+iOS10的Notification Content Extension为开发者提供了自定义force touch推送消息后展开的UI界面的能力。我们可以展示文字、图片、视频，以及Notification Action，如消息回复、订阅、稍后阅读等。<br  />
+</p>
+</div>
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">新建Notification Content Extention</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+下图展示了新建的过程，在Xcode里点击File-&gt;New-&gt;Target-&gt;Notficiation Content Extension<br  />
+<img src="images/create-NC-target.png" alt="create-NC-target.png" /><br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">自定义界面</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Extension创建后，其Info.plist里指定了NSExtensionMainStoryboard字段，表示自定义界面使用相应名字的storyboard；下图是一个定制化的界面，显示一张正方形的图片:<br  />
+<img src="images/NC-storyboard.png" alt="NC-storyboard.png" /><br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">自定义界面对应的类</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+上面的storyboard对应的类是NotificationViewController，我们在它的didReceiveNotification:的回调函数中渲染界面。<br  />
+</p>
+
+<p>
+UNNotification其实就是上面的Notification Service下载图片后封装成Attachment后塞回给系统，系统再封装成一个UNNotification，传给NotificationViewController。开发者只需要从UNNotification中取出Attachment中的图片地址，生成UIImage后显示即可。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">didReceiveNotification</span>:(<span style="color: #00688b;">UNNotification</span> *)<span style="color: #2e8b57;">notification</span> {
+    NSLog(<span style="color: #2e8b57;">@</span><span style="color: #8b7355;">"NotificationViewController, didReceiveNotification: %@"</span>, notification.description);
+    <span style="color: #00688b;">UNNotificationContent</span> *<span style="color: #2e8b57;">content</span> = notification.request.content;
+    <span style="color: #00688b;">UNNotificationAttachment</span> *<span style="color: #2e8b57;">attachment</span> = content.attachments.firstObject;
+    <span style="color: #1c86ee;">if</span> (attachment.URL.startAccessingSecurityScopedResource) {
+        <span style="color: #1c86ee;">self</span>.imageView.image = [<span style="color: #00688b;">UIImage</span> imageWithContentsOfFile:attachment.URL.path];
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4">category设置</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+Notification Service负责下载，Notification Content负责展示。category的作用是分发不同的推送消息给相应的Notification Content。<br  />
+category需要在Info.plist中进行配置，设置UNNotificationExtensionCategory的值为上面提到过的aps中的相应值，push-message-category。<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5">最终效果</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+我们使用了李笑来老师 <a href="http://caifu.xinshengdaxue.com/#!/news/1">财富自由之路</a> 网站的favicon，也是他的头像。下图就是消息force touch后展示的样子。<br  />
+你可以根据自己App的设计来重新布局你的消息展示形式。<br  />
+<img src="images/force-touch-rich-notification.png" alt="force-touch-rich-notification.png" /><br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6">其他需要注意的点</h3>
+<div class="outline-text-3" id="text-4-6">
+<p>
+我们在这里仅仅是给出了富文本消息最简单的示例，有一些point可能需要你自己去查询研究。<br  />
+</p>
+<ul class="org-ul">
+<li>自定义Notification Content的时候，你可以不使用Storyboard，直接使用代码进行布局。需要修改Info.plist中的内容<br  />
+</li>
+<li>Storyboard中我们没有显示消息体，而force touch后，我们看到了消息体。需要研究一下保留展示原消息体的配置项<br  />
+</li>
+<li>以上代码使用了同步下载图片的策略，可以改成异步下载策略<br  />
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">参考资料</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li><a href="http://blog.jiguang.cn/newfeture_notification_ios10/">极光博客iOS10通知更新详解</a><br  />
+</li>
+<li><a href="https://docs.jiguang.cn/jpush/client/iOS/ios_new_fetures/">JPush iOS新特性更新汇总</a><br  />
+</li>
+<li><a href="https://blog.pusher.com/how-to-send-ios-10-notifications-using-the-push-notifications-api/">How to send iOS 10 Notifications using the Push Notifications API</a><br  />
+  这篇里面基本上是要集成第三方推送框架pusher这家的push SDK才能做，也就是说代码是调用他们的，所以并没有提供url解析下载的步骤，仅供开发参。<br  />
+</li>
+<li><a href="https://github.com/CleverTap/notification-examples-ios10">iOS 10 Rich Push Notification Example Projects</a><br  />
+  这个是CleverTap第三方推送平台，里面有他们的Demo工程，其实并没有提供如何实现Rich Notification的技术细节。所以仅做参考，demo代码不全。<br  />
+</li>
+<li><a href="http://www.cnblogs.com/oc-bowen/p/6061286.html">iOS 10消息推送(UserNotifications)秘籍总结（二）</a><br  />
+  这篇文章是最靠谱的，所以根据这篇的内容，我们开发了带图片显示的Rich Notification，大家看完这篇文章，同样可以看看这篇里讲到的更多的内容。
+</li>
+</ul>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-06-01 Thu&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-05 Sat 21:19</p>
+<p class="date">Created: 2017-08-04 Fri 23:20</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
