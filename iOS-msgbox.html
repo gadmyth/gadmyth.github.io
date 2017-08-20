@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>iOS手动布局</title>
+<title>消息盒子开发</title>
 <!-- 2017-08-20 Sun 18:55 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
@@ -1643,191 +1643,428 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">iOS手动布局</h1>
+<h1 class="title">消息盒子开发</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. 基本的位置关系</a></li>
-<li><a href="#sec-2">2. 与位置关系相关的两个View</a>
+<li><a href="#sec-1">1. 交互设计</a>
 <ul>
-<li><a href="#sec-2-1">2.1. sibling关系的对齐</a></li>
-<li><a href="#sec-2-2">2.2. superview/subview关系的对齐</a></li>
-<li><a href="#sec-2-3">2.3. sibling关系下的居左关系</a></li>
-<li><a href="#sec-2-4">2.4. 手动布局 API 定义</a></li>
+<li><a href="#sec-1-1">1.1. 整体流程</a></li>
+<li><a href="#sec-1-2">1.2. App内推送消息流程</a></li>
+<li><a href="#sec-1-3">1.3. 首页消息入口</a></li>
+<li><a href="#sec-1-4">1.4. 消息中心页面</a></li>
+<li><a href="#sec-1-5">1.5. 消息列表页</a></li>
+<li><a href="#sec-1-6">1.6. 应用内推送消息</a></li>
+<li><a href="#sec-1-7">1.7. 系统推送消息</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">3. 手动布局的缺陷</a></li>
-<li><a href="#sec-4">4. 自动布局</a>
+<li><a href="#sec-2">2. 视觉评审总结</a>
 <ul>
-<li><a href="#sec-4-1">4.1. 可声明的属性</a></li>
-<li><a href="#sec-4-2">4.2. Equation Constraints</a></li>
-<li><a href="#sec-4-3">4.3. UnEquation Constaints</a></li>
+<li><a href="#sec-2-1">2.1. 消息向右箭头显示理解</a>
+<ul>
+<li><a href="#sec-2-1-1">2.1.1. 开发人员的理解</a></li>
+<li><a href="#sec-2-1-2">2.1.2. 交互设计师的理解</a></li>
+<li><a href="#sec-2-1-3">2.1.3. 总结</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-3">3. 接口简单介绍</a></li>
+<li><a href="#sec-4">4. 消息缓存设计</a>
+<ul>
+<li><a href="#sec-4-1">4.1. 下拉刷新缓存merge处理</a></li>
+<li><a href="#sec-4-2">4.2. 加载更多 - 缓存merge处理</a></li>
+<li><a href="#sec-4-3">4.3. 缓存数据库设计</a>
+<ul>
+<li><a href="#sec-4-3-1">4.3.1. 使用FMDB(sqlite)进行消息存储</a></li>
+<li><a href="#sec-4-3-2">4.3.2. 获取新数据缓存控制</a></li>
+<li><a href="#sec-4-3-3">4.3.3. 获取旧消息数据缓存控制</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-5">5. 消息推送</a>
+<ul>
+<li><a href="#sec-5-1">5.1. RESTFUL API 参数</a>
+<ul>
+<li><a href="#sec-5-1-1">5.1.1. 最外层字段</a></li>
+<li><a href="#sec-5-1-2">5.1.2. audience结构体字段</a></li>
+<li><a href="#sec-5-1-3">5.1.3. notification的alert字段</a></li>
+<li><a href="#sec-5-1-4">5.1.4. android结构体</a></li>
+<li><a href="#sec-5-1-5">5.1.5. iOS结构体</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-2">5.2. iOS推送配置项</a>
+<ul>
+<li><a href="#sec-5-2-1">5.2.1. iOS7以上配置</a></li>
+<li><a href="#sec-5-2-2">5.2.2. iOS8以上配置</a></li>
+<li><a href="#sec-5-2-3">5.2.3. iOS10以上推送配置</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-3">5.3. iOS回调函数</a>
+<ul>
+<li><a href="#sec-5-3-1">5.3.1. iOS7.0之前的处理，App在前台回调该函数</a></li>
+<li><a href="#sec-5-3-2">5.3.2. 后台点击通知栏中的notification</a></li>
+<li><a href="#sec-5-3-3">5.3.3. didFinishLaunchingWithOptions 处理通知</a></li>
+<li><a href="#sec-5-3-4">5.3.4. iOS10以上App前台接收消息回调</a></li>
+<li><a href="#sec-5-3-5">5.3.5. iOS10以上App在后台，点击消息中心消息后</a></li>
+<li><a href="#sec-5-3-6">5.3.6. 取消通知</a></li>
+<li><a href="#sec-5-3-7">5.3.7. iOS应用内消息</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-4">5.4. iOS应用内推送消息</a>
+<ul>
+<li><a href="#sec-5-4-1">5.4.1. 使用UIWindow来实现应用内推送消息</a></li>
+<li><a href="#sec-5-4-2">5.4.2. 使用 UIVisualEffectView(iOS8) 实现磨砂效果</a></li>
+<li><a href="#sec-5-4-3">5.4.3. 为磨砂效果加上阴影</a></li>
+<li><a href="#sec-5-4-4">5.4.4. 为title加白色透明背景</a></li>
+<li><a href="#sec-5-4-5">5.4.5. 最后显示效果</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-6">6. 消息处理流程</a>
+<ul>
+<li><a href="#sec-6-1">6.1. 前台推送消息处理流程</a></li>
+<li><a href="#sec-6-2">6.2. 后台启动应用消息处理流程</a></li>
+</ul>
+</li>
+<li><a href="#sec-7">7. UI细节实现</a>
+<ul>
+<li><a href="#sec-7-1">7.1. 定宽下消息内容超出固定行数判断</a></li>
+<li><a href="#sec-7-2">7.2. 变高UITableViewCell实现</a></li>
+</ul>
+</li>
+<li><a href="#sec-8">8. 缓存数据库升级</a>
+<ul>
+<li><a href="#sec-8-1">8.1. 缓存数据库的问题</a>
+<ul>
+<li><a href="#sec-8-1-1">8.1.1. 缓存数据库存储策略</a></li>
+<li><a href="#sec-8-1-2">8.1.2. 缓存数据库消息问题</a></li>
+<li><a href="#sec-8-1-3">8.1.3. 支持群组消息的数据库修改</a></li>
+</ul>
+</li>
+<li><a href="#sec-8-2">8.2. FMDB(sqlite)升级</a>
+<ul>
+<li><a href="#sec-8-2-1">8.2.1. 实现有限的sqlite</a></li>
+<li><a href="#sec-8-2-2">8.2.2. 增加unique index</a></li>
+<li><a href="#sec-8-2-3">8.2.3. 升级步骤优化</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 <p>
-在没有 nib, xib, StoryBoard 之前，iOS 的界面布局其实就是手动布局，因为 iPhone3GS 和 iPhone4 的年代，Screen的大小也就是320x480，而且手机的大部分应用是 Portait Only 的。不需要考虑屏幕尺寸的变化。所以我们只需要 new 一个 UIView，指定好 frame 后，然后就可以 addSubview 了，subview 就可以在指定的绝对位置显示在 superview 上。所以本文要讨论的就是这种比较原始的布局方式。<br  />
+消息盒子是贷款理财类产品里的一个非常重要的功能，消息盒子的作用是通知用户三类消息，一类是用户个人消息，比如贷款逾期、理财产品到期；一类是平台公告，如平台维护，系统升级等；还有一类是活动精选，如各种加息活动，各种节日活动等。<br  />
 </p>
 
-<!--more-->
+<!-- more -->
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> 基本的位置关系</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> 交互设计</h2>
 <div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 整体流程</h3>
+<div class="outline-text-3" id="text-1-1">
 <p>
-基本的位置关系有对齐 align，居左 leftTo，居右 rightTo，居上 topTo，居下 bottomTo，水平居中 center horizontal，垂直居中 center vertical。其基本原理其实就是根据两个view之间的应该呈现的关系改变其中一个的frame。<br  />
+消息盒子的流程图重新画了一遍，其中的关键点是用户消息列表页面需要提前登录。<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/msgbox-workflow.png" alt="msgbox-workflow.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 1:</span> 消息盒子流程图</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> App内推送消息流程</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+当应用接收到消息盒子后，用户点击后需要跳转到消息详情页面。如果用户没有登录，那么就需要先跳转到登录页面后，再跳转到消息详情页面。<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/msgbox-push-flow.png" alt="msgbox-push-flow.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 2:</span> 消息盒子推送流程图</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 首页消息入口</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+首页消息入口是NavigationBar的left button，当有新消息时，显示小红点。点击后进入消息中心，并且小红点消失。<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/message-box-entrance.png" alt="message-box-entrance.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 3:</span> 消息盒子首页入口</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> 消息中心页面</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+消息中心显示三类消息，如果有新消息时，需要显示小红点。当有历史消息时，每类消息需要显示历史消息中最新的一条。当没有历史消息时，不需要显示消息体，如下图所示:<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/my-message-not-login.png" alt="my-message-not-login.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 4:</span> 消息中心入口-无消息体</p>
+</div>
+
+<p>
+下图是消息中心页面:<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/message-center.png" alt="message-center.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 5:</span> 消息中心</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> 消息列表页</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+消息列表页原先的设计是需要标注消息是否已读未读，消息内容用不同的颜色来区分是否已读。由于该功能涉及多设备同步和多账号同步的问题，实现方式并不能预估时间，所以暂时不做。<br  />
 </p>
 
 <p>
-所以我们先定义对齐的位置关系，除了以上提及的四种对齐方式，还有一些 fixed 的对齐方式，这些方式是在对齐的时候不改变其相对的frame属性。比如 NSFixedAlignLeft，其主要作用是改变 frame.origin.x 的时候，保持 frame 的 right 不变(虽然frame是没有right属性的)。<br  />
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-objc"><span style="color: #1c86ee;">typedef</span> <span style="color: #00688b;">NS_ENUM</span>(<span style="color: #00688b;">NSUInteger</span>, <span style="color: #00688b;">NSAlign</span>) {
-    NSAlignLeft,
-    NSAlignRight,
-    NSAlignTop,
-    NSAlignBottom,
-    NSAlignCenterVertical,
-    NSAlignCenterHorizontal,
-    NSFixedAlignLeft,
-    NSFixedAlignRight,
-    NSFixedAlignTop,
-    NSFixedAlignBottom
-};
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> 与位置关系相关的两个View</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-在以上的讨论中，无论是左对齐还是居中，都是两个View之间的位置关系。通常情况下，这两个View (view1, view2) 在同一层级树 (View hierachy) 中，并且有三种关系:<br  />
-</p>
-
-<ol class="org-ol">
-<li>view1 是 view2 的 superview 或 subview<br  />
-</li>
-<li>view1 和 view2 兄弟结点 ([sibling](<a href="https://en.wikipedia.org/wiki/Sibling">https://en.wikipedia.org/wiki/Sibling</a>))<br  />
-</li>
-<li>其他，但 view1 和 view2 肯定有共同的 root，UIApplication<br  />
-</li>
-</ol>
-</div>
-
-<div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> sibling关系的对齐</h3>
-<div class="outline-text-3" id="text-2-1">
-<p>
-我们预先定义一些宏来简化语法，可以简单地设置frame的属性:<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-objc"><span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">LEFT</span>(<span style="color: #2e8b57;">view</span>)               view.frame.origin.x
-<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">TOP</span>(<span style="color: #2e8b57;">view</span>)                view.frame.origin.y
-<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">WIDTH</span>(<span style="color: #2e8b57;">view</span>)              view.frame.size.width
-<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">HEIGHT</span>(<span style="color: #2e8b57;">view</span>)             view.frame.size.height
-<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">SET_LEFT</span>(<span style="color: #2e8b57;">view</span>, <span style="color: #2e8b57;">left</span>)     view.frame = CGRectMake(left, TOP(view), WIDTH(view), HEIGHT(view));
-<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">SET_TOP</span>(<span style="color: #2e8b57;">view</span>,   <span style="color: #2e8b57;">top</span>)     view.frame = CGRectMake(LEFT(view), top, WIDTH(view), HEIGHT(view));
-<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">SET_WIDTH</span>(<span style="color: #2e8b57;">view</span>,   <span style="color: #2e8b57;">width</span>) view.frame = CGRectMake(LEFT(view), TOP(view), width, HEIGHT(view));
-<span style="color: #cdad00;">#define</span> <span style="color: #cd9b1d;">SET_HEIGHT</span>(<span style="color: #2e8b57;">view</span>, <span style="color: #2e8b57;">height</span>) view.frame = CGRectMake(LEFT(view), TOP(view), WIDTH(view), height);
-</pre>
-</div>
-<p>
-我们拿sibling关系的左对齐来说，其逻辑非常简单，只要保证 view1 和 view2 的 left 一致就可以了。<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-objc">SET_LEFT(<span style="color: #1c86ee;">self</span>, LEFT(view) + <span style="color: #cd9b1d;">margin</span>);
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> superview/subview关系的对齐</h3>
-<div class="outline-text-3" id="text-2-2">
-<p>
-这种关系下的左对齐就比较简单的，因为相对于i superview 来说，参数的 left 其实就是0:<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-objc">SET_LEFT(<span style="color: #1c86ee;">self</span>, 0 + margin);
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3"><span class="section-number-3">2.3</span> sibling关系下的居左关系</h3>
-<div class="outline-text-3" id="text-2-3">
-<p>
-view1 在 view2 的左边，这种关系其实就是 view1 的 right 等于 view2 的 left，但 frame 没有 right 属性，所以我们应当在 view2 的 left 的基础上再减去 view1 的 width:<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-objc"><span style="color: #00688b;">UIView</span> *<span style="color: #2e8b57;">reference</span> = xxx;
-<span style="color: #00688b;">CGFloat</span> <span style="color: #2e8b57;">left</span> = LEFT(reference) - <span style="color: #cd9b1d;">WIDTH</span>(<span style="color: #1c86ee;">self</span>) - <span style="color: #cd9b1d;">margin</span>;
-SET_LEFT(<span style="color: #1c86ee;">self</span>, left);
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-sec-2-4" class="outline-3">
-<h3 id="sec-2-4"><span class="section-number-3">2.4</span> 手动布局 API 定义</h3>
-<div class="outline-text-3" id="text-2-4">
-<p>
-以上讲了实现手动布局的基本思路，本质是参照 refrence view，改变另一个 view frame 属性。API的定义可以如下:<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">alignTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">type</span>:(<span style="color: #00688b;">NSAlign</span>)<span style="color: #2e8b57;">align</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
-- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">leftTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
-- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">rightTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
-- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">bottomTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
-- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">topTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
-</pre>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> 手动布局的缺陷</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-相对于iOS自带的Constraints，手动布局有明显的缺陷。以上的手动布局都是主动式布局，而非声明式。主动式布局的前提条件是两个view的 frame 的 size 是处于稳定的状态，然后某个 view 作为参考对象，改变另一个 view 的 frame 属性。当然我们不排除某个 view 的 frame 改变了，这个时候就需要再次进行主动的进行手动布局。而iOS自带的 Constraints 就明显是声明式布局，它认为我只要声明了多个 view 之间的关系，那么牵一发而动全身，其他的 view 为了满足Constraints，它的 frame 属性会作相应的变化。<br  />
+正文预览如果5行显示得下，那么就显示全部，如果5行显示不下，就只显示两行，并且带有向右箭头，提示用户点击进入详情页面。在这里，交互设计师不知道产品经理的设计中点击消息体后，可能跳到一个活动页面，而这个活动页面的本质其实就是一条URL；从而遗漏了当5行显示得下时，并且带有跳转URL，那么此时需要显示向右箭头。<br  />
 </p>
 
 <p>
-由于iOS的布局大多数人喜欢使用StoryBoard，所以可以在使用鼠标手动点击配置 view 之间的Constraints，对 StoryBoard 的布局流派来说真的方便之及。不过对代码布局流派来说，Constraints的 API 真的是不忍直视。<br  />
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> 自动布局</h2>
-<div class="outline-text-2" id="text-4">
-<p>
-从 iOS 7.0 开始，苹果就加入了 AutoLayout 的自动布局方式。自动布局声明了 view 之间的位置约束 (constraints) 关系，对 frame 的各种属性动态计算，减少了手动 update 的繁琐性，当 view 之间的属性关系确定后，不再需要手动 update frame。<br  />
-</p>
-</div>
-
-<div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 可声明的属性</h3>
-<div class="outline-text-3" id="text-4-1">
-<p>
-借用下 <a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/AnatomyofaConstraint.html">Develper</a> 网站上的图，我们来讲一下 AutoLayout 的属性，自动布局的可约束关系所对应的 <a href="https://developer.apple.com/reference/uikit/nslayoutattribute">属性</a> 常用的有以下几种:<br  />
+消息列表的排序方式是发布时间倒序。如果列表为空，需要显示暂无消息；列表到底没有更多消息时，显示"无更多消息"。<br  />
+三类消息列表的显示逻辑都是一样的，如下图所示:<br  />
 </p>
 
 
 <div class="figure">
-<p><img src="images/autolayout-attributes.png" alt="autolayout-attributes.png" /><br  />
+<p><img src="images/my-message.png" alt="my-message.png" width="400px" /><br  />
 </p>
-<p><span class="figure-number">Figure 1:</span> AutoLayout Attributes</p>
+<p><span class="figure-number">Figure 6:</span> 我的消息列表页</p>
 </div>
+
+
+<div class="figure">
+<p><img src="images/platform-notification.png" alt="platform-notification.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 7:</span> 平台公告列表页</p>
+</div>
+
+
+<div class="figure">
+<p><img src="images/activity-page.png" alt="activity-page.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 8:</span> 活动精选列表页</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> 应用内推送消息</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+当应用在前台并收到推送消息时，需要显示应用内消息。应用内消息如下图所示，包含标题、正文预览，可能包含缩略图。标题最多显示20个字，正文预览只显示一行。点击后进入消息详情页，返回行为是消息详页返回到首页。<br  />
+</p>
+
+<p>
+备注: 在这里，交互设计并没有考虑点击应用内消息时不同的当前页可能有不同的情况。比如，当前页面是手势锁屏页，当前页面是登录页面，当前页面是风险测评页面(这种业务进行的中间过程页面是否应当马上显示应用内推送?)。<br  />
+</p>
+
+<p>
+显示逻辑为，新消息出现时从App顶部自上而下出现，动画时间为0.5秒。如果用户并没有点击，在2秒后，应用内消息向上动画原路返回消失。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/push-in-app.png" alt="push-in-app.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 9:</span> 应用内推送消息</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> 系统推送消息</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+当App在后台时收到系统推送后，就会在系统消息中心显示一条系统推送。由于这是一条系统推送，所以显示样式比较固定，App icon, App name, Push time。交互设计师在文案是比较关心的是需要在消息内容的结尾加入"点我揭晓-&gt;"，"点击查看更多&gt;&gt;"，等字；当然消息体显示长度需要固定，过长的消息体隐藏在"&#x2026;"中，"点击查看更多"依然需要显示。<br  />
+</p>
+
+<p>
+备注: 以上的这个需求由于iOS系统的限制，并不能满足字体过长，而"点击查看更多"还能够显示，因为它也是消息体的一部分。<br  />
+</p>
+
+<p>
+点击后进入消息详情页；返回行为是返回到首页。如果收到的用户消息不是当前用户消息(可能是推送错误)，则跳转到消息中心。<br  />
+</p>
+
+<p>
+备注: 在之后的某次讨论中，交互设计师已经忘记了返回到首页这一条，而我们的开发过程中也并没有遵守这一条。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/iOS-system-notification.png" alt="iOS-system-notification.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 10:</span> 应用内推送消息</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 视觉评审总结</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> 消息向右箭头显示理解</h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> 开发人员的理解</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+有箭头的情况下，后台会配置一条HTML5的URL，点击跳转到URL链接页面中。跳不跳转和URL有关，和内容没有关系。我们认为无论内容是否显示完整，点击后都会跳到下一详情页，即使显示完全 了，说不定用户还能看到些额外的信息，而且点击后进入下一页面的可扩展性是非常强的，不仅仅是为了将消息内容看完整，还能做些其他操作，比如引导用户购买，做额外的活动，提示用户风险等等。<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> 交互设计师的理解</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+并不知道消息后台会配置URL链接，也不关心该页面是Native还是HTML5。他们的理解是如果内容超出5行，就显示箭头，如果用户看全内容了，那么就没有箭头，点击也不会跳转。认为如果内容已经显示完全，用户不需要点击并进入下一页面，并认为这是更优的用户体验。<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-1-3" class="outline-4">
+<h4 id="sec-2-1-3"><span class="section-number-4">2.1.3</span> 总结</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<ol class="org-ol">
+<li>讨论基本认知<br  />
+</li>
+</ol>
+<p>
+点击跳转某一页面可能是URL链接这件事情产品经理知道，开发知道，交互设计师不知道；三方需要达成基本认知。<br  />
+</p>
+
+<ol class="org-ol">
+<li>产品设计是否不需要关心页面是否是Native还是HTML5？<br  />
+</li>
+</ol>
+<p>
+如果详情页面是H5，就需要后台消息管理系统配置一条H5的url，或者管理系统提供富文本的编辑界面，生成相应的H5页面，这样的话就需要考虑到后台消息管理系统的功能设计。如果详情页面是native，后台消息系统就没有以上需求。<br  />
+产品设计不仅需要面向用户体验，同时需要工程化。由于互联网产品的迭代特性，产品设计需要满足类似Sprint的周期性。在Sprint的有限时间内做出符合Sprint开发上线时间的需求设计，就需要适当地关心产品实现具体方案所带来时间成本，人力成本之间的差异，以及其差异量，从而适当地将需求分摊到几个Sprint时间段中。<br  />
+</p>
+
+<ol class="org-ol">
+<li>产品设计对系统实现的影响<br  />
+</li>
+</ol>
+<p>
+为了实现某些功能，比如消息已读状态的同用户，多设备之间的同步，需要服务器支持实现；同步状态的逻辑影响到服务器实现的复杂程度和工作量；需求较小改动可能影响到工作量的较大变化(工作量较大地增加、工作量较大地减少)。<br  />
+</p>
+
+<ol class="org-ol">
+<li>一些不成熟的概念思考<br  />
+</li>
+<li>解决问题/体验优化<br  />
+跳出问题域，问题自动解除。<br  />
+</li>
+<li>常识与创新/惊喜与困扰<br  />
+打破常识造成用户惊喜，打破常识造成用户困扰。<br  />
+</li>
+<li>思维惯性缺陷/自我怀疑<br  />
+认为思维惯性是有缺陷的，怀疑我们认为正确的事<br  />
+怀疑我的代码，怀疑我的设计<br  />
+是否怀疑过我们自认为的优化和创新是否有必要。<br  />
+</li>
+<li>局部最优<br  />
+局部最优不一定是最好的，局部最优也不一定是最差的<br  />
+跳出局部最优较难；如何面对局部最优的设计场景<br  />
+局部最优的设计优化是否造成了用户困扰/用户惊喜<br  />
+</li>
+<li>基本假设<br  />
+基本假设相当于情形限定；产品设计时是否需要基本假设？<br  />
+没有基本假设相当于去除情景框定，对用户来说是自由了，还是迷茫了？<br  />
+</li>
+<li>爸爸式设计 vs. 妈妈式设计<br  />
+这就是好的用户体验，宝贝你需要它！<br  />
+你需要什么样的用户体验呢，我的小皇帝？<br  />
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 接口简单介绍</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+接口包括两个部分，用户设备注册和拉取消息。由于消息推送使用的是极光推送，App端首先需要集成极光的SDK，获取APNs的deviceToken后，注册到极光，并获取极光的registrationId；我们将拿着极光的registrationId进行账号绑定，这些绑定关系由服务器维护。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/iOS-msgbox-push-flow.png" alt="iOS-msgbox-push-flow.png" /><br  />
+</p>
+</div>
+
+<p>
+拉取消息的接口非常简单，传入三个参数，消息Id号、消息类型、拉取消息数。当消息Id号为空时，表示拉最新的消息，否则表示拉取消息Id号之后的历史消息。拉取的消息体数据结构为<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js">{
+    <span style="color: #8b7355;">"msgId"</span>: <span style="color: #8b7355;">"&#28040;&#24687;Id&#21495;"</span>,
+    <span style="color: #8b7355;">"type"</span>: <span style="color: #8b7355;">"&#28040;&#24687;&#31867;&#22411;"</span>,
+    <span style="color: #8b7355;">"title"</span>: <span style="color: #8b7355;">"&#28040;&#24687;&#26631;&#39064;"</span>,
+    <span style="color: #8b7355;">"content"</span>: <span style="color: #8b7355;">"&#28040;&#24687;&#20869;&#23481;"</span>,
+    <span style="color: #8b7355;">"url"</span>: <span style="color: #8b7355;">"&#28040;&#24687;&#28857;&#20987;&#36339;&#36716;url"</span>,
+    <span style="color: #8b7355;">"thumbnailUrl"</span>: <span style="color: #8b7355;">"&#28040;&#24687;&#39064;&#22270;"</span>,
+    <span style="color: #8b7355;">"timestamp"</span>: <span style="color: #8b7355;">"&#28040;&#24687;&#21457;&#36865;&#26102;&#38388;"</span>
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 消息缓存设计</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+我们使用缓存机制的想法是尽量地减小用户的流量使用，尽量用缓存数据库中加载历史消息。缓存数据库我们使用FMDB的sqlite开源库来实现，之所以不存储在文件或者UserDefaults中，考虑到历史消息会越积越多，一次性加载大文件到内存中会影响用户体验，所以考虑使用sqlite的方式替代文件读取，多次少量地读取历史消息。<br  />
+</p>
+
+<p>
+不同于微信订阅号，由于消息列表中我们有下拉刷新和加载更多两种机制，不同于加载更多，下拉刷新时会发生消息的断层。一开始是空列表消息，刷新后多了10条消息；1个星期后，服务器端多了100条消息，App第二次下拉刷新，由于数据设定为每次拉取10条，所以，消息就出现了断层，sqlite数据库中存了相隔1周的两批数据。这时用户加载更多时，从服务器获取了10条历史旧消息，我们需要将这10条消息与最新的10条消息合并，认为这时一批消息，同时，需要判断是否和第一次刷新的10条消息有交集，以此判断是否需要merge为一个大列表。<br  />
+</p>
+
+<p>
+而微信之所以不这么麻烦在于没有下拉刷新，每次打开微信的时候，会将最新的消息默默拉取，即使有100条新消息，也会全部拉取(这个需要确认一下)，这样就杜绝了消息断层的问题。<br  />
+</p>
+
+<p>
+我们简单地使用表格来描述一下缓存数据merge的问题。<br  />
+</p>
+</div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 下拉刷新缓存merge处理</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+showList表示当前显示的消息列表，fetchList表示从服务器拉取的最新消息列表，newList表示刷新后显示的消息列表。可以看出，当有交集时，newList是showList和fetchList的合并集。<br  />
+</p>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1838,55 +2075,30 @@ SET_LEFT(<span style="color: #1c86ee;">self</span>, left);
 <col  class="left" />
 
 <col  class="left" />
+
+<col  class="left" />
 </colgroup>
 <thead>
 <tr>
-<th scope="col" class="left">NSLayoutAttribute 属性</th>
-<th scope="col" class="left">意义</th>
-<th scope="col" class="left">UIView 属性</th>
+<th scope="col" class="left">新老数据关系</th>
+<th scope="col" class="left">老数据处理</th>
+<th scope="col" class="left">新数据处理</th>
+<th scope="col" class="left">数据结构</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="left">width</td>
-<td class="left">宽度</td>
-<td class="left">frame.size.width</td>
+<td class="left">有交集</td>
+<td class="left">老数据保留显示</td>
+<td class="left">新数据加入到老数据前</td>
+<td class="left">showList = [common, show]&lt;br/&gt;fetchList = [fetch, common]&lt;br/&gt;newList = [fetch, common, show]</td>
 </tr>
 
 <tr>
-<td class="left">height</td>
-<td class="left">高度</td>
-<td class="left">frame.size.height</td>
-</tr>
-
-<tr>
-<td class="left">centerY</td>
-<td class="left">中心点Y</td>
-<td class="left">center.y</td>
-</tr>
-
-<tr>
-<td class="left">centerX</td>
-<td class="left">中心点X</td>
-<td class="left">center.x</td>
-</tr>
-
-<tr>
-<td class="left">Baseline</td>
-<td class="left">基准线</td>
-<td class="left">/</td>
-</tr>
-
-<tr>
-<td class="left">top</td>
-<td class="left">顶部</td>
-<td class="left">frame.origin.y</td>
-</tr>
-
-<tr>
-<td class="left">bottom</td>
-<td class="left">底部</td>
-<td class="left">frame.origin.y + frame.size.height</td>
+<td class="left">无交集</td>
+<td class="left">老数据不显示</td>
+<td class="left">显示新数据</td>
+<td class="left">showList = [show]&lt;br/&gt;fetchList = [fetch]&lt;br/&gt;newList = [fetch]</td>
 </tr>
 </tbody>
 </table>
@@ -1894,53 +2106,518 @@ SET_LEFT(<span style="color: #1c86ee;">self</span>, left);
 </div>
 
 <div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Equation Constraints</h3>
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> 加载更多 - 缓存merge处理</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
-自动布局约束使用下图中的约束表达式。约束表达式是一种是简单的数学等式，可以理解为二元一次方程。二元变量就是两个 view 中呈现约束关系的变量，如下图中的 leading 和 trailing。<br  />
+hideList表示数据库中比showList更旧的分段消息。无论fetchList和hideList是否有交集，fetchList和showList是一定有交集的，因为这是历史消息，一定是连续的；是fetchList与hideList有交集时，这几个showList, fetchList, hideList连接在了一起。<br  />
 </p>
 
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
-<div class="figure">
-<p><img src="images/autolayout-equation-formula.png" alt="autolayout-equation-formula.png" /><br  />
-</p>
-<p><span class="figure-number">Figure 2:</span> Autolayout Equation</p>
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">新老数据关系</th>
+<th scope="col" class="left">老数据处理</th>
+<th scope="col" class="left">新数据处理</th>
+<th scope="col" class="left">数据结构</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">有交集</td>
+<td class="left">老数据保留显示</td>
+<td class="left">新数据加入到老数据后&lt;br/&gt;newList的old后最多count条</td>
+<td class="left">showList = [show]&lt;br/&gt;hideList = [common, hide]&lt;br/&gt; fetchList = [new, common]&lt;br/&gt;newList = [show, new, common, hide]</td>
+</tr>
+
+<tr>
+<td class="left">无交集</td>
+<td class="left">老数据保留显示</td>
+<td class="left">新数据加入到老数据后</td>
+<td class="left">showList = [show]&lt;br/&gt;hideList = [hide]&lt;br/&gt; fetchList = [new]&lt;br/&gt;newList = [show, new]</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> 缓存数据库设计</h3>
+<div class="outline-text-3" id="text-4-3">
+</div><div id="outline-container-sec-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> 使用FMDB(sqlite)进行消息存储</h4>
+<div class="outline-text-4" id="text-4-3-1">
 <p>
-我们利用手动布局来理解一下自动布局，上图中的约束关系可以使用 rightTo 的 API 来描述，我们可以演示一下 rightTo 的方法:<br  />
+由于我们的消息可能存在分段，所以我们需要在数据库表中加入borderType字段，以表示该条消息是否是边界。<br  />
+如果获取了[5,4,3,2,1,] 5条消息，那么5和1是边界，5是新边界，borderType为new，1是老边界，borderType为old；如果获取了[6,]1条消息，6既是new border又是old border，所以borderType为single。<br  />
+以下是数据库的表结构:<br  />
 </p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">列名</th>
+<th scope="col" class="left">含义</th>
+<th scope="col" class="left">类型</th>
+<th scope="col" class="left">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">pk</td>
+<td class="left">主键</td>
+<td class="left">/</td>
+<td class="left">primary key</td>
+</tr>
+
+<tr>
+<td class="left">msgId</td>
+<td class="left">消息id</td>
+<td class="left">string</td>
+<td class="left">unique</td>
+</tr>
+
+<tr>
+<td class="left">type</td>
+<td class="left">消息类型</td>
+<td class="left">string</td>
+<td class="left">user, platform, recommend</td>
+</tr>
+
+<tr>
+<td class="left">borderType</td>
+<td class="left">边界类型</td>
+<td class="left">string</td>
+<td class="left">new, old, single, NULL</td>
+</tr>
+
+<tr>
+<td class="left">account</td>
+<td class="left">所属账号</td>
+<td class="left">string</td>
+<td class="left">/</td>
+</tr>
+
+<tr>
+<td class="left">title</td>
+<td class="left">消息标题</td>
+<td class="left">string</td>
+<td class="left">/</td>
+</tr>
+
+<tr>
+<td class="left">content</td>
+<td class="left">消息内容</td>
+<td class="left">string</td>
+<td class="left">/</td>
+</tr>
+
+<tr>
+<td class="left">url</td>
+<td class="left">消息外链</td>
+<td class="left">string</td>
+<td class="left">/</td>
+</tr>
+
+<tr>
+<td class="left">thumbnailUrl</td>
+<td class="left">消息题图</td>
+<td class="left">string</td>
+<td class="left">/</td>
+</tr>
+
+<tr>
+<td class="left">timestamp</td>
+<td class="left">消息时间戳</td>
+<td class="left">string</td>
+<td class="left">1483032000, 1970年1月1日起的秒数</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3-2" class="outline-4">
+<h4 id="sec-4-3-2"><span class="section-number-4">4.3.2</span> 获取新数据缓存控制</h4>
+<div class="outline-text-4" id="text-4-3-2">
+<p>
+我们以表格的形式来模拟下拉刷新的缓存变化<br  />
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">SN</th>
+<th scope="col" class="left">fetchList</th>
+<th scope="col" class="left">filterList</th>
+<th scope="col" class="left">messageList</th>
+<th scope="col" class="left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">1</td>
+<td class="left">/</td>
+<td class="left">/</td>
+<td class="left">[ ]</td>
+<td class="left">初始状态</td>
+</tr>
+
+<tr>
+<td class="right">2</td>
+<td class="left">[2, 1]</td>
+<td class="left">[2, 1]</td>
+<td class="left">[[2,1],]</td>
+<td class="left">拉到2条消息</td>
+</tr>
+
+<tr>
+<td class="right">3</td>
+<td class="left">[3,]</td>
+<td class="left">[3,]</td>
+<td class="left">[[3,],[2,1],]</td>
+<td class="left">再拉到1条消息</td>
+</tr>
+
+<tr>
+<td class="right">5</td>
+<td class="left">[5, 4]</td>
+<td class="left">[5,4]</td>
+<td class="left">[[5,4,],[3,],[2,1],]</td>
+<td class="left">拉到2条消息</td>
+</tr>
+
+<tr>
+<td class="right">5</td>
+<td class="left">[5, 4]</td>
+<td class="left">[5,]</td>
+<td class="left">[[5,4,],[3,],[2,1],]</td>
+<td class="left">拉到旧消息，忽略</td>
+</tr>
+
+<tr>
+<td class="right">6</td>
+<td class="left">[6, 5, 4, 3]</td>
+<td class="left">[6,5]</td>
+<td class="left">[[6,5,4,],[3,],[2,1],]</td>
+<td class="left">拉到新消息，和旧消息有交集</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3-3" class="outline-4">
+<h4 id="sec-4-3-3"><span class="section-number-4">4.3.3</span> 获取旧消息数据缓存控制</h4>
+<div class="outline-text-4" id="text-4-3-3">
+<p>
+我们继续以表格的形式来模拟加载更多消息时的缓存变化<br  />
+初始数据库为 [[60,50,40,],[30,],[20,10],]，初始显示列表 [60,50,40,]<br  />
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">SN</th>
+<th scope="col" class="left">fetchList</th>
+<th scope="col" class="left">filterList</th>
+<th scope="col" class="left">new cache</th>
+<th scope="col" class="left">next border</th>
+<th scope="col" class="left">clear/update border</th>
+<th scope="col" class="left">new border</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">1</td>
+<td class="left">[39,38,]</td>
+<td class="left">[39,38,]</td>
+<td class="left">[[60,50,40,39,38],[30,],[20,10,],]</td>
+<td class="left">30(all)</td>
+<td class="left">clear 40</td>
+<td class="left">38(old)</td>
+</tr>
+
+<tr>
+<td class="right">2</td>
+<td class="left">[32,30,29,]</td>
+<td class="left">[32,30,29,]</td>
+<td class="left">[[60,50,40,39,38,32,30,29,],[20,10,],]</td>
+<td class="left">20(new)</td>
+<td class="left">clear 38</td>
+<td class="left">29(old)</td>
+</tr>
+
+<tr>
+<td class="right">3</td>
+<td class="left">[25,20,15,]</td>
+<td class="left">[25,20,15,]</td>
+<td class="left">[[60,50,40,39,38,32,30,29,25,20,15,10,],]</td>
+<td class="left">10(old)</td>
+<td class="left">clear 29,(29~15)的开区间</td>
+<td class="left">/</td>
+</tr>
+
+<tr>
+<td class="right">4</td>
+<td class="left">[20,15,]</td>
+<td class="left">[ ]</td>
+<td class="left">[[60,50,40,39,38,32,30,29,25,20,15,10,],]</td>
+<td class="left">/</td>
+<td class="left">/</td>
+<td class="left">/</td>
+</tr>
+
+<tr>
+<td class="right">5</td>
+<td class="left">[10,8,]</td>
+<td class="left">[8,]</td>
+<td class="left">[[60,50,40,39,38,32,30,29,25,20,15,10,8,],]</td>
+<td class="left">nil</td>
+<td class="left">clear 10</td>
+<td class="left">8(old)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> 消息推送</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+我们的服务器的消息推送集成了极光推送。可以参照[极光推送的RESTFUL API](<a href="http://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/">http://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/</a>)进行推送，其消息发送格式如下。其中Authorization是Header信息，格式为Basic，空格，再加上base64字符串，其生成算法为 Base64(JPUSH_APP_KEY + ":" + JPUSH_MASTER_SECRET)<br  />
+</p>
+
 <div class="org-src-container">
 
-<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">rightToSibling</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span> {
-    <span style="color: #00688b;">CGFloat</span> <span style="color: #2e8b57;">left</span> = R(view) + <span style="color: #cd9b1d;">margin</span>;
-    setL(<span style="color: #1c86ee;">self</span>, left);
+<pre class="src src-restclient"><span style="color: #1c86ee;">POST</span> <span style="color: #cd9b1d;">https://api.jpush.cn/v3/push</span>
+<span style="color: #2e8b57;">Content-Type</span>: <span style="color: #8b7355;">application/json</span>
+<span style="color: #2e8b57;">Authorization</span>: <span style="color: #8b7355;">Basic base64_auth_string</span>
+{
+    <span style="color: #8b7355;">"platform"</span>: <span style="color: #8b7355;">"ios"</span>,
+    <span style="color: #8b7355;">"audience"</span>: {
+        <span style="color: #8b7355;">"registration_id"</span>: [
+            <span style="color: #8b7355;">"121c83f76016c24bedd"</span>
+        ]
+    },
+    <span style="color: #8b7355;">"notification"</span>: {
+        <span style="color: #8b7355;">"android"</span>: {
+            <span style="color: #8b7355;">"alert"</span>: <span style="color: #8b7355;">"Hi, JPush!"</span>,
+            <span style="color: #8b7355;">"title"</span>: <span style="color: #8b7355;">"Send to Android"</span>,
+            <span style="color: #8b7355;">"builder_id"</span>: 1,
+            <span style="color: #8b7355;">"extras"</span>: {
+                <span style="color: #8b7355;">"msgId"</span>: 321,
+                <span style="color: #8b7355;">"url"</span>: <span style="color: #8b7355;">"http://www.baidu.com"</span>,
+                <span style="color: #8b7355;">"thumbnailUrl"</span>: <span style="color: #8b7355;">"https://www.baidu.com/favicon.ico"</span>
+            }
+        },
+        <span style="color: #8b7355;">"ios"</span>: {
+            <span style="color: #8b7355;">"alert"</span>: {<span style="color: #8b7355;">"title"</span>: <span style="color: #8b7355;">"Wanda Wealth Big Gift!"</span>, <span style="color: #8b7355;">"body"</span>: <span style="color: #8b7355;">"Wanda Wealth will give you 100,000 bonus if you participate our Moon Lover's Activity!"</span>},
+            <span style="color: #8b7355;">"sound"</span>: <span style="color: #8b7355;">"default"</span>,
+            <span style="color: #8b7355;">"badge"</span>: <span style="color: #8b7355;">"+1"</span>,
+            <span style="color: #8b7355;">"extras"</span>: {
+                <span style="color: #8b7355;">"msgId"</span>: 323,
+                <span style="color: #8b7355;">"type"</span>: <span style="color: #8b7355;">"announcement"</span>,
+                <span style="color: #8b7355;">"url"</span>: <span style="color: #8b7355;">"http://www.baidu.com"</span>,
+                <span style="color: #8b7355;">"thumbnailUrl"</span>: <span style="color: #8b7355;">"https://www.baidu.com/favicon.ico"</span>
+            }
+        }
+    },
+    <span style="color: #8b7355;">"message"</span>: {
+        <span style="color: #8b7355;">"msg_content"</span>: <span style="color: #8b7355;">"Hi,JPush"</span>,
+        <span style="color: #8b7355;">"content_type"</span>: <span style="color: #8b7355;">"text"</span>,
+        <span style="color: #8b7355;">"title"</span>: <span style="color: #8b7355;">"msg"</span>,
+        <span style="color: #8b7355;">"extras"</span>: {
+            <span style="color: #8b7355;">"msgId"</span>: 321,
+            <span style="color: #8b7355;">"url"</span>: <span style="color: #8b7355;">"http://www.baidu.com"</span>
+        }
+    },
+    <span style="color: #8b7355;">"options"</span>: {
+        <span style="color: #8b7355;">"time_to_live"</span>: 60,
+        <span style="color: #8b7355;">"apns_production"</span>: false
+    }
 }
 </pre>
 </div>
-
-<p>
-如果使用 AutoLayout 来实现，可以使用如下代码:<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">autoLeftTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span> {
-
-    <span style="color: #00688b;">NSLayoutConstraint</span> *<span style="color: #2e8b57;">constraint</span> =
-    [<span style="color: #00688b;">NSLayoutConstraint</span> constraintWithItem:<span style="color: #1c86ee;">self</span>
-                             attribute:NSLayoutAttributeRight
-                             relatedBy:NSLayoutRelationEqual
-                                toItem:view
-                             attribute:NSLayoutAttributeLeft
-                            multiplier:1.0f
-                              constant:margin];
-    [<span style="color: #1c86ee;">self</span> addConstraint:constraint];
-}
-</pre>
 </div>
 
+<div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> RESTFUL API 参数</h3>
+<div class="outline-text-3" id="text-5-1">
+</div><div id="outline-container-sec-5-1-1" class="outline-4">
+<h4 id="sec-5-1-1"><span class="section-number-4">5.1.1</span> 最外层字段</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Key</th>
+<th scope="col" class="left">Option</th>
+<th scope="col" class="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">platform</td>
+<td class="left">must</td>
+<td class="left">推送平台，"all", ["android", "ios"]</td>
+</tr>
+
+<tr>
+<td class="left">audience</td>
+<td class="left">must</td>
+<td class="left">推送设备指定</td>
+</tr>
+
+<tr>
+<td class="left">notification</td>
+<td class="left">optional</td>
+<td class="left">与message二选一</td>
+</tr>
+
+<tr>
+<td class="left">message</td>
+<td class="left">optional</td>
+<td class="left">与notification二选一</td>
+</tr>
+
+<tr>
+<td class="left">sms_message</td>
+<td class="left">optional</td>
+<td class="left">/</td>
+</tr>
+
+<tr>
+<td class="left">options</td>
+<td class="left">optional</td>
+<td class="left">推送参数，比较重要，注意，测试环境一定要设置apns_production为false</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-sec-5-1-2" class="outline-4">
+<h4 id="sec-5-1-2"><span class="section-number-4">5.1.2</span> audience结构体字段</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Key</th>
+<th scope="col" class="left">Type</th>
+<th scope="col" class="left">Meaning</th>
+<th scope="col" class="left">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">tag</td>
+<td class="left">Array</td>
+<td class="left">多个标签取并集</td>
+<td class="left">用标签来进行大规模的设备属性、用户属性分群&lt;br/&gt;一次推送最多 20 个&lt;br/&gt;支持的有效字符请参考上面的链接</td>
+</tr>
+
+<tr>
+<td class="left">tag_and</td>
+<td class="left">Array</td>
+<td class="left">多个标签取交集</td>
+<td class="left">同上</td>
+</tr>
+
+<tr>
+<td class="left">alias</td>
+<td class="left">Array</td>
+<td class="left">多个别名取并集</td>
+<td class="left">一个设备只能绑定一个别名，但多个设备可以绑定同一个别名&lt;br/&gt;一次推送最多 1000 个&lt;br/&gt;支持的有效字符请参考上面的链接</td>
+</tr>
+
+<tr>
+<td class="left">registration_id</td>
+<td class="left">Array</td>
+<td class="left">注册Id</td>
+<td class="left">设备标识。一次推送最多 1000 个。</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-sec-5-1-3" class="outline-4">
+<h4 id="sec-5-1-3"><span class="section-number-4">5.1.3</span> notification的alert字段</h4>
+<div class="outline-text-4" id="text-5-1-3">
 <p>
-下表说明了代码中每个属性的关系和意义:<br  />
+上面的文档中说了，iOS下alert可以是一个string，也可以是一个JSON结构体，如果为结构体，可以支持的key如下所示。<br  />
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1950,7 +2627,54 @@ SET_LEFT(<span style="color: #1c86ee;">self</span>, left);
 
 <col  class="left" />
 
-<col  class="right" />
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Key</th>
+<th scope="col" class="left">Type</th>
+<th scope="col" class="left">minimum SDK</th>
+<th scope="col" class="left">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">title</td>
+<td class="left">String</td>
+<td class="left">iOS 8.2</td>
+<td class="left">A short string describing the purpose of the notification.</td>
+</tr>
+
+<tr>
+<td class="left">body</td>
+<td class="left">String</td>
+<td class="left">/</td>
+<td class="left">The text of the alert message.</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+注: title 在iOS8.2后才支持，8.2之前的手机可能不支持两行<br  />
+其他字段请查阅[<a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/PayloadKeyReference.html">苹果文档</a><br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-5-1-4" class="outline-4">
+<h4 id="sec-5-1-4"><span class="section-number-4">5.1.4</span> android结构体</h4>
+<div class="outline-text-4" id="text-5-1-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
 
 <col  class="left" />
 
@@ -1958,58 +2682,875 @@ SET_LEFT(<span style="color: #1c86ee;">self</span>, left);
 </colgroup>
 <thead>
 <tr>
-<th scope="col" class="left">attr1</th>
-<th scope="col" class="left">relation</th>
-<th scope="col" class="right">multiplier</th>
-<th scope="col" class="left">attr2</th>
-<th scope="col" class="left">constant</th>
+<th scope="col" class="left">Key</th>
+<th scope="col" class="left">Type</th>
+<th scope="col" class="left">Option</th>
+<th scope="col" class="left">Meaning</th>
+<th scope="col" class="left">Comment</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="left">self.right</td>
-<td class="left">=</td>
-<td class="right">1x</td>
-<td class="left">view.left</td>
-<td class="left">+ marign</td>
+<td class="left">alert</td>
+<td class="left">String</td>
+<td class="left">must</td>
+<td class="left">/</td>
+<td class="left">会覆盖 notification下面的alert；空字符串表示不展示到通知栏</td>
 </tr>
 
 <tr>
-<td class="left">NSLayoutAttributeRight</td>
-<td class="left">NSLayoutRelationEqual</td>
-<td class="right">1x</td>
-<td class="left">NSLayoutAttributeLeft</td>
-<td class="left">+ margin</td>
+<td class="left">title</td>
+<td class="left">String</td>
+<td class="left">optional</td>
+<td class="left">/</td>
+<td class="left">通知里原来展示 App名称的地方，将展示成这个字段</td>
+</tr>
+
+<tr>
+<td class="left">builder_id</td>
+<td class="left">int</td>
+<td class="left">optional</td>
+<td class="left">通知栏样式ID</td>
+<td class="left">定制化需求可能用到，暂时不会用，了解更多请参考上面的文档链接</td>
+</tr>
+
+<tr>
+<td class="left">style</td>
+<td class="left">int</td>
+<td class="left">optional</td>
+<td class="left">通知栏样式</td>
+<td class="left">/</td>
+</tr>
+
+<tr>
+<td class="left">extras</td>
+<td class="left">JSON</td>
+<td class="left">optional</td>
+<td class="left">扩展字段</td>
+<td class="left">自定义 JSON 格式的 Key/Value 信息，以供业务使用</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
 
+<div id="outline-container-sec-5-1-5" class="outline-4">
+<h4 id="sec-5-1-5"><span class="section-number-4">5.1.5</span> iOS结构体</h4>
+<div class="outline-text-4" id="text-5-1-5">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Key</th>
+<th scope="col" class="left">Type</th>
+<th scope="col" class="left">Option</th>
+<th scope="col" class="left">Meaning</th>
+<th scope="col" class="left">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">alert</td>
+<td class="left">String/JSON</td>
+<td class="left">must</td>
+<td class="left">/</td>
+<td class="left">会覆盖 notification下面的alert；空字符串表示不展示到通知栏</td>
+</tr>
+
+<tr>
+<td class="left">sound</td>
+<td class="left">String</td>
+<td class="left">optional</td>
+<td class="left">通知栏声音</td>
+<td class="left">iOS7 空串表示默认声音；我们的App不支持iOS7&lt;br/&gt;iOS8 空串表示无声音&lt;br/&gt;如果为空串，JPush SDK会填充默认声音</td>
+</tr>
+
+<tr>
+<td class="left">badge</td>
+<td class="left">int</td>
+<td class="left">optional</td>
+<td class="left">应用脚标</td>
+<td class="left">不填，表示不改变角标数字&lt;br/&gt;填写数字，表示设置角标数字&lt;br/&gt;0表示清除脚标&lt;br/&gt;JPush SDK默认填充+1，表示角标+1</td>
+</tr>
+
+<tr>
+<td class="left">content-avaliable</td>
+<td class="left">boolean</td>
+<td class="left">option</td>
+<td class="left">推送唤醒</td>
+<td class="left">true: Background Remote Notification，false: 普通Remote Notification</td>
+</tr>
+
+<tr>
+<td class="left">mutable-content</td>
+<td class="left">boolean</td>
+<td class="left">option</td>
+<td class="left">通知扩展</td>
+<td class="left">true: 支持iOS10 UNNotificationServiceExtension</td>
+</tr>
+
+<tr>
+<td class="left">extras</td>
+<td class="left">JSON</td>
+<td class="left">optional</td>
+<td class="left">扩展字段</td>
+<td class="left">自定义 JSON 格式的 Key/Value 信息，以供业务使用</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> iOS推送配置项</h3>
+<div class="outline-text-3" id="text-5-2">
 <p>
-我们的 SDK 中不仅要有手动布局的 API，自动布局的 API 也必不可少，以下列出了与手动布局相对应的自动布局 API 声明:<br  />
+当App didFinishLaunchingWithOptions 启动后，我们需要为程序配置相关的推送回调配置<br  />
+</p>
+</div>
+<div id="outline-container-sec-5-2-1" class="outline-4">
+<h4 id="sec-5-2-1"><span class="section-number-4">5.2.1</span> iOS7以上配置</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<p>
+虽然我们已经不再支持iOS7了，以下是兼容代码<br  />
 </p>
 <div class="org-src-container">
 
-<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">autoAlignTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">type</span>:(<span style="color: #00688b;">NSAutoAlign</span>)<span style="color: #2e8b57;">align</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
-- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">autoLeftTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
-- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">autoRightTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
-- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">autoBottomTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
-- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">autoTopTo</span>:(<span style="color: #00688b;">UIView</span> *)<span style="color: #2e8b57;">view</span> <span style="color: #cd9b1d;">margin</span>:(<span style="color: #00688b;">CGFloat</span>)<span style="color: #2e8b57;">margin</span>;
+<pre class="src src-objc"><span style="color: #00688b;">UIRemoteNotificationType</span> <span style="color: #2e8b57;">type</span> = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound;
+[application registerForRemoteNotificationTypes:type];
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-sec-4-3" class="outline-3">
-<h3 id="sec-4-3"><span class="section-number-3">4.3</span> UnEquation Constaints</h3>
-<div class="outline-text-3" id="text-4-3">
+<div id="outline-container-sec-5-2-2" class="outline-4">
+<h4 id="sec-5-2-2"><span class="section-number-4">5.2.2</span> iOS8以上配置</h4>
+<div class="outline-text-4" id="text-5-2-2">
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">UIUserNotificationType</span> <span style="color: #2e8b57;">type</span> = UIUserNotificationTypeBadge | UIUserNotificationTypeAlert | UIUserNotificationTypeSound;
+<span style="color: #00688b;">UIUserNotificationSettings</span> *<span style="color: #2e8b57;">settings</span> = [<span style="color: #00688b;">UIUserNotificationSettings</span> settingsForTypes:type categories:<span style="color: #6e8b3d;">nil</span>];
+[application registerUserNotificationSettings:settings];
+[application registerForRemoteNotifications];
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-2-3" class="outline-4">
+<h4 id="sec-5-2-3"><span class="section-number-4">5.2.3</span> iOS10以上推送配置</h4>
+<div class="outline-text-4" id="text-5-2-3">
 <p>
-2B-CONT&#x2026;<br  />
+iOS10使用了UserNotifications的新framework，配置代码发生相应的变化<br  />
 </p>
+<div class="org-src-container">
+
+<pre class="src src-objc">[<span style="color: #00688b;">UNUserNotificationCenter</span> currentNotificationCenter].delegate = <span style="color: #1c86ee;">self</span>;
+<span style="color: #00688b;">UNAuthorizationOptions</span> <span style="color: #2e8b57;">options</span> = UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert;
+[center requestAuthorizationWithOptions:options completionHandler:^(<span style="color: #00688b;">BOOL</span> <span style="color: #2e8b57;">granted</span>, <span style="color: #00688b;">NSError</span> * <span style="color: #2e8b57;">_Nullable</span> error) {
+    <span style="color: #1c86ee;">if</span> (!error) {
+        NSLog(<span style="color: #2e8b57;">@</span><span style="color: #8b7355;">"succeeded!"</span>);
+    }
+}];
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3"><span class="section-number-3">5.3</span> iOS回调函数</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+和iOS推送配置项一样，不同的iOS系统之间的回调函数也发生了相关变化，下表列出了所有系统的回调情况<br  />
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">App status</th>
+<th scope="col" class="left">iOS7</th>
+<th scope="col" class="left">&gt;= iOS7 (iOS10未实现UserNotification)</th>
+<th scope="col" class="left">&gt;= iOS10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">前台</td>
+<td class="left">didReceiveRemoteNotification:</td>
+<td class="left">didReceiveRemoteNotification:&lt;br/&gt;fetchCompletionHandler:</td>
+<td class="left">willPresentNotification:&lt;br/&gt;withCompletionHandler:</td>
+</tr>
+
+<tr>
+<td class="left">前台点击通知</td>
+<td class="left">请自定义localNotification</td>
+<td class="left">请自定义localNotification</td>
+<td class="left">willPresentNotification:&lt;br&gt;withCompletionHandler:</td>
+</tr>
+
+<tr>
+<td class="left">后台点击通知</td>
+<td class="left">请自定义localNotification</td>
+<td class="left">请自定义localNotification</td>
+<td class="left">didReceiveNotificationResponse:&lt;br/&gt;withCompletionHandler:</td>
+</tr>
+
+<tr>
+<td class="left">后台(无进程)点击图标</td>
+<td class="left">didFinishLaunchingWithOptions</td>
+<td class="left">didFinishLaunchingWithOptions</td>
+<td class="left">didFinishLaunchingWithOptions</td>
+</tr>
+
+<tr>
+<td class="left">后台(有进程)点击图标</td>
+<td class="left">applicationDidBecomeActive</td>
+<td class="left">applicationDidBecomeActive</td>
+<td class="left">applicationDidBecomeActive</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-sec-5-3-1" class="outline-4">
+<h4 id="sec-5-3-1"><span class="section-number-4">5.3.1</span> iOS7.0之前的处理，App在前台回调该函数</h4>
+<div class="outline-text-4" id="text-5-3-1">
+<p>
+App在后台时，点击通知栏通知并不会回调该方法，需要在didFinishLaunchingWithOptions处理通知<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">application</span>:(<span style="color: #00688b;">UIApplication</span> *)<span style="color: #2e8b57;">application</span> <span style="color: #cd9b1d;">didReceiveRemoteNotification</span>:(<span style="color: #00688b;">NSDictionary</span> *)<span style="color: #2e8b57;">userInfo</span>
+{
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">handle the notification</span>
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5-3-2" class="outline-4">
+<h4 id="sec-5-3-2"><span class="section-number-4">5.3.2</span> 后台点击通知栏中的notification</h4>
+<div class="outline-text-4" id="text-5-3-2">
+<p>
+iOS7.0以上，App在前台回调该函数，在后台点击通知栏中的notification跳到前台会回调该函数。如果在后台，需要实现completionHandler，才能在通知栏里显示通知<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">application</span>:(<span style="color: #00688b;">UIApplication</span> *)<span style="color: #2e8b57;">application</span> <span style="color: #cd9b1d;">didReceiveRemoteNotification</span>:(<span style="color: #00688b;">NSDictionary</span> *)<span style="color: #2e8b57;">userInfo</span>
+<span style="color: #cd9b1d;">fetchCompletionHandler</span>:(<span style="color: #00688b;">void</span> (^)(<span style="color: #00688b;">UIBackgroundFetchResult</span> <span style="color: #2e8b57;">result</span>))<span style="color: #2e8b57;">completionHandler</span>
+{
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">handle the notification</span>
+    <span style="color: #1c86ee;">if</span> (completionHandler) {
+        completionHandler(UIBackgroundFetchResultNewData);
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5-3-3" class="outline-4">
+<h4 id="sec-5-3-3"><span class="section-number-4">5.3.3</span> didFinishLaunchingWithOptions 处理通知</h4>
+<div class="outline-text-4" id="text-5-3-3">
+<p>
+如果程序已经被系统杀死，那么iOS7.0以上点击应用程序图标后 didFinishLaunchingWithOptions 处理通知<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">BOOL</span>)<span style="color: #cd9b1d;">application</span>:(<span style="color: #00688b;">UIApplication</span> *)<span style="color: #2e8b57;">application</span> <span style="color: #cd9b1d;">didFinishLaunchingWithOptions</span>(<span style="color: #00688b;">NSDictionary</span> *)launchOptions
+{
+    <span style="color: #00688b;">NSDictionary</span>* <span style="color: #2e8b57;">remoteNotification</span> = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">do other jobs</span>
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5-3-4" class="outline-4">
+<h4 id="sec-5-3-4"><span class="section-number-4">5.3.4</span> iOS10以上App前台接收消息回调</h4>
+<div class="outline-text-4" id="text-5-3-4">
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">userNotificationCenter</span>:(<span style="color: #00688b;">UNUserNotificationCenter</span> *)<span style="color: #2e8b57;">center</span>
+       <span style="color: #cd9b1d;">willPresentNotification</span>:(<span style="color: #00688b;">UNNotification</span> *)<span style="color: #2e8b57;">notification</span>
+         <span style="color: #cd9b1d;">withCompletionHandler</span>:(<span style="color: #00688b;">void</span> (^)(<span style="color: #00688b;">UNNotificationPresentationOptions</span> <span style="color: #2e8b57;">options</span>))<span style="color: #2e8b57;">completionHandler</span>
+{
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">handle the notification</span>
+}
+</pre>
+</div>
+
+<p>
+如果不实现上面的方法，那么系统不会自动弹出前台的通知框，并且会调用iOS7的application:didReceiveRemoteNotification:fetchCompletionHandler:<br  />
+实现该方法后，需要实现下面的代码，才能再次弹出前台的通知框。点击通通知框后，会调用iOS10的userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler<br  />
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #7f7f7f;">//</span><span style="color: #7f7f7f;">&#22914;&#26524;&#19981;&#35843;&#29992;&#19979;&#38754;&#30340;&#20989;&#25968;&#65292;&#21069;&#21488;&#23601;&#19981;&#20250;&#24377;&#26694;&#65292;&#25110;&#32773;&#19979;&#38754;&#30340;&#21442;&#25968;&#20256;&#20837;0</span>
+completionHandler(UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionSound|UNNotificationPresentationOptionAlert);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5-3-5" class="outline-4">
+<h4 id="sec-5-3-5"><span class="section-number-4">5.3.5</span> iOS10以上App在后台，点击消息中心消息后</h4>
+<div class="outline-text-4" id="text-5-3-5">
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">userNotificationCenter</span>:(<span style="color: #00688b;">UNUserNotificationCenter</span> *)<span style="color: #2e8b57;">center</span>
+<span style="color: #cd9b1d;">didReceiveNotificationResponse</span>:(<span style="color: #00688b;">UNNotificationResponse</span> *)<span style="color: #2e8b57;">response</span>
+         <span style="color: #cd9b1d;">withCompletionHandler</span>:(<span style="color: #00688b;">void</span> (^)())<span style="color: #2e8b57;">completionHandler</span>
+{
+    <span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">handle the notification</span>
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5-3-6" class="outline-4">
+<h4 id="sec-5-3-6"><span class="section-number-4">5.3.6</span> 取消通知</h4>
+<div class="outline-text-4" id="text-5-3-6">
+<p>
+以下代码可以清除通知，由于推送消息是由JPush实现，所以还需要调用JPush API清除服务器端的badge数。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">[[<span style="color: #00688b;">UIApplicationsharedApplication</span>] cancelAllLocalNotifications];
+[<span style="color: #00688b;">JPUSHService</span> setBadge:0];
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5-3-7" class="outline-4">
+<h4 id="sec-5-3-7"><span class="section-number-4">5.3.7</span> iOS应用内消息</h4>
+<div class="outline-text-4" id="text-5-3-7">
+<p>
+我们拦截系统的应用内消息后，弹出自定义的Local Notfication，以下为示例代码:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">fireLocalNotification</span>:(<span style="color: #00688b;">NSDictionary</span> *)<span style="color: #2e8b57;">userInfo</span> {
+
+     <span style="color: #00688b;">UILocalNotification</span> *<span style="color: #2e8b57;">noti</span> = [[<span style="color: #00688b;">UILocalNotification</span> alloc] init];
+     <span style="color: #1c86ee;">if</span> (noti == <span style="color: #6e8b3d;">nil</span>) <span style="color: #1c86ee;">return</span>;
+
+     noti.fireDate = [<span style="color: #00688b;">NSDate</span> date];
+     <span style="color: #7f7f7f;">//</span><span style="color: #7f7f7f;">noti.timeZone = [NSTimeZone defaultTimeZone];</span>
+     noti.userInfo = userInfo;
+
+     <span style="color: #7f7f7f;">//  </span><span style="color: #7f7f7f;">&#35774;&#32622;&#22909;&#26412;&#22320;&#25512;&#36865;&#21518;&#24517;&#39035;&#35843;&#29992;&#27492;&#26041;&#27861;&#21551;&#21160;&#27492;&#25512;&#36865;</span>
+     [[<span style="color: #00688b;">UIApplication</span> sharedApplication] scheduleLocalNotification:noti];
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-4" class="outline-3">
+<h3 id="sec-5-4"><span class="section-number-3">5.4</span> iOS应用内推送消息</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+下图是iOS10应用内推送消息的系统弹框:<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/iOS-system-remote-notification-inapp.png" alt="iOS-system-remote-notification-inapp.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 12:</span> 应用内系统推送消息</p>
+</div>
+
+<p>
+以上的应用内消息只有iOS10以上才有，iOS8如果想要以上效果，只能自己实现以上效果。<br  />
+</p>
+</div>
+<div id="outline-container-sec-5-4-1" class="outline-4">
+<h4 id="sec-5-4-1"><span class="section-number-4">5.4.1</span> 使用UIWindow来实现应用内推送消息</h4>
+<div class="outline-text-4" id="text-5-4-1">
+<p>
+以下代码中的NSLocalNotificationBanner是自己实现的基于UIWindow的应用推送显示。Banner需要定义为static对象，如果不被引用，显示后马上会被系统回收掉。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #1c86ee;">static</span> <span style="color: #00688b;">NSLocalNotificationBanner</span> *<span style="color: #2e8b57;">nsLocalNotificationBanner</span>;
+<span style="color: #1c86ee;">static</span> <span style="color: #00688b;">dispatch_once_t</span> <span style="color: #2e8b57;">onceToken</span>;
+dispatch_once(&amp;onceToken, ^{
+        nsLocalNotificationBanner = [[<span style="color: #00688b;">NSLocalNotificationBanner</span> alloc] initWithHeight:100.0f];
+    });
+
+<span style="color: #00688b;">NSLocalNotificationBanner</span> *<span style="color: #2e8b57;">banner</span> = nsLocalNotificationBanner;
+
+[banner makeKeyAndVisible];
+banner.userInfo = userInfo;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5-4-2" class="outline-4">
+<h4 id="sec-5-4-2"><span class="section-number-4">5.4.2</span> 使用 UIVisualEffectView(iOS8) 实现磨砂效果</h4>
+<div class="outline-text-4" id="text-5-4-2">
+<p>
+以下的磨砂效果基本和系统应用内推送消息一致。<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/local-notification-effect.png" alt="local-notification-effect.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 13:</span> 自定义推送消息磨砂效果</p>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">UIBlurEffect</span> *<span style="color: #2e8b57;">effect</span> = [<span style="color: #00688b;">UIBlurEffect</span> effectWithStyle:UIBlurEffectStyleExtraLight];
+_effectView = [[<span style="color: #00688b;">UIVisualEffectView</span> alloc] initWithEffect:effect];
+_effectView.frame = <span style="color: #1c86ee;">self</span>.bounds;
+_effectView.layer.cornerRadius = 10.0f;
+_effectView.layer.masksToBounds = <span style="color: #6e8b3d;">YES</span>;
+[<span style="color: #1c86ee;">self</span> addSubview:_effectView];
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5-4-3" class="outline-4">
+<h4 id="sec-5-4-3"><span class="section-number-4">5.4.3</span> 为磨砂效果加上阴影</h4>
+<div class="outline-text-4" id="text-5-4-3">
+<p>
+阴影效果是 NSLocalNotificationBanner 的一个subview，实现方式为加一层带阴影的Layer<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/local-notification-effect+shadow.png" alt="local-notification-effect+shadow.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 14:</span> 自定义推送消息阴影</p>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">UIView</span> *<span style="color: #2e8b57;">shadowView</span> = [[<span style="color: #00688b;">UIView</span> alloc] initWithFrame:<span style="color: #1c86ee;">self</span>.bounds];
+<span style="color: #00688b;">CALayer</span> *<span style="color: #2e8b57;">layer</span> = shadowView.layer;
+<span style="color: #00688b;">UIBezierPath</span> *<span style="color: #2e8b57;">path</span> = [<span style="color: #00688b;">UIBezierPath</span> bezierPathWithRect:layer.bounds];
+layer.shadowPath = path.CGPath;
+layer.shadowColor = [<span style="color: #00688b;">UIColor</span> blackColor].CGColor;
+layer.shadowOffset = CGSizeZero;
+layer.shadowOpacity = 0.2f;
+layer.shadowRadius = 5.0f;
+[<span style="color: #1c86ee;">self</span> addSubview:shadowView];
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5-4-4" class="outline-4">
+<h4 id="sec-5-4-4"><span class="section-number-4">5.4.4</span> 为title加白色透明背景</h4>
+<div class="outline-text-4" id="text-5-4-4">
+<p>
+下图我们为自定义推送消息加上白色透背景，对title进行区分<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/local-notification-effect+shadow+title.png" alt="local-notification-effect+shadow+title.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 15:</span> 自定义推送消息标题区分</p>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #00688b;">CGFloat</span> <span style="color: #2e8b57;">height</span> = V_MARGIN + ICON_SIZE + V_MARGIN / 2;
+<span style="color: #00688b;">UIView</span> *<span style="color: #2e8b57;">titleShadow</span> = [[<span style="color: #00688b;">UIView</span> alloc] initWithFrame:CGRectMake(0, 0, VW(<span style="color: #1c86ee;">self</span>), height)];
+titleShadow.backgroundColor = [<span style="color: #00688b;">UIColor</span> whiteColor];
+titleShadow.alpha = 0.2;
+[_effectView.contentView addSubview:titleShadow];
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5-4-5" class="outline-4">
+<h4 id="sec-5-4-5"><span class="section-number-4">5.4.5</span> 最后显示效果</h4>
+<div class="outline-text-4" id="text-5-4-5">
+
+<div class="figure">
+<p><img src="images/local-notification-full.png" alt="local-notification-full.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 16:</span> 自定义推送消息最终效果</p>
+</div>
+
+<p>
+虽然下图的最后显示效果非常好，但是，这却不是视UI视觉师想要达到的效果，所以最后做成了下面的鬼样子。理由是上图的样式始终会联想到应用外消息，而下图会被认为是应用内消息（下图其实是抄阿里某App的样式）。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/local-notification-last-effect.png" alt="local-notification-last-effect.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 17:</span> 最终的鬼样1</p>
+</div>
+
+
+<div class="figure">
+<p><img src="images/local-notification-last-effect-test.png" alt="local-notification-last-effect-test.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 18:</span> 最终的鬼样2</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> 消息处理流程</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+这里所讲的消息盒子处理流程其实是开发过程中真实的处理流程，比产品经理和交互设计一开始定义的流程多出很多细节。<br  />
+</p>
+</div>
+
+<div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1"><span class="section-number-3">6.1</span> 前台推送消息处理流程</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+当App在前台收到消息时，主要有以下几条注意点:<br  />
+</p>
+
+<ol class="org-ol">
+<li>显示应用内消息，最多显示两秒<br  />
+</li>
+<li>拉取每类消息的最新10条消息，保存到数据库中，与数据库缓存对比，显示每类消息是否有新消息<br  />
+</li>
+<li>如果有新消息，通过相关页面需要更新小红点和页面显示<br  />
+</li>
+<li>点击应用内消息后，跳转到消息详情页，并更新所有小红点的UI显示<br  />
+</li>
+<li>跳转消息详情页前，需要等待手势解锁<br  />
+</li>
+</ol>
+
+
+<div class="figure">
+<p><img src="images/msgbox-receive-message-flow.png" alt="msgbox-receive-message-flow.png" width="700px" /><br  />
+</p>
+<p><span class="figure-number">Figure 19:</span> 消息盒子消息处理流程</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> 后台启动应用消息处理流程</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+当App在后台时，主要有以下注意点:<br  />
+</p>
+
+<ol class="org-ol">
+<li>点击App图标进入前台，延时两秒向服务器获取消息任务A，每类消息获取1条<br  />
+</li>
+<li>点击消息中心推送进入前台，取消任务A，发起向服务器获取消息任务B，每类消息获取10条<br  />
+</li>
+<li>任务A成功后，不存入数据库，对比有新消息后，更新首页消息盒子入口小红点<br  />
+</li>
+<li>任务B成功后，存入数据库，对比有新消息后，处理逻辑如上一节中的"前台推送消息处理流程"<br  />
+</li>
+<li>点击App图标进入前台马上进入后台，需要取消发起的2秒延时任务A<br  />
+</li>
+<li>由于App进入到前台并不能确定判断是点击App图标进来还是点击推送消息进入，所以任务A为延时任务<br  />
+</li>
+<li>任务A的作用是即使没有推送消息，也需要检查服务器是否有新消息；其获取的数据量为每类1条，节省流量<br  />
+</li>
+<li>任务B为确认有消息从服务器推送过来，所以获取的每类消息为10条，并会存入数据库。<br  />
+</li>
+</ol>
+
+
+<div class="figure">
+<p><img src="images/msgbox-from-background-flow.png" alt="msgbox-from-background-flow.png" width="520px" /><br  />
+</p>
+<p><span class="figure-number">Figure 20:</span> 后台启动应用消息处理流程</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> UI细节实现</h2>
+<div class="outline-text-2" id="text-7">
+</div><div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> 定宽下消息内容超出固定行数判断</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+交互设计图中显示的消息超出逻辑是，如果定宽下消息内容在5行内容显示得下，就显示5行内，如果超5行，就显示2行，并提示查看更多。实现细节如下:<br  />
+</p>
+
+<ol class="org-ol">
+<li>获取定宽5行时的高度<br  />
+</li>
+</ol>
+<p>
+将行数设置为5行，并设置好宽度，并sizeToFit，这样就能获取5行时的高度<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">_contentLabel.numberOfLines = 5;
+_contentLabel.frame = CGRectMake(?, ?, FIXED_MAX_WIDTH, ?);
+[_contentLabel sizeToFit];
+<span style="color: #00688b;">CGFloat</span> <span style="color: #2e8b57;">height</span> = _contentLabel.frame.size.height;
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>取字符串在定宽范围内实际显示高度<br  />
+</li>
+</ol>
+<p>
+固定宽度，高度无限，设定字体和内容，可以使用boundingRectWithSize函数设算出NSString的显示的真正size。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">- (<span style="color: #00688b;">CGFloat</span>)<span style="color: #cd9b1d;">freeTextHeight</span>:(<span style="color: #00688b;">UILabel</span> *)<span style="color: #2e8b57;">label</span> {
+    <span style="color: #00688b;">UIFont</span> *<span style="color: #2e8b57;">font</span> = label.font;
+    <span style="color: #00688b;">CGRect</span> <span style="color: #2e8b57;">rect</span> = [label.text boundingRectWithSize:CGSizeMake(FIXED_MAX_WIDTH, MAXFLOAT)
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                        attributes:@{NSFontAttributeName:font}
+    context:<span style="color: #6e8b3d;">nil</span>];
+    <span style="color: #1c86ee;">return</span> rect.size.height;
+}
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>比较相同字符串在5行下显示的高度和定宽下实际显示高度<br  />
+</li>
+</ol>
+<p>
+如果实际显示高度要比5行下显示高度大，那么就是超出5行了<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2"><span class="section-number-3">7.2</span> 变高UITableViewCell实现</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+由于UITableView的显示需要预先估算出整个view的大致高度，再生成cell并显示。对于实现者来说正好是个矛盾，只有当cell生成后，才知道cell的高度；而系统要求我们在生成cell前就要知道它的高度。<br  />
+所以有两种实现方式，定义一个类方法，根据显示数据先计算出Cell的高度，先喂饱 heightForRowAtIndexPath 回调，这样每个Cell的高度才能正确显示。而苹果这种反人类的实现方式对开发者是很不友好的。<br  />
+好在iOS8后，苹果改进了实现方式，使得变高Cell实现更容易了。主要做法有两步<br  />
+</p>
+
+<p>
+UITableView设置预估高度，将UITableView的rowHeight设定为UITableViewAutomaticDimension，并设置estimatedRowHeight每行的预估值。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-objc">tableView.rowHeight = UITableViewAutomaticDimension;
+tableView.estimatedRowHeight = 100;
+</pre>
+</div>
+
+<p>
+设置Autolayout Constraint实现Cell的变高约束<br  />
+我们可以自定义一个Cell，MessageCell，MessageView是推送消息展示类。我们实例化MessageView后，将其加入到Cell的contentView中。由于MessageView高度是变化的，Cell的高度是随着MessageView变化而变化，所以需要设定Cell的contentView和MessageView之间的约束关系。<br  />
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-objc"><span style="color: #7f7f7f;">// </span><span style="color: #7f7f7f;">Attr&#20026;NSLayoutAttributeWidth&#21644;NSLayoutAttributeHeight&#65292;&#38656;&#35201;&#20570;&#20004;&#27425;&#32422;&#26463;</span>
+<span style="color: #00688b;">NSLayoutAttribute</span> <span style="color: #2e8b57;">attr</span> = (NSLayoutAttribute) [attrWrapper integerValue];
+<span style="color: #00688b;">NSLayoutConstraint</span> *<span style="color: #2e8b57;">constraint</span> =
+    [<span style="color: #00688b;">NSLayoutConstraint</span> constraintWithItem:<span style="color: #1c86ee;">self</span>.contentView
+                                 attribute:attr
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:messageView
+                                 attribute:attr
+                                multiplier:1.0f
+                                  constant:WDCFMessageCellMargin];
+[<span style="color: #1c86ee;">self</span>.contentView addConstraint:constraint];
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> 缓存数据库升级</h2>
+<div class="outline-text-2" id="text-8">
+</div><div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1"><span class="section-number-3">8.1</span> 缓存数据库的问题</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+消息盒子上线后，我们发现了当服务器端最新的消息有多条相同时间、不同Id的消息时，数据库缓存存入了重复的消息。这个问题应当是比较严重的，所以我们必须升级数据库，去除重复数据，修复存储bug。<br  />
+</p>
+</div>
+<div id="outline-container-sec-8-1-1" class="outline-4">
+<h4 id="sec-8-1-1"><span class="section-number-4">8.1.1</span> 缓存数据库存储策略</h4>
+<div class="outline-text-4" id="text-8-1-1">
+<p>
+数据库缓存策略可以回顾一下前几篇文章中的讨论内容，其大致流程如下图所示。主要算法是，找到缓存中的最新的类型为single或new的边界B，以此为基准，将获取的消息列表M1中比B老的数据给过滤掉，得到比B新或者和B一样新的消息列表M2。<br  />
+然后我们需要更新边界，主要操作是在新数据中添加新边界，并更新缓存中的老边界。<br  />
+如果M2包含B，说明新数据列表和缓存是连起来的，B的类型就更新为new-&gt;nil，single-&gt;old；并将M2中的最新一条数据T更新为new。<br  />
+如果M2不包括B，说明新数据和缓存数据没有连接在一起，是分段的(这个很好理解，比如今天拉取了最新的10条消息，过了1个月后，再次拉取最新10条消息，那么很大概率新数据和老数据是连不起来的)，所以M2本身是一个完整的数据段，有自己的边界。当M2数量为1时，标记仅有的一条消息为single，当M2的数量大于1时，标记M2最新的消息为new，M2最老的消息为old。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/msgbox-cache-strategy.png" alt="msgbox-cache-strategy.png" width="700px" /><br  />
+</p>
+<p><span class="figure-number">Figure 21:</span> 消息缓存处理流程</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-8-1-2" class="outline-4">
+<h4 id="sec-8-1-2"><span class="section-number-4">8.1.2</span> 缓存数据库消息问题</h4>
+<div class="outline-text-4" id="text-8-1-2">
+<p>
+上图中的蓝色方块将新消息M1过滤成M2，并在橙色方块中将B去除。在测试的过程中，我们并没有针对多条消息同时发送的情况进行测试，导致的问题是当新消息全部是一个时间的时候，第一次拉取，全部正常缓存，然后第二次拉取的时候，边界B和 M2的时间都是一样的，出问题的橙色方块只能去掉其中一条重复消息，所以就会有重复的消息存入DB。<br  />
+之所以会出现这样的问题，主要原因是当初快到交付的时候，考虑到之后能够分组发送消息的向前兼容性，所以去除了sqlite中msgId column的unique属性。原先的表设计中的主键是自定义的pk列，msgId为unique属性，作用就是即使是重复的数据插入，也不会生效。表中还有一列是account，存储消息所属用户。所以某条msgId的消息只能属于某一个account。<br  />
+msgId和account一对一的设计就会存在一个问题，服务器端的群组消息就无法支持。因为拉取消息后，将消息以当前用户存入sqlite中后，再查询当前用户的消息，如果某条消息是群组消息，用户A和B都能接收到，当A登录拉取过消息后展示后，登出让B用户登录，那么服务器拉取到同样的消息后，由于msgId是unique的，所以无法再存入sqlite，那么该消息就无法被B看见。<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-8-1-3" class="outline-4">
+<h4 id="sec-8-1-3"><span class="section-number-4">8.1.3</span> 支持群组消息的数据库修改</h4>
+<div class="outline-text-4" id="text-8-1-3">
+<p>
+遇到这个问题后，我将msgId的unique定义给去除了，的确支持了群组消息，不同的account下，可以存入相同的msgId的消息。我简单地认为M1过滤B后，再将B去除后，就能把重复的消息给去除掉。但是并没有考虑到几条消息的timestamp是相同的这件事情。上图橙色框中有一个问题，就是只删除了一条B，应当删除所有和B的msgId相同的新消息。<br  />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-8-2" class="outline-3">
+<h3 id="sec-8-2"><span class="section-number-3">8.2</span> FMDB(sqlite)升级</h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+遇到这个问题后，我们只能升级sqlite数据库。最常见的做法是将msgId的column声明为unqiue。<br  />
+</p>
+<pre class="example">
+alter table MessageBoxClass change msgId msgId TEXT unique;
+</pre>
+
+<p>
+我们先查询出msgId, account分组下的最小主键集合，这些主键对应的消息应当保留，其他的重复数据应当删除。<br  />
+</p>
+</div>
+
+<div id="outline-container-sec-8-2-1" class="outline-4">
+<h4 id="sec-8-2-1"><span class="section-number-4">8.2.1</span> 实现有限的sqlite</h4>
+<div class="outline-text-4" id="text-8-2-1">
+<p>
+删除重复数据后，就可以执行修改msgId列为unique了。但是sqlite并不支持修改列，sqlite的功能只实现了SQL的一个子集。<br  />
+<a href="http://www.sqlite.org/omitted.html">sqlite未实现部分</a> 列出了sqlite未实现的功能，其中ALTER只支持修改表名，和增加列；所以修改列其实是不支持的。<br  />
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">feature</th>
+<th scope="col" class="left">comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">RIGHT and FULL OUTER JOIN</td>
+<td class="left">LEFT OUTER JOIN is implemented, but not RIGHT OUTER JOIN or FULL OUTER JOIN.</td>
+</tr>
+
+<tr>
+<td class="left">Complete ALTER TABLE support</td>
+<td class="left">&lt;span style="color:red"&gt;Only the RENAME TABLE and ADD COLUMN variants of the ALTER TABLE command are supported.&lt;/span&gt; &lt;br/&gt;Other kinds of ALTER TABLE operations such as DROP COLUMN, ALTER COLUMN, ADD CONSTRAINT, and so forth are omitted.</td>
+</tr>
+
+<tr>
+<td class="left">Complete trigger support</td>
+<td class="left">FOR EACH ROW triggers are supported but not FOR EACH STATEMENT triggers.</td>
+</tr>
+
+<tr>
+<td class="left">Writing to VIEWs</td>
+<td class="left">VIEWs in SQLite are read-only. You may not execute a DELETE, INSERT, or UPDATE&lt;br/&gt;statement on a view. But you can create a trigger that fires on an attempt to DELETE, INSERT, or UPDATE a view and do what you need in the body of the trigger.</td>
+</tr>
+
+<tr>
+<td class="left">GRANT and REVOKE</td>
+<td class="left">Since SQLite reads and writes an ordinary disk file, the only access permissions&lt;br/&gt;that can be applied are the normal file access permissions of the underlying operating system.&lt;br/&gt;The GRANT and REVOKE commands commonly found on client/server RDBMSes are not implemented&lt;br/&gt;because they would be meaningless for an embedded database engine.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-sec-8-2-2" class="outline-4">
+<h4 id="sec-8-2-2"><span class="section-number-4">8.2.2</span> 增加unique index</h4>
+<div class="outline-text-4" id="text-8-2-2">
+<p>
+既然上述方案无法实现，那么只能换一种思路来实现。我们实现msgId和account的联合索引来实现消息的唯一性，基本的sql操作语句如下:<br  />
+</p>
+<pre class="example">
+create UNIQUE INDEX IF NOT EXISTS unique_msgId on MessageBoxClass (msgId, account);
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-8-2-3" class="outline-4">
+<h4 id="sec-8-2-3"><span class="section-number-4">8.2.3</span> 升级步骤优化</h4>
+<div class="outline-text-4" id="text-8-2-3">
+<p>
+讨论到这里，数据库的升级步骤为:<br  />
+</p>
+<ol class="org-ol">
+<li>去除重复数据<br  />
+</li>
+<li>加入unque index<br  />
+</li>
+</ol>
+
+<p>
+当数据库升级成功之后，每次数据库打开时都要重复以上步骤。合理的做法是我们先判断unique index是否已经存在，如果不存在表示数据库并没有升级，就可以执行以上步骤；如果已经存在，说明已经升级成功，不需要再执行升级步骤。<br  />
+我们可以使用PRAGMA来判断index是否存在，而PRAGMA去是SQLITE的特有特性:<br  />
+</p>
+<pre class="example">
+pragma index_info('unque_index');
+</pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-13 Tue 16:10&gt;</span></span></p>
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-03-31 11:58&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
 <p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
 <p class="date">Created: 2017-08-20 Sun 18:55</p>

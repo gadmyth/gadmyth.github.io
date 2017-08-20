@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>使用Emacs Org-Mode写Hexo博客</title>
-<!-- 2017-08-04 Fri 23:33 -->
+<!-- 2017-08-20 Sun 18:55 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -243,7 +243,6 @@
 h1,h2,h3,h4,h5,h6,legend{
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight:700;
-    margin-top:0;
 }
 
 h1{
@@ -993,6 +992,7 @@ hr{
     display:block;
     color:#fcfcfc;
     font-size: 100%;
+    margin-top:0;
     margin-bottom:0.809em}
 
 table {
@@ -1290,6 +1290,10 @@ h2.footnotes{
 .timestamp {
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 90%;
+    color: navy;
+}
+
+#postamble .timestamp {
     color: #fff;
 }
 
@@ -1644,38 +1648,38 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">安装hexo-renderer-org</a>
+<li><a href="#sec-1">1. 安装hexo-renderer-org</a>
 <ul>
-<li><a href="#sec-1-1">npm根据github源安装</a></li>
-<li><a href="#sec-1-2">npm根据package名安装</a></li>
-<li><a href="#sec-1-3">扩展功能版本安装</a></li>
+<li><a href="#sec-1-1">1.1. npm根据github源安装</a></li>
+<li><a href="#sec-1-2">1.2. npm根据package名安装</a></li>
+<li><a href="#sec-1-3">1.3. 扩展功能版本安装</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">config.xml文件配置</a>
+<li><a href="#sec-2">2. config.xml文件配置</a>
 <ul>
-<li><a href="#sec-2-1">emacs命令行位置</a></li>
-<li><a href="#sec-2-2">缓存配置</a></li>
-<li><a href="#sec-2-3">大纲隐藏</a></li>
-<li><a href="#sec-2-4">显示行数</a></li>
-<li><a href="#sec-2-5">代码块的渲染主题</a></li>
-<li><a href="#sec-2-6">禁止使用emacs daemon</a></li>
+<li><a href="#sec-2-1">2.1. emacs命令行位置</a></li>
+<li><a href="#sec-2-2">2.2. 缓存配置</a></li>
+<li><a href="#sec-2-3">2.3. 大纲隐藏</a></li>
+<li><a href="#sec-2-4">2.4. 显示行数</a></li>
+<li><a href="#sec-2-5">2.5. 代码块的渲染主题</a></li>
+<li><a href="#sec-2-6">2.6. 禁止使用emacs daemon</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">org-mode文件语法</a>
+<li><a href="#sec-3">3. org-mode文件语法</a>
 <ul>
-<li><a href="#sec-3-1">org-mode的hexo文件模板</a></li>
-<li><a href="#sec-3-2">如何插入图片</a>
+<li><a href="#sec-3-1">3.1. org-mode的hexo文件模板</a></li>
+<li><a href="#sec-3-2">3.2. 如何插入图片</a>
 <ul>
-<li><a href="#sec-3-2-1">HTML block引用图片</a></li>
-<li><a href="#sec-3-2-2">插入图片link</a></li>
-<li><a href="#sec-3-2-3">图片引用缺陷</a></li>
-<li><a href="#sec-3-2-4">使用相对路径图片资源</a></li>
+<li><a href="#sec-3-2-1">3.2.1. HTML block引用图片</a></li>
+<li><a href="#sec-3-2-2">3.2.2. 插入图片link</a></li>
+<li><a href="#sec-3-2-3">3.2.3. 图片引用缺陷</a></li>
+<li><a href="#sec-3-2-4">3.2.4. 使用相对路径图片资源</a></li>
 </ul>
 </li>
-<li><a href="#sec-3-3">如何区分摘要</a></li>
+<li><a href="#sec-3-3">3.3. 如何区分摘要</a></li>
 </ul>
 </li>
-<li><a href="#sec-4">参考资料</a></li>
+<li><a href="#sec-4">4. 参考资料</a></li>
 </ul>
 </div>
 </div>
@@ -1694,14 +1698,14 @@ for the JavaScript code in this tag.
 <!--more-->
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">安装<a href="https://github.com/CodeFalling/hexo-renderer-org">hexo-renderer-org</a></h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> 安装<a href="https://github.com/CodeFalling/hexo-renderer-org">hexo-renderer-org</a></h2>
 <div class="outline-text-2" id="text-1">
 <p>
 hexo-renderer-org有两个版本，一个是原始版本，另一个是加强版本。<br  />
 </p>
 </div>
 <div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1">npm根据github源安装</h3>
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> npm根据github源安装</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 原始版本由CodeFalling在github上维护，安装命令为:<br  />
@@ -1714,7 +1718,7 @@ hexo-renderer-org有两个版本，一个是原始版本，另一个是加强版
 </div>
 </div>
 <div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2">npm根据package名安装</h3>
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> npm根据package名安装</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 当然由于CodeFalling维护的原始版本已经加入到npm的<a href="https://www.npmjs.com/package/hexo-renderer-org">包管理中</a> ，所以我们可以直接安装而不需要指定包的源地址<br  />
@@ -1727,7 +1731,7 @@ hexo-renderer-org有两个版本，一个是原始版本，另一个是加强版
 </div>
 </div>
 <div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3">扩展功能版本安装</h3>
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 扩展功能版本安装</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 在这里其实我推荐使用另外一个扩展的hexo-renderer-org源，主要原因是它在三个方面进行了扩展:<br  />
@@ -1749,7 +1753,7 @@ hexo-renderer-org有两个版本，一个是原始版本，另一个是加强版
 </div>
 </div>
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">config.xml文件配置</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> config.xml文件配置</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 一个比较完整的org配置如下所示:<br  />
@@ -1771,7 +1775,7 @@ hexo-renderer-org有两个版本，一个是原始版本，另一个是加强版
 </div>
 </div>
 <div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1">emacs命令行位置</h3>
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> emacs命令行位置</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 由于org-mode文件解析渲染成html文件是由emacs来做的，所以需要在配置文件中配置相关的emacs命令，当然如果你的Shell环境下能够找得到emacs，那么就不需要配置emacs项。<br  />
@@ -1779,7 +1783,7 @@ hexo-renderer-org有两个版本，一个是原始版本，另一个是加强版
 </div>
 </div>
 <div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2">缓存配置</h3>
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> 缓存配置</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 cachedir表示org文件生成html的缓存目录；如果想要在执行hexo clean时清空缓存目录，需要配置clean cache项。<br  />
@@ -1787,7 +1791,7 @@ cachedir表示org文件生成html的缓存目录；如果想要在执行hexo cle
 </div>
 </div>
 <div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3">大纲隐藏</h3>
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> 大纲隐藏</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 一般来说，我们并不希望大纲视图出现在文章中，org-mode自身可以设置toc为nil，另一种方法是直接配置toc为false。大纲视图如下:<br  />
@@ -1797,7 +1801,7 @@ cachedir表示org文件生成html的缓存目录；如果想要在执行hexo cle
 </div>
 </div>
 <div id="outline-container-sec-2-4" class="outline-3">
-<h3 id="sec-2-4">显示行数</h3>
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> 显示行数</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 显示行数需要在org下配置line number，并且在org-mode的代码块上加入-n参数<br  />
@@ -1810,7 +1814,7 @@ cachedir表示org文件生成html的缓存目录；如果想要在执行hexo cle
 </div>
 </div>
 <div id="outline-container-sec-2-5" class="outline-3">
-<h3 id="sec-2-5">代码块的渲染主题</h3>
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> 代码块的渲染主题</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
 配置theme选项可以选择org-mode的src block以什么主题来渲染，因为我目前使用的hexo theme是landscape，所以导出的代码块是暗色的；所以org-mode的theme应当使用wombat, tango-dark等暗色主题来渲染代码。<br  />
@@ -1818,7 +1822,7 @@ cachedir表示org文件生成html的缓存目录；如果想要在执行hexo cle
 </div>
 </div>
 <div id="outline-container-sec-2-6" class="outline-3">
-<h3 id="sec-2-6">禁止使用emacs daemon</h3>
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> 禁止使用emacs daemon</h3>
 <div class="outline-text-3" id="text-2-6">
 <p>
 配置daemonize选项为false。当hexo sever启动后，hexo会使用emacs daemon来作为org文件到HTML文件的渲染，但是hexo server停止后，并不会将emacs daemon停止，所以再次启动hexo server的时候，就会启动失败，因为已经存在一个emacs daemon了。启动的emacs daemon如下:<br  />
@@ -1851,14 +1855,14 @@ cachedir表示org文件生成html的缓存目录；如果想要在执行hexo cle
 </div>
 </div>
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">org-mode文件语法</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> org-mode文件语法</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 org-mode文件需要按照一定的格式书写才能被hexo-renderer-org插件解析；该格式完全是按照org-mode的语法，虽然有些关键字不是org-mode可能识别的，但对org-mode向后兼容。<br  />
 </p>
 </div>
 <div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1">org-mode的hexo文件模板</h3>
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> org-mode的hexo文件模板</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 一个基本的org-mode的hexo文件模板如下:<br  />
@@ -1878,10 +1882,10 @@ org-mode文件需要按照一定的格式书写才能被hexo-renderer-org插件�
 </div>
 </div>
 <div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2">如何插入图片</h3>
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> 如何插入图片</h3>
 <div class="outline-text-3" id="text-3-2">
 </div><div id="outline-container-sec-3-2-1" class="outline-4">
-<h4 id="sec-3-2-1">HTML block引用图片</h4>
+<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> HTML block引用图片</h4>
 <div class="outline-text-4" id="text-3-2-1">
 <p>
 hexo允许将图片资源是放在source/images目录下，博客源文件放在posts目录下；当hexo服务器启动的时候，images目录处于hexo网站的根目录下，所以HTML block引用图片如下:<br  />
@@ -1898,7 +1902,7 @@ hexo允许将图片资源是放在source/images目录下，博客源文件放在
 </div>
 
 <div id="outline-container-sec-3-2-2" class="outline-4">
-<h4 id="sec-3-2-2">插入图片link</h4>
+<h4 id="sec-3-2-2"><span class="section-number-4">3.2.2</span> 插入图片link</h4>
 <div class="outline-text-4" id="text-3-2-2">
 <p>
 插入图片还有另一种方法，直接使用org-mode的URL链接形式，以http开头，根目录为/images:<br  />
@@ -1920,7 +1924,7 @@ hexo允许将图片资源是放在source/images目录下，博客源文件放在
 </div>
 
 <div id="outline-container-sec-3-2-3" class="outline-4">
-<h4 id="sec-3-2-3">图片引用缺陷</h4>
+<h4 id="sec-3-2-3"><span class="section-number-4">3.2.3</span> 图片引用缺陷</h4>
 <div class="outline-text-4" id="text-3-2-3">
 <p>
 这种图片引用的方式存在缺点，一个是无法区分http和https，如果本机服务器是http，布署服务器是https，就无法兼顾两者；另外http是无法在org-mode文件中调用org-toggle-inline-images来显示图片。这种方法适用于引用其他第三方网站上的图片文件。<br  />
@@ -1928,7 +1932,7 @@ hexo允许将图片资源是放在source/images目录下，博客源文件放在
 </div>
 </div>
 <div id="outline-container-sec-3-2-4" class="outline-4">
-<h4 id="sec-3-2-4">使用相对路径图片资源</h4>
+<h4 id="sec-3-2-4"><span class="section-number-4">3.2.4</span> 使用相对路径图片资源</h4>
 <div class="outline-text-4" id="text-3-2-4">
 <p>
 为了解决图片http和https在不同服务器上不兼容的问题，以及同时在Emacs和服务器上都能正确显示图片，hexo提供了这样的解决方法。<br  />
@@ -1984,7 +1988,7 @@ source/
 </div>
 </div>
 <div id="outline-container-sec-3-3" class="outline-3">
-<h3 id="sec-3-3">如何区分摘要</h3>
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> 如何区分摘要</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 hexo中的文章一般会都会有"阅读更多"，"Read More"的功能，在markdown文件中我们使用的是<br  />
@@ -2002,7 +2006,7 @@ hexo中的文章一般会都会有"阅读更多"，"Read More"的功能，在mar
 </div>
 </div>
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">参考资料</h2>
+<h2 id="sec-4"><span class="section-number-2">4</span> 参考资料</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 以下是参考资料，最后一篇的内容没有在这里展开，所以值得继续阅读。<br  />
@@ -2025,7 +2029,8 @@ hexo中的文章一般会都会有"阅读更多"，"Read More"的功能，在mar
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-05-31 Wed 09:00&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-04 Fri 23:33</p>
+<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
+<p class="date">Created: 2017-08-20 Sun 18:55</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

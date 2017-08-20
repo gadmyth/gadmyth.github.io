@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>iOS 对 UIView 扩展 Click 事件</title>
-<!-- 2017-08-04 Fri 23:19 -->
+<!-- 2017-08-20 Sun 18:55 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -243,7 +243,6 @@
 h1,h2,h3,h4,h5,h6,legend{
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight:700;
-    margin-top:0;
 }
 
 h1{
@@ -993,6 +992,7 @@ hr{
     display:block;
     color:#fcfcfc;
     font-size: 100%;
+    margin-top:0;
     margin-bottom:0.809em}
 
 table {
@@ -1290,6 +1290,10 @@ h2.footnotes{
 .timestamp {
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 90%;
+    color: navy;
+}
+
+#postamble .timestamp {
     color: #fff;
 }
 
@@ -1644,15 +1648,15 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">UIButton扩展 Click 事件</a></li>
-<li><a href="#sec-2">为 UIView 增加 Touch Event Handling 能力</a></li>
-<li><a href="#sec-3">UIGestureRecognizer 扩展 Click 事件</a></li>
-<li><a href="#sec-4">UIView Category 扩展 Click 事件</a>
+<li><a href="#sec-1">1. UIButton扩展 Click 事件</a></li>
+<li><a href="#sec-2">2. 为 UIView 增加 Touch Event Handling 能力</a></li>
+<li><a href="#sec-3">3. UIGestureRecognizer 扩展 Click 事件</a></li>
+<li><a href="#sec-4">4. UIView Category 扩展 Click 事件</a>
 <ul>
-<li><a href="#sec-4-1">4.1 增加 UIControl</a></li>
-<li><a href="#sec-4-2">UIControl 绑定事件</a></li>
-<li><a href="#sec-4-3">Responder Chain 的可靠性</a></li>
-<li><a href="#sec-4-4">其他注意事项</a></li>
+<li><a href="#sec-4-1">4.1. 4.1 增加 UIControl</a></li>
+<li><a href="#sec-4-2">4.2. UIControl 绑定事件</a></li>
+<li><a href="#sec-4-3">4.3. Responder Chain 的可靠性</a></li>
+<li><a href="#sec-4-4">4.4. 其他注意事项</a></li>
 </ul>
 </li>
 </ul>
@@ -1666,16 +1670,11 @@ UIView 增加 click 事件? 这是一个很好的想法。一般而言，iOS的U
 #+HTML&lt;!&#x2013;more&#x2013;&gt;<br  />
 </p>
 
-<pre class="example">
-{% plantuml %}
-NSObject &lt;|-- UIResponder
-UIResponder &lt;|-- UIView
-UIView &lt;|-- UIImageView
-UIView &lt;|-- UILabel
-UIView &lt;|-- UIControl
-UIControl &lt;|-- UIButton
-{% endplantuml %}
-</pre>
+
+<div class="figure">
+<p><img src="images/UIView-hierachy.png" alt="UIView-hierachy.png" width="450px" /><br  />
+</p>
+</div>
 
 <p>
 拿支付宝为例，App 首页采用了典型的 SpringBoard/LaunchPad 设计，每个 item 都由 icon 和 label 组成。SpringBoard 的模式必然需要在用户点击的时候进行事件响应，进行场景切换。<br  />
@@ -1685,11 +1684,11 @@ UIControl &lt;|-- UIButton
 <div class="figure">
 <p><img src="images/zhifubao-service.png" alt="zhifubao-service.png" /><br  />
 </p>
-<p><span class="figure-number">Figure 1:</span> 支付宝首页service入口布局</p>
+<p><span class="figure-number">Figure 2:</span> 支付宝首页service入口布局</p>
 </div>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">UIButton扩展 Click 事件</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> UIButton扩展 Click 事件</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 一般的 view 是没有点击事件能力的，对 view 进行点击事件的扩展较简单的方法就是在这个 view 加入一个 UIButton 的 subview，在 Responder Chain 上，代替 UIView 响应点击事件。由于是事件扩展，所以 UIButton 首先是透明的；其次 button 的可点击范围和 view 一样；另外如果 button 有点击效果，那么该 button 应该在 subview 的最下层。<br  />
@@ -1707,7 +1706,7 @@ button.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">为 UIView 增加 Touch Event Handling 能力</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> 为 UIView 增加 Touch Event Handling 能力</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 在 Responder Chain 中，一般的 UIView 并没有对 Event 进行响应，虽然 hittest 方法找到了该 view，但由于该 view 的 userInteractionEnabled 为 NO，所以系统不把事件交给该 view 处理。只有当 UIView 重载了 UIResponder 的 touch 事件来监听处理用户或系统发出的 Touch Event。不过这种方法就必须对 UIView 继承为某个具体的 NSUIView，并在以下的 UIResponder 方法中增加 Click 的能力。touchesEnded 中实现具体的 click逻辑，touchesBegan 和 touchesEnded/touchesCancelled 配对实现按下和完成的 UI 效果。<br  />
@@ -1730,7 +1729,7 @@ button.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
 </div>
 
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">UIGestureRecognizer 扩展 Click 事件</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> UIGestureRecognizer 扩展 Click 事件</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 以上方法都比较麻烦，不是要加 button，就是要实现事件处理的回调方法。那么是否有一种简单的方法，只提供一个 selector 或 block 就能实现了呢? 手势识别 (UIGestureRecognizer) 就非常符合这样的场景。UIGestureRecognizer 的功能非常强大，不仅支持单击，还支持双击。这样无需改动 UIView 就可以对任意的 view 添加点击事件。<br  />
@@ -1747,7 +1746,7 @@ tap.numberOfTapsRequired = 1;
 </div>
 
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">UIView Category 扩展 Click 事件</h2>
+<h2 id="sec-4"><span class="section-number-2">4</span> UIView Category 扩展 Click 事件</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 虽然 手势识别非常方便，但是代码里面到处都是手势会不会不太好，而且手势识别的缺点是如果手势识别成功，那么事件就直接被 consume 掉了，而且手势之间可能还会发生冲突，所以这么方法不是太适合的解决方案。通过 category 来为 UIView 增强功能，达到如 UIButton、UIControl 一样的功能不失为一种很好的选择。基本思路和本文第一个 section1 的思路一致，在 UIView 的底部加上一层 UIControl，点击 view 后，事件传递给 UIControl。<br  />
@@ -1759,7 +1758,7 @@ tap.numberOfTapsRequired = 1;
 </div>
 
 <div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1">4.1 增加 UIControl</h3>
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 4.1 增加 UIControl</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 对于 category 来说，是没有办法直接增加属性的，不过 objective-c 早就替我们想好了，提供了 Associate Object 的功能，可以动态地将两个 Object 绑定在一起。以下代码使用了 Lazy Create 的方式生成一个 UIControl 的子view:<br  />
@@ -1784,7 +1783,7 @@ tap.numberOfTapsRequired = 1;
 </div>
 
 <div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2">UIControl 绑定事件</h3>
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> UIControl 绑定事件</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 UIControl 绑定事件非常地简单，本身遵守 Cocoa 的 target-action 机制。所以我们只需要使用 addTarget:action:forControlEvents: 方法就可以了。这样我们就完成了 UIControl 扩展 UIView 的功能了。<br  />
@@ -1819,7 +1818,7 @@ UIControl 绑定事件非常地简单，本身遵守 Cocoa 的 target-action 机
 <div class="figure">
 <p><img src="images/responder-chain.png" alt="responder-chain.png" /><br  />
 </p>
-<p><span class="figure-number">Figure 2:</span> 响应链</p>
+<p><span class="figure-number">Figure 3:</span> 响应链</p>
 </div>
 
 <p>
@@ -1842,16 +1841,16 @@ UIControl 绑定事件非常地简单，本身遵守 Cocoa 的 target-action 机
 </div>
 
 <div id="outline-container-sec-4-3" class="outline-3">
-<h3 id="sec-4-3">Responder Chain 的可靠性</h3>
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Responder Chain 的可靠性</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 以上代码在大多数情况下执行是非常可靠的，只要能够在响应链上找到该 action。但是通过 showResponderChain 即便显示定义 action 的 UIResponder 在响应链上，也不代表真的能够执行该 action。比如 view 所在的 UIViewController 中存在某一 textfield，而且处于firstResponder 状态，那么点击 view 的时候，在响应链上找到的永远是 textfield，而且不会继续寻找下去，textfield 并没有定义 action。还有一种情况是直接由 UIWindow 加为子 view 某个 view, 例如半透明的浮层，其实这样的 view并不在响应链中，即使没有 textfield 干扰。<br  />
 </p>
 
 <div class="figure">
-<p><img src="images/photo-choose-action.png" alt="photo-choose-action.png" /><br  />
+<p><img src="images/photo-choose-action.png" alt="photo-choose-action.png" width="400px" /><br  />
 </p>
-<p><span class="figure-number">Figure 3:</span> 头像设置的浮层</p>
+<p><span class="figure-number">Figure 4:</span> 头像设置的浮层</p>
 </div>
 
 <p>
@@ -1878,7 +1877,7 @@ UIControl 绑定事件非常地简单，本身遵守 Cocoa 的 target-action 机
 </div>
 
 <div id="outline-container-sec-4-4" class="outline-3">
-<h3 id="sec-4-4">其他注意事项</h3>
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> 其他注意事项</h3>
 <div class="outline-text-3" id="text-4-4">
 <ol class="org-ol">
 <li>点击可以设定按下的高亮效果<br  />
@@ -1897,7 +1896,8 @@ UIControl 绑定事件非常地简单，本身遵守 Cocoa 的 target-action 机
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-23 Fri 16:37&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-04 Fri 23:19</p>
+<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
+<p class="date">Created: 2017-08-20 Sun 18:55</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

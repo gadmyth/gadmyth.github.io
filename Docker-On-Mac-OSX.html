@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Docker On Mac OSX</title>
-<!-- 2017-08-04 Fri 23:20 -->
+<!-- 2017-08-20 Sun 18:55 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -243,7 +243,6 @@
 h1,h2,h3,h4,h5,h6,legend{
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight:700;
-    margin-top:0;
 }
 
 h1{
@@ -993,6 +992,7 @@ hr{
     display:block;
     color:#fcfcfc;
     font-size: 100%;
+    margin-top:0;
     margin-bottom:0.809em}
 
 table {
@@ -1290,6 +1290,10 @@ h2.footnotes{
 .timestamp {
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 90%;
+    color: navy;
+}
+
+#postamble .timestamp {
     color: #fff;
 }
 
@@ -1644,41 +1648,41 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">安装 Docker</a></li>
-<li><a href="#sec-2">Docker MySQL</a>
+<li><a href="#sec-1">1. 安装 Docker</a></li>
+<li><a href="#sec-2">2. Docker MySQL</a>
 <ul>
-<li><a href="#sec-2-1">获取 image</a></li>
-<li><a href="#sec-2-2">运行 MySQL Docker 实例</a></li>
-<li><a href="#sec-2-3">连接 MySQL Container Instance</a>
+<li><a href="#sec-2-1">2.1. 获取 image</a></li>
+<li><a href="#sec-2-2">2.2. 运行 MySQL Docker 实例</a></li>
+<li><a href="#sec-2-3">2.3. 连接 MySQL Container Instance</a>
 <ul>
-<li><a href="#sec-2-3-1">错误的连接方式</a></li>
-<li><a href="#sec-2-3-2">使用 Volume</a></li>
-<li><a href="#sec-2-3-3">Volume 映射到 [Host Directory]</a></li>
+<li><a href="#sec-2-3-1">2.3.1. 错误的连接方式</a></li>
+<li><a href="#sec-2-3-2">2.3.2. 使用 Volume</a></li>
+<li><a href="#sec-2-3-3">2.3.3. Volume 映射到 [Host Directory]</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#sec-3">Docker Redis</a></li>
-<li><a href="#sec-4">Docker Tornado</a>
+<li><a href="#sec-3">3. Docker Redis</a></li>
+<li><a href="#sec-4">4. Docker Tornado</a>
 <ul>
-<li><a href="#sec-4-1">从 centOS image 生成 tornado 环境</a></li>
-<li><a href="#sec-4-2">使用 [Dockerfile]生成自己的 image</a></li>
+<li><a href="#sec-4-1">4.1. 从 centOS image 生成 tornado 环境</a></li>
+<li><a href="#sec-4-2">4.2. 使用 [Dockerfile]生成自己的 image</a></li>
 </ul>
 </li>
-<li><a href="#sec-5">docker container 的连接</a>
+<li><a href="#sec-5">5. docker container 的连接</a>
 <ul>
-<li><a href="#sec-5-1">初始化数据库</a></li>
-<li><a href="#sec-5-2">连接 Tornado, MySQL, Redis</a>
+<li><a href="#sec-5-1">5.1. 初始化数据库</a></li>
+<li><a href="#sec-5-2">5.2. 连接 Tornado, MySQL, Redis</a>
 <ul>
-<li><a href="#sec-5-2-1">基于 debian:jessie 的 python image 创建 tornado image</a></li>
-<li><a href="#sec-5-2-2">配置程序的config</a></li>
-<li><a href="#sec-5-2-3">运行结果</a></li>
+<li><a href="#sec-5-2-1">5.2.1. 基于 debian:jessie 的 python image 创建 tornado image</a></li>
+<li><a href="#sec-5-2-2">5.2.2. 配置程序的config</a></li>
+<li><a href="#sec-5-2-3">5.2.3. 运行结果</a></li>
 </ul>
 </li>
-<li><a href="#sec-5-3">使用 docker compose 连接 container</a></li>
+<li><a href="#sec-5-3">5.3. 使用 docker compose 连接 container</a></li>
 </ul>
 </li>
-<li><a href="#sec-6">私有 docker hub 的搭建</a></li>
+<li><a href="#sec-6">6. 私有 docker hub 的搭建</a></li>
 </ul>
 </div>
 </div>
@@ -1690,7 +1694,7 @@ Docker 现在真的很流行，看了那么多资料，除了 常见的 <a href=
 
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">安装 Docker</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> 安装 Docker</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 虽然 Mac 的 Homebrew 可以安装 docker，但是安装后是不能使用的。Homebrew 安装的 docker 并没有相关的运行 daemon 进程的命令，无法运行其他命令。如下显示了使用 Homebrew 安装的 docker 工作不正常的状况。<br  />
@@ -1768,7 +1772,7 @@ docker 启动完成后，Docker 的 daemon 进程就有了，docker 的命令行
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><a href="https://hub.docker.com/_/mariadb/">Docker MySQL</a></h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> <a href="https://hub.docker.com/_/mariadb/">Docker MySQL</a></h2>
 <div class="outline-text-2" id="text-2">
 <p>
 既然我们决定了开发机上统一使用 docker 来装载基础组件，拿 MySQL 为例，在没有 docker 的情况下，由于操作系统 Linux/Unix/Mac 的不同和各操作系统发行版之间的碎片化，MySQL 在不同的  操作系统之间的安装、启动命令都是不同的，显然增加了学习成本 (当然会在不同的平台下配置运行这些组件可能是必备技能)。下面我们先列一下各平台下，MySQL 的安装运行命令。<br  />
@@ -1823,7 +1827,7 @@ docker 启动完成后，Docker 的 daemon 进程就有了，docker 的命令行
 </p>
 </div>
 <div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1">获取 image</h3>
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> 获取 image</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 我们使用 <a href="https://zh.wikipedia.org/wiki/MariaDB">mariadb 5.5.53</a> 版本，该版本继承了 MySQL 5.5 的完整的功能，与 MySQL 完全兼容。<br  />
@@ -1861,7 +1865,7 @@ mariadb             5.5.53              6a892eac8622        6 days ago          
 </div>
 
 <div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2">运行 MySQL Docker 实例</h3>
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> 运行 MySQL Docker 实例</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 我们使用以下命令，指定好 MySQL 的实例名、root 密码和从启动的基准 image，并运行。<br  />
@@ -1884,7 +1888,7 @@ a6bd1c1690ee        mariadb:5.5.53      <span style="color: #8b7355;">"docker-en
 </div>
 
 <div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3">连接 MySQL Container Instance</h3>
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> 连接 MySQL Container Instance</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 我们可以使用 docker attach 命令连接 container:<br  />
@@ -1912,7 +1916,7 @@ my-mariadb
 </div>
 
 <div id="outline-container-sec-2-3-1" class="outline-4">
-<h4 id="sec-2-3-1">错误的连接方式</h4>
+<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> 错误的连接方式</h4>
 <div class="outline-text-4" id="text-2-3-1">
 <p>
 然后再 run 一个带 shell 的 container:<br  />
@@ -1937,7 +1941,7 @@ my-mariadb
 </div>
 
 <div id="outline-container-sec-2-3-2" class="outline-4">
-<h4 id="sec-2-3-2">使用 Volume</h4>
+<h4 id="sec-2-3-2"><span class="section-number-4">2.3.2</span> 使用 Volume</h4>
 <div class="outline-text-4" id="text-2-3-2">
 <p>
 当我们通过上面的命令进入 mariadb 的时候，我们发现，并不能访问宿主操作系统。也就是 docker container 相对于外界来说就是个隔离的区间，这样就不能访问 Host 的文件系统。如果 MySQL 的布署更新脚本存在于 Host 的文件系统中，想要在 container 中执行这些脚本是非常困难的(当然你可以放到网络中，然后在 container 中进行下载)。<br  />
@@ -1980,7 +1984,7 @@ $ docker run --name my-mariadb -p 3306:3306 -v /data -e <span style="color: #2e8
 </div>
 
 <div id="outline-container-sec-2-3-3" class="outline-4">
-<h4 id="sec-2-3-3">Volume 映射到 [Host Directory]<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup></h4>
+<h4 id="sec-2-3-3"><span class="section-number-4">2.3.3</span> Volume 映射到 [Host Directory]<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup></h4>
 <div class="outline-text-4" id="text-2-3-3">
 <p>
 当然我们还可以指定映射一个已有的文件夹给 container，如 -v [host directory] : [container directory]<br  />
@@ -2038,7 +2042,7 @@ drwx------ 52 root root 1.8K Nov  4  2016 Documents
 </div>
 
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">Docker Redis</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> Docker Redis</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 我们的 Demo 的项目中有用到非关系型数据库 Redis，主要用于图片缓存。我们基于 redis:3.0-alpine 的版本，运行一个 redis container。<br  />
@@ -2055,7 +2059,7 @@ $ docker run --name my-redis -p 6379:6379 -d redis:3.0-alpine
 </div>
 
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">Docker Tornado</h2>
+<h2 id="sec-4"><span class="section-number-2">4</span> Docker Tornado</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 服务器端我们使用 Tornado 框架。基于以上的方法，我们可以使用 docker 来运行一个 tornado 的container。有两种方法可以运行带有 tornado 的 container，一种是 `docker pull &lt;some-tornado-docker-image&gt;`，使用现成的线上 tornado 的 image，另一种方法是，我们先挑选一个干净的 Linux/Unix 服务器版本，进入后从头安全全套的与 tornado 开发相关的组件。在这里，我们直接从一个干净的 centOS:6.6 的 image 开始，使用命令行来制作 tornado 的 container。<br  />
@@ -2063,7 +2067,7 @@ $ docker run --name my-redis -p 6379:6379 -d redis:3.0-alpine
 </div>
 
 <div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1">从 centOS image 生成 tornado 环境</h3>
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 从 centOS image 生成 tornado 环境</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 我们先拉取一个干净的 6.6 的 centOS image，然后登录:<br  />
@@ -2110,7 +2114,7 @@ $ docker exec -it my-tornado bash
 </div>
 
 <div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2">使用 [Dockerfile]<sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup> 生成自己的 image</h3>
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> 使用 [Dockerfile]<sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup> 生成自己的 image</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 当然我们不可能每次都从某个初始的 image 从头使用命令生成自己的 image。docker 提供了一种 DSL 来定义如何生成自己的 image。如下就是我们的 Dockerfile，其中定义了我们的 image 是基于 centos:6.6 这个 image的，紧接着定义了该 image 的维护者。定义完后运行软件升级安装，并提示已经安装完毕。docker 定义了一系列的 Dockerfile 的关键字，表示不同的任务和语义。以下列出了主要的、常用的关键字。<br  />
@@ -2213,14 +2217,14 @@ $ docker build -t <span style="color: #8b7355;">"tornado:gadmyth"</span> .
 </div>
 
 <div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">docker container 的连接</h2>
+<h2 id="sec-5"><span class="section-number-2">5</span> docker container 的连接</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 我们运行起来各项目服务后，就需要连接服务器和数据库了。<br  />
 </p>
 </div>
 <div id="outline-container-sec-5-1" class="outline-3">
-<h3 id="sec-5-1">初始化数据库</h3>
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> 初始化数据库</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 不过 MySQL 数据库并没有进行数据库初始化。我们将 mysql-init.sql 脚本放在 docker volume (/data) 下，进入 my-mariadb container 后，执行下面的代码，对数据库进行初始化:<br  />
@@ -2258,7 +2262,7 @@ $ exit
 </div>
 
 <div id="outline-container-sec-5-2" class="outline-3">
-<h3 id="sec-5-2">连接 Tornado, MySQL, Redis</h3>
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> 连接 Tornado, MySQL, Redis</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 连接各个不同的服务的话，需要在 docker run 的时候使用 &#x2013;link 选项进行连接，参数为 &lt;container-name&gt;:&lt;link-name&gt;，如下命令中，my-tornado 的 container 连接了 my-redis 和 my-mariadb 这两个 container，当然这两个 container 的状态是 active 的。<br  />
@@ -2279,7 +2283,7 @@ continue--&gt; --name my-tornado -d tornado:gadmyth /bin/bash
 </div>
 
 <div id="outline-container-sec-5-2-1" class="outline-4">
-<h4 id="sec-5-2-1">基于 debian:jessie 的 python image 创建 tornado image</h4>
+<h4 id="sec-5-2-1"><span class="section-number-4">5.2.1</span> 基于 debian:jessie 的 python image 创建 tornado image</h4>
 <div class="outline-text-4" id="text-5-2-1">
 <p>
 我们改用基于 python:2.7 的 image 来构建我们自己的 image。Dockerfile 修改如下:<br  />
@@ -2316,7 +2320,7 @@ RUN easy_install poster
 </div>
 
 <div id="outline-container-sec-5-2-2" class="outline-4">
-<h4 id="sec-5-2-2">配置程序的config</h4>
+<h4 id="sec-5-2-2"><span class="section-number-4">5.2.2</span> 配置程序的config</h4>
 <div class="outline-text-4" id="text-5-2-2">
 <p>
 然后我们再运行 5.2 提到的方法，连接 Tornado, MySQL, Redis 生成 my-tornado 的 container 后，使用 docker exec 连接上 my-tornado，我们需要修改服务器程序的配置参数。我们先看一下 my-tornado 的 hosts 文件:<br  />
@@ -2361,7 +2365,7 @@ ff02::2 ip6-allrouters
 </div>
 </div>
 <div id="outline-container-sec-5-2-3" class="outline-4">
-<h4 id="sec-5-2-3">运行结果</h4>
+<h4 id="sec-5-2-3"><span class="section-number-4">5.2.3</span> 运行结果</h4>
 <div class="outline-text-4" id="text-5-2-3">
 <p>
 当然现在数据库里还空的，我们在 my-tornado 的 container 中使用 python 脚本对 my-mariadb 数据库 container 进行数据导入。<br  />
@@ -2391,12 +2395,12 @@ $ python image_import.py
 </div>
 
 <div id="outline-container-sec-5-3" class="outline-3">
-<h3 id="sec-5-3">使用 docker compose 连接 container</h3>
+<h3 id="sec-5-3"><span class="section-number-3">5.3</span> 使用 docker compose 连接 container</h3>
 </div>
 </div>
 
 <div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6">私有 docker hub 的搭建</h2>
+<h2 id="sec-6"><span class="section-number-2">6</span> 私有 docker hub 的搭建</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 我们构建好自己的 docker image 后，可能需要分享给团队。<br  />
@@ -2425,7 +2429,8 @@ $ python image_import.py
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-26 Wed 00:22&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-04 Fri 23:20</p>
+<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
+<p class="date">Created: 2017-08-20 Sun 18:55</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

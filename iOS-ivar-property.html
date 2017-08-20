@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>ObjC中ivar和propertytitle</title>
-<!-- 2017-08-04 Fri 23:20 -->
+<!-- 2017-08-20 Sun 18:55 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -243,7 +243,6 @@
 h1,h2,h3,h4,h5,h6,legend{
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight:700;
-    margin-top:0;
 }
 
 h1{
@@ -993,6 +992,7 @@ hr{
     display:block;
     color:#fcfcfc;
     font-size: 100%;
+    margin-top:0;
     margin-bottom:0.809em}
 
 table {
@@ -1290,6 +1290,10 @@ h2.footnotes{
 .timestamp {
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 90%;
+    color: navy;
+}
+
+#postamble .timestamp {
     color: #fff;
 }
 
@@ -1644,14 +1648,14 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">一个简单的类 Demo</a>
+<li><a href="#sec-1">1. 一个简单的类 Demo</a>
 <ul>
-<li><a href="#sec-1-1">命令行编译 Demo 类</a></li>
-<li><a href="#sec-1-2">对 Demo 类继承，测试 testName 的继承性</a></li>
-<li><a href="#sec-1-3">子类的 extension 中增加相同名字的 property 定义</a></li>
-<li><a href="#sec-1-4">property 开放到头文件中，测试 property 继承性</a></li>
-<li><a href="#sec-1-5">编译成 cpp 文件，查看 property 不能继承的原因</a></li>
-<li><a href="#sec-1-6">声明 ivar 实现继承</a></li>
+<li><a href="#sec-1-1">1.1. 命令行编译 Demo 类</a></li>
+<li><a href="#sec-1-2">1.2. 对 Demo 类继承，测试 testName 的继承性</a></li>
+<li><a href="#sec-1-3">1.3. 子类的 extension 中增加相同名字的 property 定义</a></li>
+<li><a href="#sec-1-4">1.4. property 开放到头文件中，测试 property 继承性</a></li>
+<li><a href="#sec-1-5">1.5. 编译成 cpp 文件，查看 property 不能继承的原因</a></li>
+<li><a href="#sec-1-6">1.6. 声明 ivar 实现继承</a></li>
 </ul>
 </li>
 </ul>
@@ -1668,7 +1672,7 @@ iOS 发展到现在，开发们喜欢定义一个 interface，然后里面什么
 </p>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">一个简单的类 Demo</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> 一个简单的类 Demo</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 
@@ -1716,7 +1720,7 @@ iOS 发展到现在，开发们喜欢定义一个 interface，然后里面什么
 </div>
 
 <div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1">命令行编译 Demo 类</h3>
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 命令行编译 Demo 类</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 如上的代码显示了一个类的通常的做法，就是通常将属性隐藏，将方法暴露。我们对以上的测试代码进行编译:<br  />
@@ -1732,7 +1736,7 @@ $ ./main
 </div>
 
 <div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2">对 Demo 类继承，测试 testName 的继承性</h3>
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 对 Demo 类继承，测试 testName 的继承性</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 我们发现 testName 被正确的打印出来了。不过如果想对 MyTestClass 类进行继承，覆盖 test 方法，不过也需要对 testName 属性进行引用，那么我们就进行以下代码。<br  />
@@ -1778,7 +1782,7 @@ Test2.m:11:33: error: use of undeclared identifier <span style="color: #8b7355;"
 </div>
 
 <div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3">子类的 extension 中增加相同名字的 property 定义</h3>
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 子类的 extension 中增加相同名字的 property 定义</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 这个时候，以上代码是编译不过的。说明 MyTestClass2 并不知道 testName 这个属性的存在，或者说，这个属性并没有被 testName 所继承。于是我们试图在 MyTestClass2 的 extension 中加入 testName 的 property 来补充一下，看看是否可以将 MyTestClass 中原有的 testName 给调出来:<br  />
@@ -1815,7 +1819,7 @@ $ ./main2
 </div>
 </div>
 <div id="outline-container-sec-1-4" class="outline-3">
-<h3 id="sec-1-4">property 开放到头文件中，测试 property 继承性</h3>
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> property 开放到头文件中，测试 property 继承性</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 我们发现，其实新加的 testName 是个新的 property，并不是原来的 MyTestClass 的那个 testName 的property。那么这样吧，我们将 testName 放到 Test.h 里面，开放出来好了:<br  />
@@ -1845,7 +1849,7 @@ Test2.m:10:33: error: use of undeclared identifier <span style="color: #8b7355;"
 </div>
 
 <div id="outline-container-sec-1-5" class="outline-3">
-<h3 id="sec-1-5">编译成 cpp 文件，查看 property 不能继承的原因</h3>
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> 编译成 cpp 文件，查看 property 不能继承的原因</h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
 发现还是会出现以上问题。说明即使是头文件中使用 property，它也是不会被继承的。我们将 Test2.m 中编译不通过的代码先注释掉，然后使用 &#x2013;rewrite-objc 的 option 对以上的测试代码进行重写:<br  />
@@ -1889,7 +1893,7 @@ Test2.m:10:33: error: use of undeclared identifier <span style="color: #8b7355;"
 </div>
 
 <div id="outline-container-sec-1-6" class="outline-3">
-<h3 id="sec-1-6">声明 ivar 实现继承</h3>
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> 声明 ivar 实现继承</h3>
 <div class="outline-text-3" id="text-1-6">
 <p>
 但是，如果看 Test2.cpp，MyTestClass2_IMPL 中并没有 testName 相关的 ivar 和 property，编译器并没有找到 testName。那么我们将 Test.m 中的 testName 改成原始的 ivar 定义再 rewrite 会如何呢?<br  />
@@ -1924,7 +1928,8 @@ rewrite 后发现 Test.cpp 里除了没有 get/set 方法外基本没有差别�
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-31 Mon 10:18&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-04 Fri 23:20</p>
+<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
+<p class="date">Created: 2017-08-20 Sun 18:55</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

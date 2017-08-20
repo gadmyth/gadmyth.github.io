@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Xcode Embed Framework Debug Only</title>
-<!-- 2017-08-04 Fri 23:20 -->
+<!-- 2017-08-20 Sun 18:55 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -243,7 +243,6 @@
 h1,h2,h3,h4,h5,h6,legend{
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight:700;
-    margin-top:0;
 }
 
 h1{
@@ -993,6 +992,7 @@ hr{
     display:block;
     color:#fcfcfc;
     font-size: 100%;
+    margin-top:0;
     margin-bottom:0.809em}
 
 table {
@@ -1290,6 +1290,10 @@ h2.footnotes{
 .timestamp {
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 90%;
+    color: navy;
+}
+
+#postamble .timestamp {
     color: #fff;
 }
 
@@ -1644,17 +1648,17 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">Debug/Release 宏区分</a></li>
-<li><a href="#sec-2">Debug/Release 源码宏区分</a></li>
-<li><a href="#sec-3">Debug/Release category 宏区分</a></li>
-<li><a href="#sec-4">Xcode 区分编译模式</a></li>
-<li><a href="#sec-5">Embed Framework Debug Only</a></li>
+<li><a href="#sec-1">1. Debug/Release 宏区分</a></li>
+<li><a href="#sec-2">2. Debug/Release 源码宏区分</a></li>
+<li><a href="#sec-3">3. Debug/Release category 宏区分</a></li>
+<li><a href="#sec-4">4. Xcode 区分编译模式</a></li>
+<li><a href="#sec-5">5. Embed Framework Debug Only</a></li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Debug/Release 宏区分</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> Debug/Release 宏区分</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 iOS App 项目的开发过程中不可避免地会遇到 Debug 和 Release 之间不同的代码或者配置，最常见的是 API 服务器 host 地址不同。<br  />
@@ -1675,7 +1679,7 @@ iOS App 项目的开发过程中不可避免地会遇到 Debug 和 Release 之�
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Debug/Release 源码宏区分</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> Debug/Release 源码宏区分</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 那么对于源码文件来说应该如何做呢? 当某些功能只在 Debug 下进行编译执行，而在 Release 时需要去除这些 Debug 功能。其中一种做法是像上面代码的做法一样对文件的所有方法进行 DEBUG 的宏检查:<br  />
@@ -1715,7 +1719,7 @@ iOS App 项目的开发过程中不可避免地会遇到 Debug 和 Release 之�
 </div>
 
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">Debug/Release category 宏区分</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> Debug/Release category 宏区分</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 假设以上的这些源码并非我们自己的 Debug 代码，而是引用了第三方的库，比如我们使用了 CocoaPods 进行第三方库的引用，那么上述的方法就不太适合了。所以我们使用 category 扩展，在不侵入源码的情况下，对方法进行 override。由于在这种情况下存在源代码，所以不存编译时出现 Undefined Symbol 的情况，可以对新加入的 category 源代码整个进行宏区分。<br  />
@@ -1746,7 +1750,7 @@ iOS App 项目的开发过程中不可避免地会遇到 Debug 和 Release 之�
 </div>
 
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">Xcode 区分编译模式</h2>
+<h2 id="sec-4"><span class="section-number-2">4</span> Xcode 区分编译模式</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 虽然上述方法可以解决问题，但或多或少对源码进行了侵入。category 没有对原文件侵入，但侵入了业务逻辑中的调用源码。相对于 Android Studio 的 gradle 来说，Xcode 的编译控制显得比较简单，功能有限。gradle 可以指定在 Debug/Release 的某种编译模式下，哪些源代码是需要进行编译的。我们在查找 Xcode 的编译选项后，发现可以在 Release 模式下去除某些文件，不进行编译，这种变向地达到了和 gradle 一致的功能。<br  />
@@ -1772,7 +1776,7 @@ iOS App 项目的开发过程中不可避免地会遇到 Debug 和 Release 之�
 </div>
 
 <div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">Embed Framework Debug Only</h2>
+<h2 id="sec-5"><span class="section-number-2">5</span> Embed Framework Debug Only</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 好吧，到这里我们才回归正题。现在我们的需求已经不是源码级别的了，我们现在使用的是第三方的二进制动态 framework，需要只在 Debug 下 Embed 到 App 中。由于 Xcode Embed Frameworks 的 Build Phase 没有区分 Debug 还是 Release，所以需要寻求其他方法来解决该问题。<br  />
@@ -1851,7 +1855,8 @@ iOS App 项目的开发过程中不可避免地会遇到 Debug 和 Release 之�
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-09 Sun 08:49&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-04 Fri 23:20</p>
+<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
+<p class="date">Created: 2017-08-20 Sun 18:55</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

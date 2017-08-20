@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>iOS的版本号</title>
-<!-- 2017-08-04 Fri 23:19 -->
+<!-- 2017-08-20 Sun 18:55 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -243,7 +243,6 @@
 h1,h2,h3,h4,h5,h6,legend{
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight:700;
-    margin-top:0;
 }
 
 h1{
@@ -993,6 +992,7 @@ hr{
     display:block;
     color:#fcfcfc;
     font-size: 100%;
+    margin-top:0;
     margin-bottom:0.809em}
 
 table {
@@ -1290,6 +1290,10 @@ h2.footnotes{
 .timestamp {
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 90%;
+    color: navy;
+}
+
+#postamble .timestamp {
     color: #fff;
 }
 
@@ -1644,9 +1648,9 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">版本号起始</a></li>
-<li><a href="#sec-2">软件版本号规范</a></li>
-<li><a href="#sec-3">稳定版本号的界定</a></li>
+<li><a href="#sec-1">1. 版本号起始</a></li>
+<li><a href="#sec-2">2. 软件版本号规范</a></li>
+<li><a href="#sec-3">3. 稳定版本号的界定</a></li>
 </ul>
 </div>
 </div>
@@ -1657,7 +1661,7 @@ for the JavaScript code in this tag.
 <!--more-->
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">版本号起始</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> 版本号起始</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 当初在iTunes Store网站上申请新的App的时候，默认的版本的号就是1.0，哪里来的1.0.0? 当然我还在Info.plist里面修改了CFBundleShortVersionString。所以关于iOS的版本号规则的确需要研究一下了。<br  />
@@ -1677,7 +1681,7 @@ for the JavaScript code in this tag.
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">软件版本号规范</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> 软件版本号规范</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 最后我还是去搜索了一下有关 <a href="http://semver.org/lang/zh-CN">软件版本号规范</a> 的问题。iOS App的版本号也符合这样的版本号规范，比如1.0.0就是由主版本号(MAJOR)，次版本号(MINOR)和修订号(PATCH)组成。以下是这三个版本号的语义。<br  />
@@ -1725,7 +1729,7 @@ for the JavaScript code in this tag.
 
 
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">稳定版本号的界定</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> 稳定版本号的界定</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 针对以上0.0.1版本的猜测是正确的，1.0.0版本就是认为是稳定版本，之前的版本就是快速开发版或者是alpha, beta版，被称为 `先行版本号`。引用`软件版本号规范`里的:<br  />
@@ -1744,7 +1748,8 @@ for the JavaScript code in this tag.
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-21 Wed 10:02&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-04 Fri 23:19</p>
+<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
+<p class="date">Created: 2017-08-20 Sun 18:55</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

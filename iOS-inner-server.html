@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>iOS内置Server</title>
-<!-- 2017-08-04 Fri 23:19 -->
+<!-- 2017-08-20 Sun 18:55 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -243,7 +243,6 @@
 h1,h2,h3,h4,h5,h6,legend{
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight:700;
-    margin-top:0;
 }
 
 h1{
@@ -993,6 +992,7 @@ hr{
     display:block;
     color:#fcfcfc;
     font-size: 100%;
+    margin-top:0;
     margin-bottom:0.809em}
 
 table {
@@ -1290,6 +1290,10 @@ h2.footnotes{
 .timestamp {
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 90%;
+    color: navy;
+}
+
+#postamble .timestamp {
     color: #fff;
 }
 
@@ -1644,16 +1648,16 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">在iOS内置Server，通过浏览器发送API来完成某些事情</a></li>
-<li><a href="#sec-2">服务器配置</a>
+<li><a href="#sec-1">1. 在iOS内置Server，通过浏览器发送API来完成某些事情</a></li>
+<li><a href="#sec-2">2. 服务器配置</a>
 <ul>
-<li><a href="#sec-2-1">Router定义</a></li>
-<li><a href="#sec-2-2">Handler种类</a></li>
-<li><a href="#sec-2-3">示例 Handler 调用处理</a></li>
-<li><a href="#sec-2-4">内置 GCDWebServer</a></li>
+<li><a href="#sec-2-1">2.1. Router定义</a></li>
+<li><a href="#sec-2-2">2.2. Handler种类</a></li>
+<li><a href="#sec-2-3">2.3. 示例 Handler 调用处理</a></li>
+<li><a href="#sec-2-4">2.4. 内置 iPhoneHTTPServer</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">iOS Server后台存活</a></li>
+<li><a href="#sec-3">3. iOS Server后台存活</a></li>
 </ul>
 </div>
 </div>
@@ -1672,48 +1676,39 @@ for the JavaScript code in this tag.
 </p>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">在iOS内置Server，通过浏览器发送API来完成某些事情</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> 在iOS内置Server，通过浏览器发送API来完成某些事情</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 其实这个想法挺好的，因为这等于是在扩展App的能力。App的模式无非就是用户(包括开发者)手动点击UI，然后App运行某些代码功能，做出相应的响应。也就是App的响应入口就是用户的行为。而服务器端的行为入口是通过各种协议完成的。比如http协议。Web Client 发送API请求给 App Server，App Server 接收到 API 后需要有个 Router 来进行功能分发，Server 运行某些功能，对 DB 等存储做出相应操作，并可能返回数据给 Web Client， 典型的时序图如下所示:<br  />
 </p>
 
-<pre class="example">
-{% mermaid %}
-sequenceDiagram
-participant Web Client
-participant App (Server)
-Web Client--&gt;&gt;App (Server): Send API
-App (Server)--&gt;&gt;App (Router): Parse Path and Parameter, Fitler
-App (Router)--&gt;&gt;Handlers: Dispatch
-loop listening...
-Handlers-&gt;&gt;Handlers: Do Something
-end
-Handlers-&gt;&gt;Web Client: Send Result
-{% endmermaid %}
-</pre>
+
+<div class="figure">
+<p><img src="images/iOS-inner-server-flow.png" alt="iOS-inner-server-flow.png" width="800px" /><br  />
+</p>
+</div>
 
 <p>
-我们将服务器内置在App中，通过API访问来改变存储，UI显示等。App拥有了这样的功能后，就可以减少WCRL的次数。iOS Server的代码已经有开源项目在做，如果是 Objective-C 语言的话，<a href="https://github.com/swisspol/GCDWebServer">GCDWebServer</a> 可能比较适合。<br  />
+我们将服务器内置在App中，通过API访问来改变存储，UI显示等。App拥有了这样的功能后，就可以减少WCRL的次数。iOS Server的代码已经有开源项目在做，如果是 Objective-C 语言的话，有两种服务器实现，一种是<a href="https://github.com/swisspol/GCDWebServer">GCDWebServer</a>，还有一种是<a href="https://github.com/robbiehanson/CocoaHTTPServer">CocoaHTTPServer</a>。我们基于后者的demo中的iPhoneHTTPServer代码，扩展实现相关API。<br  />
 </p>
 </div>
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">服务器配置</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> 服务器配置</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-通过API访问服务器是长这个样子的，localhost和6688不用解释了，表示server的地址和端口，pageControl就是一条路径。这些 GCDWebServer 需要自己配置相关的host和port。<br  />
+自定义API如下所示，pageControl表示某API路径，或者说是路由。<br  />
 </p>
 <pre class="example">
 http://localhost:6688/pageControl?page=NSDeepRouteViewController
 </pre>
 </div>
 <div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1">Router定义</h3>
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Router定义</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
-大家可以自定义一个 NSHttpRouter，这个 Router 不在 GCDWebServer 项目中，在这里作为一个示例以做参考。以下定义为相关的 Path 和 Handler。<br  />
+自定义的路由的类是NSHttpRouter，作用是配置访问PATH和对应的Handler，例如以下这些我们项目中的自定义 Path 和 Handler。<br  />
 </p>
 <div class="org-src-container">
 
@@ -1732,7 +1727,7 @@ http://localhost:6688/pageControl?page=NSDeepRouteViewController
 </div>
 
 <div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2">Handler种类</h3>
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Handler种类</h3>
 <div class="outline-text-3" id="text-2-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1788,7 +1783,7 @@ http://localhost:6688/pageControl?page=NSDeepRouteViewController
 </div>
 
 <div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3">示例 Handler 调用处理</h3>
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> 示例 Handler 调用处理</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 比如我们新写了一个页面，但是这个页面的入口比较深，每次 `WCRL` 后，都要通过鼠标点击5次才能进入到该页面。我们可以利用内置的服务器，通过一个API来操作打开该页面。其中Handler部分的处理如下所示，生成 page 相应的 Controller，并在主线程 push 显示。<br  />
@@ -1811,10 +1806,10 @@ http://localhost:6688/pageControl?page=NSDeepRouteViewController
 </div>
 
 <div id="outline-container-sec-2-4" class="outline-3">
-<h3 id="sec-2-4">内置 GCDWebServer</h3>
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> 内置 iPhoneHTTPServer</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
-在github上 clone GCDWebServer，然后在工程里新建一个Target，选择Cocoa Framework的动态库。现在都是动态库的时代了，所以我们支持8.0以上的deployment target。<br  />
+在github上 clone CocoaHTTPServer，然后在Samples目录下的iPhoneHTTPServer工程里新建一个Target，选择Cocoa Framework的动态库。现在都是动态库的时代了，所以我们支持8.0以上的deployment target。<br  />
 2B-CONTINUED&#x2026;<br  />
 </p>
 </div>
@@ -1822,7 +1817,7 @@ http://localhost:6688/pageControl?page=NSDeepRouteViewController
 </div>
 
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">iOS Server后台存活</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> iOS Server后台存活</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 2B-CONTINUED&#x2026;</p>
@@ -1832,7 +1827,8 @@ http://localhost:6688/pageControl?page=NSDeepRouteViewController
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-19 Mon 10:29&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-04 Fri 23:19</p>
+<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
+<p class="date">Created: 2017-08-20 Sun 18:55</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

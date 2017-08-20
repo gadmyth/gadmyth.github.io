@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>iOS H5资源本地化</title>
-<!-- 2017-08-04 Fri 23:20 -->
+<!-- 2017-08-20 Sun 18:55 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -243,7 +243,6 @@
 h1,h2,h3,h4,h5,h6,legend{
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight:700;
-    margin-top:0;
 }
 
 h1{
@@ -993,6 +992,7 @@ hr{
     display:block;
     color:#fcfcfc;
     font-size: 100%;
+    margin-top:0;
     margin-bottom:0.809em}
 
 table {
@@ -1290,6 +1290,10 @@ h2.footnotes{
 .timestamp {
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 90%;
+    color: navy;
+}
+
+#postamble .timestamp {
     color: #fff;
 }
 
@@ -1644,11 +1648,11 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">UIWebView 资源拦截</a>
+<li><a href="#sec-1">1. UIWebView 资源拦截</a>
 <ul>
-<li><a href="#sec-1-1">拦截缓存请求 - 返回本地资源</a></li>
-<li><a href="#sec-1-2">资源文件打包内置</a></li>
-<li><a href="#sec-1-3">资源文件匹配</a></li>
+<li><a href="#sec-1-1">1.1. 拦截缓存请求 - 返回本地资源</a></li>
+<li><a href="#sec-1-2">1.2. 资源文件打包内置</a></li>
+<li><a href="#sec-1-3">1.3. 资源文件匹配</a></li>
 </ul>
 </li>
 </ul>
@@ -1665,7 +1669,7 @@ H5 资源本地化意味着 App 发版的时候需要内置同样需要发版的
 </p>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">UIWebView 资源拦截</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> UIWebView 资源拦截</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 相对于 Android 的 WebView 而言，UIWebView 相关的系统框架中并没有一个明确的可以拦截资源的地方。Android WebView 加载某个网页的时候，对 webview 加载的 resource 拦截:<br  />
@@ -1692,7 +1696,7 @@ H5 资源本地化意味着 App 发版的时候需要内置同样需要发版的
 </div>
 
 <div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1">拦截缓存请求 - 返回本地资源</h3>
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 拦截缓存请求 - 返回本地资源</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 我们实现一个新的 NSURLCache 类，重写获取请求缓存的方法:<br  />
@@ -1728,7 +1732,7 @@ H5 资源本地化意味着 App 发版的时候需要内置同样需要发版的
 </div>
 
 <div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2">资源文件打包内置</h3>
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 资源文件打包内置</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 H5 组件化后，有一部分资源并不是频繁更新的，拿 angular 或 vuejs 举例，我们会选用框架的某个稳定版本，再搭载 cordova, zepto, frozen-ui 等组件或插件，这些是与业务逻辑无关的框架层。假设我们将这些资源文件存署在 <a href="https://">https://</a>&lt;host-name&gt;:&lt;port&gt;/&lt;project-name&gt;/dist 目录下，那么我们将该目录下资源文件打包进 iOS 支持的 bundle 文件夹中，并删除业务层资源。<br  />
@@ -1736,7 +1740,7 @@ H5 组件化后，有一部分资源并不是频繁更新的，拿 angular 或 v
 </div>
 </div>
 <div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3">资源文件匹配</h3>
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 资源文件匹配</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 资源文件和 URL 的匹配可以是 1对1，也可以是 1对多。H5 的打包工具中<br  />
@@ -1748,7 +1752,8 @@ H5 组件化后，有一部分资源并不是频繁更新的，拿 angular 或 v
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-11-28 Mon 17:35&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-04 Fri 23:20</p>
+<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
+<p class="date">Created: 2017-08-20 Sun 18:55</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
