@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Haskell</title>
-<!-- 2017-08-20 Sun 18:55 -->
+<title>Mock Server和代理服务器</title>
+<!-- 2017-08-27 Sun 10:12 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1643,93 +1643,14 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Haskell</h1>
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#sec-1">1. Haskell Stack替换镜像</a></li>
-<li><a href="#sec-2">2. Stack 升级到最新版</a></li>
-<li><a href="#sec-3">3. Yesod 的计划</a></li>
-<li><a href="#sec-4">4. haskell各种包介绍</a></li>
-<li><a href="#sec-5">5. haskell能干什么</a></li>
-</ul>
-</div>
-</div>
+<h1 class="title">Mock Server和代理服务器</h1>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Haskell Stack替换镜像</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-修改 ~/.stack/config.yaml 文件，加入以下的清华TUNA的stackage国内源，而之前stack连接的是github/s3的源，总是SSL ShakeHand failed<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-yaml"><span style="color: #2e8b57;">package-indices</span>:
-- <span style="color: #2e8b57;">name</span>: Tsinghua
-  <span style="color: #2e8b57;">download-prefix</span>: https://mirrors.tuna.tsinghua.edu.cn/hackage/package/
-  <span style="color: #2e8b57;">http</span>: https://mirrors.tuna.tsinghua.edu.cn/hackage/00-index.tar.gz
-<span style="color: #2e8b57;">setup-info</span>: <span style="color: #8b7355;">"http://mirrors.tuna.tsinghua.edu.cn/stackage/stack-setup.yaml"</span>
-<span style="color: #2e8b57;">urls</span>:
-  <span style="color: #2e8b57;">latest-snapshot</span>: http://mirrors.tuna.tsinghua.edu.cn/stackage/snapshots.json
-  <span style="color: #2e8b57;">lts-build-plans</span>: http://mirrors.tuna.tsinghua.edu.cn/stackage/lts-haskell/
-  <span style="color: #2e8b57;">nightly-build-plans</span>: http://mirrors.tuna.tsinghua.edu.cn/stackage/stackage-nightly/
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Stack 升级到最新版</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-按照 <a href="http://www.yesodweb.com/page/quickstart">官网</a> 上所说，安装最新的Stack会失败:<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-sh">curl -sSL https://get.haskellstack.org/ | sh
-</pre>
-</div>
-
-<p>
-可以将get.haskellstack.org的脚本下载下来，shell里未下载成功的安装包先下载好，然后修改下载下的脚本，将脚本里的下载替换为copy已下载的安装包，这样就可以正常安装最新的stack<br  />
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Yesod 的计划</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-总的计划是将39的东西复制一遍<br  />
-分成几个层次，一是与业务无关的部分，比如微信登录功能，cookie之类的<br  />
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> haskell各种包介绍</h2>
-<div class="outline-text-2" id="text-4">
-<p>
-<a href="https://zhuanlan.zhihu.com/p/21808560">https://zhuanlan.zhihu.com/p/21808560</a><br  />
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> haskell能干什么</h2>
-<div class="outline-text-2" id="text-5">
-<p>
-parsec解析并修改文件<br  />
-生成随机数据</p>
-</div>
-</div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-06 Sun 23:14&gt;</span></span></p>
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-23 Wed 16:24&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
 <p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-20 Sun 18:55</p>
+<p class="date">Created: 2017-08-27 Sun 10:12</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

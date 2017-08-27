@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Android相关</title>
-<!-- 2017-08-20 Sun 18:55 -->
+<title>生命太短暂</title>
+<!-- 2017-08-27 Sun 10:12 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1643,94 +1643,91 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Android相关</h1>
+<h1 class="title">生命太短暂</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. android studio制作和引用aar</a></li>
-<li><a href="#sec-2">2. 初始化activity时动态调整view的高度</a></li>
-<li><a href="#sec-3">3. android URL encode decode</a></li>
+<li><a href="#sec-1">1. 时间的残酷</a></li>
+<li><a href="#sec-2">2. 创业伎俩</a></li>
+<li><a href="#sec-3">3. 普通人的无奈</a></li>
+<li><a href="#sec-4">4. 临终病人最遗憾的五件事</a></li>
 </ul>
 </div>
 </div>
-
+<p>
+时间太快了，离2001年来到大陆，已经16年了。除了没有进步的心和原以为还年轻的自己外，一切都悄悄发生变化。<br  />
+</p>
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> android studio制作和引用aar</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> 时间的残酷</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-<a href="http://www.stormzhang.com/android/2015/03/01/android-reference-local-aar/">android aar</a><br  />
+城市在发生变化，地铁四通八达；乡村在发生变化，拆迁的拆迁，造楼的造楼；年长的亲戚一个一个去世，家庭结构也发生了变化。唯一不变的真理是，时间一点一点地往前走，毫无征兆地，残酷地流逝。<br  />
+曾有人说7年就是一辈子，16年的时光，几乎没有沉淀下来什么，以前读书好有资本相对轻松，工作后的职业属于自由竞争行业，被创业公司剥削得体无完肤。我们总是向前看，很少回顾从前，当真的回头想想的时候，发现自己居然没做过，没爱过，没努力过，努力了又被创业公司骗过。<br  />
 </p>
 </div>
 </div>
-
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> 初始化activity时动态调整view的高度</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> 创业伎俩</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-android create的时候的生命周期如下:<br  />
-Activity.oncreate()→Activity.onResume()→<br  />
-TestImageView.onMeasure()→TestImageView.onLayout()→<br  />
-onGlobalLayoutListener()→<br  />
-Activity.onWidnowFocusChanged()→&#x2026;..→TextImageView.onDraw()<br  />
+这个拿着绿卡的创业公司老板，和那个睡女下属的创业公司老板，在全员大会上鼓吹着梦想和每天加班，拿着离职员工被回收的期权继续忽悠着占公司总人数大部分的纯真毕业生。到点下班的会被开除，只有加班才有望升职加薪，在这样的环境里，经过时间的锤炼，会成为一个不谙世事的傻逼，等真正醒悟时，可能已经过了5、6年。<br  />
+当代社会鲜有真挚的感情，刻骨铭心的爱情和难忘的奋斗；记忆会过滤苦难，只留下想要记住的。唯独创业公司的艰苦、不良亲戚的行为、和到处拈花惹草的渣男同事让人津津乐道，难以忘却。<br  />
 </p>
-
-<p>
-所以我们应该在onWindowFocusChanged中动态改变view的size<br  />
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-java"><span style="color: #1c86ee;">public</span> <span style="color: #00688b;">void</span> <span style="color: #cd9b1d;">onWindowFocusChanged</span>(<span style="color: #00688b;">boolean</span> <span style="color: #2e8b57;">hasFocus</span>) {
-    <span style="color: #1c86ee;">if</span> (offset == 0) {
-
-        <span style="color: #00688b;">int</span>[] <span style="color: #2e8b57;">location</span> = <span style="color: #1c86ee;">new</span> <span style="color: #00688b;">int</span>[2];
-        confirmPasswordHint.getLocationOnScreen(location);
-
-        offset = location[1] - head.getHeight();
-        <span style="color: #00688b;">int</span> <span style="color: #2e8b57;">originHeight</span> = rootScroll.getHeight() - head.getHeight();
-        <span style="color: #00688b;">int</span> <span style="color: #2e8b57;">newHeight</span> = originHeight + offset;
-
-        <span style="color: #6e8b3d;">ViewGroup</span>.<span style="color: #00688b;">LayoutParams</span> <span style="color: #2e8b57;">lp</span> = contentWrapper.getLayoutParams();
-        lp.height = newHeight;
-
-        contentWrapper.setLayoutParams(lp);
-    }
-}
-</pre>
-</div>
 </div>
 </div>
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> android URL encode decode</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> 普通人的无奈</h2>
 <div class="outline-text-2" id="text-3">
-<div class="org-src-container">
-
-<pre class="src src-java"><span style="color: #1c86ee;">try</span> {
-    encodeUrl = URLEncoder.encode(url, <span style="color: #8b7355;">"UTF-8"</span>);
-} <span style="color: #1c86ee;">catch</span> (<span style="color: #00688b;">Exception</span> <span style="color: #2e8b57;">e</span>) {
-    WDLog.printStackTrace(e);
-}
-</pre>
+<p>
+普通人要应付琐碎的事情，处理争吵，焦虑上学，托人办事，习惯性应付工作，又或者有抱负却不能实现。一生处于这些来往反复中。 ​​​<br  />
+有钱人就不一样了，有关系，有门路，有真正的朋友圈。不必为生计发愁，不必为升职加薪焦虑。有钱人越来越有钱，而普通人，只能贱卖自己的时间，为了生存不得不这么做。这和奴隶相比，本质上没有任何区别。<br  />
+对普通人来说，能有爱的人，能做成一些事情，能避免灾祸或冲突，见想见的人，努力不沦落为坏人，已经是很幸运的事情了。人生苦短，不必委曲求全。 ​​​<br  />
+</p>
 </div>
-
-<div class="org-src-container">
-
-<pre class="src src-java"><span style="color: #1c86ee;">try</span> {
-    url = URLDecoder.decode(rawUrl, <span style="color: #8b7355;">"UTF-8"</span>);
-} <span style="color: #1c86ee;">catch</span> (<span style="color: #00688b;">Exception</span> <span style="color: #2e8b57;">e</span>) {
-    WDLog.printStackTrace(e);
-}
-</pre>
 </div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 临终病人最遗憾的五件事</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+以下文字大部分来自"临终病人最遗憾的五件事"这篇文章。摘录到此，希望大家能正视自己短暂的生命。<br  />
+</p>
+<ul class="org-ul">
+<li>我希望当初自己有勇气活按我自己真正想要的方法去生活，而不是按别人希望我过的生活。<br  />
+这是所有遗憾中出现最多次的。当人们意识到他们的生命将走到尽头时，回头看清自己的生命，很容易就可以看出有多少梦想没有实现。大部分人会发现他连自己梦想的半数都没能实现，而只能就此死去，明知那没能实现的梦是因为他们自己做出的选择，或是没做的选择。<br  />
+在你的人生之路上，努力去实现至少一部分的梦想是非常重要的事情。到你失去健康时就太迟了。人们很少意识到健康带来的自由，直到不再拥有才注意到它。<br  />
+</li>
+<li>我希望我当初工作别那么拼命<br  />
+我护理过的所有男患者都提出这一点。他们错过了他们孩子们小的时候(成长的快乐)，错过他们的伴侣的温暖的陪伴。我的女患者们也说起这个遗憾，不过我的女患者中大部分是老一代人，她们中的大部分不是家里要赚钱养家的那个人。我护理过的所有男患者都为自己把太多的生命花在枯燥的工作上而感到遗憾。<br  />
+如果能把生活方式简化一下，并做出清醒的选择的话，你很可能并不需要你认为需要的那么多的收入。(这样一来就你可以)在生命中腾出更多的空间，你可以变得更快乐，对新的机会更加开放，更加适应你的新的生活方式。<br  />
+</li>
+<li>我希望我当初有勇气表达自己的感受<br  />
+许多人为了保持和别人相安无事，而压抑自己的感受。这样做的结果就是，他们生活在一种中庸的生活方式中，再也不能成为他们本可以成为的样子。许多疾病正是他们由此所承受的痛苦和怨恨郁结的结果。<br  />
+我们无法控制别人的反应。不论如何，当你改变做法，开始讲真心话时，也许别人开始会反击，但最后也许会把你们的关系提升到一个全新的、健康的层面。或者即使不是这样，却可以把你从这种不健康的关系中解脱出来。不论是哪种结果，你都是赢家。<br  />
+</li>
+<li>我希望我当初和朋友能保持联络<br  />
+他们通常并未真正意识到老朋友的好处，直至生命仅剩数周时，(当他们意识到时)经常是已经无法找到朋友们的下落了。许多人在生命之旅中急匆匆赶路，而任由金子般珍贵的友谊随年华溜走。许多人因为没能给友谊以本应给的时间和精力而深感遗憾。在面对死亡时，每个人都怀念他们的朋友们。<br  />
+
+<p>
+忙碌生活中的人们丢失友谊是非常常见的事情。但当你面对逐渐逼近的死亡时，生命中的物质的细节逐渐离去。如果可能的话，人们确实想要让自己的财务情况稳妥。不过金钱或地位并非是真正重要的东西。他们想把事情安排妥贴是为了让他们所爱的人可以受益。可惜一般而言，他们已经病得太厉害也太虚弱，无法完成这项任务了。所有的一切，到最后都归结到爱以及(人与人之间的)关系上。爱以及人与人之间的关系，这是最后数周唯一存在的东西。<br  />
+</p>
+</li>
+<li>我希望我当初能让自己更加快乐<br  />
+出乎意料，这一点具有相当的普遍性。许多人直到生命尽头才意识到，幸福其实是一种选择。他们已经固化在旧的行为模式和习惯上。由熟悉感所带来的“舒适”，淹没了他们的激情，也使他们的身体懒惰下来。惧怕改变使他们对他人、也对自己，假装过得很满意。而当他们面对自己的内心时，他们渴望能够再次开怀大笑，做些傻事。<br  />
+
+<p>
+当你临终卧床时，别人的看法已经无足轻重。那么，何不在远离死亡之时，就开始忽略他人的看法，对自己微笑。<br  />
+</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-06 Sun 23:12&gt;</span></span></p>
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-26 Sat 21:11&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
 <p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-20 Sun 18:55</p>
+<p class="date">Created: 2017-08-27 Sun 10:12</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

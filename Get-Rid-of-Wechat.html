@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Org mode相关</title>
-<!-- 2017-08-20 Sun 18:55 -->
+<title>摆脱微信</title>
+<!-- 2017-08-27 Sun 10:12 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1643,375 +1643,83 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Org mode相关</h1>
+<h1 class="title">摆脱微信</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. Mac电脑上orgmode表格对齐</a>
-<ul>
-<li><a href="#sec-1-1">1.1. 下载Ubuntu Mono字体，并安装</a></li>
-<li><a href="#sec-1-2">1.2. 配置org-table的字体</a></li>
-<li><a href="#sec-1-3">1.3. 字体大小配置</a></li>
-<li><a href="#sec-1-4">1.4. Fedora安装字体</a></li>
-</ul>
-</li>
-<li><a href="#sec-2">2. orgmode导出时显示Email</a></li>
-<li><a href="#sec-3">3. Emacs ditaa配置</a>
-<ul>
-<li><a href="#sec-3-1">3.1. 使用 EMACS ORG-MODE 画图</a></li>
-<li><a href="#sec-3-2">3.2. artist-mode画文本图</a></li>
-<li><a href="#sec-3-3">3.3. 在 org-mode 中使用 Graphviz 畫關係圖</a></li>
-<li><a href="#sec-3-4">3.4. 那些年，我追过的绘图工具</a></li>
-<li><a href="#sec-3-5">3.5. GraphViz for discrete math students</a></li>
-<li><a href="#sec-3-6">3.6. graphics</a></li>
-</ul>
-</li>
-<li><a href="#sec-4">4. orgmode</a>
-<ul>
-<li><a href="#sec-4-1">4.1. 用orgmode来写hexo的博客</a></li>
-<li><a href="#sec-4-2">4.2. org mode export相关</a></li>
-</ul>
-</li>
-<li><a href="#sec-5">5. orgmode manual</a></li>
-<li><a href="#sec-6">6. ORG BABEL</a></li>
+<li><a href="#sec-1">1. 用完即走</a></li>
+<li><a href="#sec-2">2. 看一看和搜一搜</a></li>
+<li><a href="#sec-3">3. 时间该花在哪里</a></li>
+<li><a href="#sec-4">4. 为何能起作用</a></li>
+<li><a href="#sec-5">5. 主动和被动</a></li>
 </ul>
 </div>
 </div>
+<p>
+张小龙说好的应用是用完即走，结果由于人性的弱点，我们用完赖着不走。很多人说话都是前后不一的，放出去的重炮有时候自己都后悔，怪不得做人要低调，做事要高调，都与文化有关。<br  />
+</p>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Mac电脑上orgmode表格对齐</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> 用完即走</h2>
 <div class="outline-text-2" id="text-1">
-</div><div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 下载<a href="https://fonts.google.com/download?family=Ubuntu%2520Mono">Ubuntu Mono字体</a>，并安装</h3>
-<div class="outline-text-3" id="text-1-1">
 <p>
-双击ttf文件后, 有按钮可以Install Font<br  />
+那么我们的目标是什么呢? 我同意张小龙的说法，用完即走。我对微信的看法还停留在工具层面，事实是也应该如此；不然为什么有那么多人、那么多文提到要断舍离，要关闭微信朋友圈，还要删除微信的? 在我看来，微的用完即走在于收发消息，就这么简单。所以对我来说，我的目标就是下图所示，让微信使用的电量排名靠后，让其他该用电量的App排名靠前。<br  />
+</p>
+
+<p>
+用完即走非常简单，收发完消息，直接双击Home键(3D Touch也可以)杀死微信App，这不就是用完即走的最简单体现嘛。用完即走和微信用电量排名下降在某种程序上是一个意思，那么象征这个意思的动作就是杀死微信App进程。所以有的App使用完都应该杀死进程。<br  />
+</p>
+
+
+<div class="figure">
+<p><img src="images/iPhone-power-usage.jpg" alt="iPhone-power-usage.jpg" /><br  />
 </p>
 </div>
 </div>
-<div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 配置org-table的字体</h3>
-<div class="outline-text-3" id="text-1-2">
-<div class="org-src-container">
+</div>
 
-<pre class="src src-emacs-lisp">(custom-set-faces
- '(org-table ((t (<span style="color: #cd6600;">:foreground</span> <span style="color: #8b7355;">"#6c71c4"</span> <span style="color: #cd6600;">:family</span> <span style="color: #8b7355;">"Ubuntu Mono"</span>)))))
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 字体大小配置</h3>
-<div class="outline-text-3" id="text-1-3">
-<p>
-Ubuntu Mono下的表格要对齐的话需要设置字体高度80, 100, 120, 140, 160&#x2026;，而且表格中如果有链接，那么其字体大小会和字体大小不一致<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-elisp">(set-face-attribute 'default nil <span style="color: #cd6600;">:height</span> 140)
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-sec-1-4" class="outline-3">
-<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Fedora安装字体</h3>
-<div class="outline-text-3" id="text-1-4">
-<div class="org-src-container">
-
-<pre class="src src-sh"><span style="color: #cd6600;">cd</span> /usr/share/fonts
-sudo mkdir unbuntu-mono
-sudo unzip &lt;ubuntu-mono zip file&gt; ./
-sudo mkfontscale
-sudo mkfontdir
-sudo fc-cache
-</pre>
-</div>
-</div>
-</div>
-</div>
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> orgmode导出时显示Email</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> 看一看和搜一搜</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-首先需要打开email显示，设置#+OPTIONS: email:t<br  />
-再设置显示的email是什么，设置#+EMAIL: &lt;your email address&gt;<br  />
+看一看和搜一搜是微信实验室里的两个产品。不好意思，的确非常方便，这两个功能是有瘾的。要知道在手机上切换App是一件成本很高的事情，以后用户不需要再切换到今日头条和百度搜索App了。不过不好意思，这和用完即走是矛盾的，反而增加了用户的使用时间。我认为App应该专项专用，该上网的地方上网，该写笔记的地方写笔记(如上图，我使用MobileOrg极少人使用的App记笔记)。<br  />
+我在微信里看到某些值得读的文章，直接发送到Safari上，然后双击Home键，杀死微信App。<br  />
 </p>
 </div>
 </div>
 
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Emacs ditaa配置</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> 时间该花在哪里</h2>
 <div class="outline-text-2" id="text-3">
-</div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> <a href="http://www.cnblogs.com/chenfanyu/archive/2013/01/27/2878845.html">使用 EMACS ORG-MODE 画图</a></h3>
-<div class="outline-text-3" id="text-3-1">
-<ul class="org-ul">
-<li>命令行安装<br  />
-<ul class="org-ul">
-<li>brew install graphviz<br  />
-将dot命令链接到emacs的exec-path某个目录下，不然就会找不到<br  />
-</li>
-<li>brew install ditaa<br  />
-将ditaa的安装目录下的jar文件放到某目录下，emacs的配置之后会用到<br  />
-</li>
-</ul>
-</li>
-<li>emacs配置org-babel-load-languages<br  />
-</li>
-
-<li>orgmode ditaa 的 BEGIN_SRC<br  />
-  建议了将 BEGIN_SRC block 放 yasnippet 里<br  />
-</li>
-<li>提示了 plantuml 和 ditaa 需要额外配置jar包path<br  />
-</li>
-<li>ditaa 命令行<br  />
-并介绍了图形的语法<br  />
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> <a href="http://emacser.com/artist-mode.htm">artist-mode画文本图</a></h3>
-<div class="outline-text-3" id="text-3-2">
 <p>
-如何使用artist-mode来画图，不过不实用，还需要再次研究，实用性不大<br  />
+我在手机上大部分的时间是在MobileOrg中，不知道MobileOrg的，你可以认为我大部分时间是花在印象笔记、有道笔记、Ulysses上，主要是写东西、写计划。由于人性的弱点，所以我在MobileOrg里安排了两条Item，一条名为Task，一条名为Task池，在Task中列出了当前应该做的事情，在Task池中，列出了最终可能会完成的事情。我对Task或待办的理解是，做完就是赚到，完不成是正常现象。所以Task中没有做完的会移动到Task池中，任务总是在这两条Item里面倒来倒去。<br  />
+有时候你看到你的Task时会发现有些任务总是无法开始，你能完成的任务总是非常简单的任务。这说明这些任务的准入门槛比较高，所以慢慢拆出容易的任务是比较明智的做法。<br  />
 </p>
 </div>
 </div>
-<div id="outline-container-sec-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> <a href="http://coldnew.github.io/blog/2013/07-13_07e15/">在 org-mode 中使用 Graphviz 畫關係圖</a></h3>
-<div class="outline-text-3" id="text-3-3">
-<ul class="org-ul">
-<li>org-mode如何设置dot程序<br  />
-</li>
-<li>给出流程图的例子<br  />
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-sec-3-4" class="outline-3">
-<h3 id="sec-3-4"><span class="section-number-3">3.4</span> <a href="https://zhuanlan.zhihu.com/p/19900327">那些年，我追过的绘图工具</a></h3>
-<div class="outline-text-3" id="text-3-4">
-<ul class="org-ul">
-<li>word<br  />
-</li>
-<li>visio<br  />
-</li>
-<li>omnigraffle<br  />
-</li>
-<li>graphviz<br  />
-给出了状态转移图的例子<br  />
-</li>
-<li>ditaa<br  />
-</li>
-<li>plantuml<br  />
-给出了时序图的例子<br  />
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-sec-3-5" class="outline-3">
-<h3 id="sec-3-5"><span class="section-number-3">3.5</span> <a href="http://graphs.grevian.org/">GraphViz for discrete math students</a></h3>
-</div>
-<div id="outline-container-sec-3-6" class="outline-3">
-<h3 id="sec-3-6"><span class="section-number-3">3.6</span> graphics</h3>
-<div class="outline-text-3" id="text-3-6">
-
-<div class="figure">
-<p><img src="images/hello.png" alt="hello.png" /><br  />
-</p>
-</div>
-
-
-<div class="figure">
-<p><img src="images/example.png" alt="example.png" /><br  />
-</p>
-</div>
-
-
-
-<div class="figure">
-<p><img src="dot.png" alt="dot.png" /><br  />
-</p>
-</div>
-
-
-<div class="figure">
-<p><img src="structure.png" alt="structure.png" /><br  />
-</p>
-</div>
-
-
-<div class="figure">
-<p><img src="hash-table.png" alt="hash-table.png" /><br  />
-</p>
-</div>
-
-
-<div class="figure">
-<p><img src="images/stream.png" alt="stream.png" /><br  />
-</p>
-</div>
-</div>
-</div>
-</div>
-
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> orgmode</h2>
+<h2 id="sec-4"><span class="section-number-2">4</span> 为何能起作用</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<a href="http://wiki.dreamrunner.org/public_html/Emacs/org-mode.html">http://wiki.dreamrunner.org/public_html/Emacs/org-mode.html</a><br  />
-<a href="http://forum.ubuntu.org.cn/viewtopic.php?f=68&t=395158">http://forum.ubuntu.org.cn/viewtopic.php?f=68&t=395158</a><br  />
-</p>
-<ul class="org-ul">
-<li>多行table<br  />
-使用的方法是使用"C-c ~"在Orgmode table和table.el table之间切换，变成table.el table后，再删除多余的分隔线<br  />
-</li>
-<li>bas64 encoding<br  />
-选中需要encode的字符范围，然后再 M-x base64-encode-region<br  />
-</li>
-<li>跳转到某一节点<br  />
-生成id: org-id-get-create<br  />
-跳转id: org-id-goto<br  />
-</li>
-</ul>
-</div>
-<div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 用orgmode来写hexo的博客</h3>
-<div class="outline-text-3" id="text-4-1">
-<p>
-<a href="https://github.com/CodeFalling/hexo-renderer-org">hexo-renderer-org</a><br  />
-<a href="https://coldnew.github.io/hexo-org-example/2017/03/05/getting-started-with-hexo-and-org-mode/">hexo-org-example</a><br  />
-<a href="https://www.npmjs.com/package/hexo-renderer-org">hexo-org npm package</a><br  />
-有一个问题就是yaml在htmlize下不能语法高亮<br  />
+为什么Task和Task池能对我起作用? 因为我在学生时代有一个小本子，记录每天要完成作业的习惯，写上日期，写上语文、数学、物理之类要做什么任务，然后会很好地完成。到大学里后，没有人来管束你时你没有记录的习惯了，加上其他原因很多事情总是无法很好的完成。如今又有了微信这一类用来偷用户时间的App，想要完成任务就非常难。所以我重新捡起原先记录的习惯，然后真的起作用了。<br  />
 </p>
 </div>
 </div>
-<div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> org mode export相关</h3>
-<div class="outline-text-3" id="text-4-2">
-<p>
-<a href="http://orgmode.org/manual/Export-settings.html">http://orgmode.org/manual/Export-settings.html</a><br  />
-</p>
-</div>
-</div>
-</div>
-
 <div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> <a href="http://orgmode.org/manual/index.html">orgmode manual</a></h2>
-</div>
-
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6"><span class="section-number-2">6</span> <a href="http://orgmode.org/worg/org-contrib/babel/intro.html">ORG BABEL</a></h2>
-<div class="outline-text-2" id="text-6">
-<pre class="example" id="square">
-return x*x
-</pre>
-
-<table id="fibonacci-inputs" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="right" />
-
-<col  class="right" />
-
-<col  class="right" />
-
-<col  class="right" />
-
-<col  class="right" />
-
-<col  class="right" />
-
-<col  class="right" />
-
-<col  class="right" />
-
-<col  class="right" />
-
-<col  class="right" />
-</colgroup>
-<tbody>
-<tr>
-<td class="right">1</td>
-<td class="right">2</td>
-<td class="right">3</td>
-<td class="right">4</td>
-<td class="right">5</td>
-<td class="right">6</td>
-<td class="right">7</td>
-<td class="right">8</td>
-<td class="right">9</td>
-<td class="right">10</td>
-</tr>
-
-<tr>
-<td class="right">2</td>
-<td class="right">4</td>
-<td class="right">6</td>
-<td class="right">8</td>
-<td class="right">10</td>
-<td class="right">12</td>
-<td class="right">14</td>
-<td class="right">16</td>
-<td class="right">18</td>
-<td class="right">20</td>
-</tr>
-</tbody>
-</table>
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp" id="fibonacci-seq">(<span style="color: #1c86ee;">defun</span> <span style="color: #cd9b1d;">fibonacci</span> (n)
-  (<span style="color: #1c86ee;">if</span> (<span style="color: #1c86ee;">or</span> (= n 0) (= n 1))
-      n
-    (+ (fibonacci (- n 1)) (fibonacci (- n 2)))))
-(mapcar (<span style="color: #1c86ee;">lambda</span> (row)
-          (mapcar #'fibonacci row)) <span style="color: #ff0000;">fib-inputs)</span>
-</pre>
-</div>
-
-<table id="data" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="left" />
-
-<col  class="left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="left">username</td>
-<td class="left">john-doe</td>
-</tr>
-
-<tr>
-<td class="left">password</td>
-<td class="left">abc123</td>
-</tr>
-</tbody>
-</table>
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(<span style="color: #1c86ee;">setq</span> my-special-username (first (first data)))
-(<span style="color: #1c86ee;">setq</span> my-special-password (first (second data)))
-</pre>
-</div>
-
-<div class="org-src-container">
-
-<pre class="src src-sh" id="directories"><span style="color: #cd6600;">cd</span> ~ &amp;&amp; du -sc * | grep -v total
-</pre>
-</div>
+<h2 id="sec-5"><span class="section-number-2">5</span> 主动和被动</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+我们需要主动生活，主动工作，写笔记就是主动的体现，可能你有其他主动方法。微信给我们多巴胺，它异化了我们，让我们离不开它。那么请从杀死App开始，用完即走，摆脱微信。<br  />
+</p>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-06 Sun 17:32&gt;</span></span></p>
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-21 Mon 11:15&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
 <p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-20 Sun 18:55</p>
+<p class="date">Created: 2017-08-27 Sun 10:12</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
