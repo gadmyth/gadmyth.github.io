@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Docker On Mac OSX</title>
-<!-- 2017-08-20 Sun 18:55 -->
+<!-- 2018-01-09 Tue 00:03 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1640,6 +1640,48 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
 </head>
 <body>
 <div id="content">
@@ -1649,40 +1691,47 @@ for the JavaScript code in this tag.
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#sec-1">1. 安装 Docker</a></li>
-<li><a href="#sec-2">2. Docker MySQL</a>
+<li><a href="#sec-2">2. Docker命令</a></li>
+<li><a href="#sec-3">3. Docker Node.js</a></li>
+<li><a href="#sec-4">4. Docker MySQL</a>
 <ul>
-<li><a href="#sec-2-1">2.1. 获取 image</a></li>
-<li><a href="#sec-2-2">2.2. 运行 MySQL Docker 实例</a></li>
-<li><a href="#sec-2-3">2.3. 连接 MySQL Container Instance</a>
+<li><a href="#sec-4-1">4.1. 获取 image</a></li>
+<li><a href="#sec-4-2">4.2. 运行 MySQL Docker 实例</a></li>
+<li><a href="#sec-4-3">4.3. 连接 MySQL Container Instance</a>
 <ul>
-<li><a href="#sec-2-3-1">2.3.1. 错误的连接方式</a></li>
-<li><a href="#sec-2-3-2">2.3.2. 使用 Volume</a></li>
-<li><a href="#sec-2-3-3">2.3.3. Volume 映射到 [Host Directory]</a></li>
+<li><a href="#sec-4-3-1">4.3.1. 错误的连接方式</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#sec-3">3. Docker Redis</a></li>
-<li><a href="#sec-4">4. Docker Tornado</a>
+<li><a href="#sec-5">5. Docker Redis</a></li>
+<li><a href="#sec-6">6. Docker Tornado</a>
 <ul>
-<li><a href="#sec-4-1">4.1. 从 centOS image 生成 tornado 环境</a></li>
-<li><a href="#sec-4-2">4.2. 使用 [Dockerfile]生成自己的 image</a></li>
+<li><a href="#sec-6-1">6.1. 从 centOS image 生成 tornado 环境</a></li>
+<li><a href="#sec-6-2">6.2. 使用 [Dockerfile]生成自己的 image</a></li>
 </ul>
 </li>
-<li><a href="#sec-5">5. docker container 的连接</a>
+<li><a href="#sec-7">7. docker container 的连接</a>
 <ul>
-<li><a href="#sec-5-1">5.1. 初始化数据库</a></li>
-<li><a href="#sec-5-2">5.2. 连接 Tornado, MySQL, Redis</a>
+<li><a href="#sec-7-1">7.1. 初始化数据库</a></li>
+<li><a href="#sec-7-2">7.2. 连接 Tornado, MySQL, Redis</a>
 <ul>
-<li><a href="#sec-5-2-1">5.2.1. 基于 debian:jessie 的 python image 创建 tornado image</a></li>
-<li><a href="#sec-5-2-2">5.2.2. 配置程序的config</a></li>
-<li><a href="#sec-5-2-3">5.2.3. 运行结果</a></li>
+<li><a href="#sec-7-2-1">7.2.1. 基于 debian:jessie 的 python image 创建 tornado image</a></li>
+<li><a href="#sec-7-2-2">7.2.2. 配置程序的config</a></li>
+<li><a href="#sec-7-2-3">7.2.3. 运行结果</a></li>
 </ul>
 </li>
-<li><a href="#sec-5-3">5.3. 使用 docker compose 连接 container</a></li>
+<li><a href="#sec-7-3">7.3. 使用 docker compose 连接 container</a></li>
 </ul>
 </li>
-<li><a href="#sec-6">6. 私有 docker hub 的搭建</a></li>
+<li><a href="#sec-8">8. 私有 docker hub 的搭建</a></li>
+<li><a href="#sec-9">9. Docker compose</a>
+<ul>
+<li><a href="#sec-9-1">9.1. YAML 模板文件</a></li>
+<li><a href="#sec-9-2">9.2. docker-compose 命令</a></li>
+<li><a href="#sec-9-3">9.3. docker-compose 示例文件</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1772,8 +1821,519 @@ docker 启动完成后，Docker 的 daemon 进程就有了，docker 的命令行
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> <a href="https://hub.docker.com/_/mariadb/">Docker MySQL</a></h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> Docker命令</h2>
 <div class="outline-text-2" id="text-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">command</th>
+<th scope="col" class="left">option</th>
+<th scope="col" class="left">comment</th>
+<th scope="col" class="left">example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">pull</td>
+<td class="left">&#xa0;</td>
+<td class="left">拉取image；如果不指定tag，将拉取最新的image，需要先查找有哪些tag <a href="#docker-tag">3</a></td>
+<td class="left">docker pull &lt;image&gt;:&lt;tag&gt;</td>
+</tr>
+
+<tr>
+<td class="left">images</td>
+<td class="left">&#xa0;</td>
+<td class="left">列出已经下载或制作的docker image</td>
+<td class="left">docker images</td>
+</tr>
+
+<tr>
+<td class="left">rmi</td>
+<td class="left">&#xa0;</td>
+<td class="left">删除image，需要stop and rm所有相关的container</td>
+<td class="left">docker rmi &lt;image&gt;</td>
+</tr>
+
+<tr>
+<td class="left">ps</td>
+<td class="left">-a</td>
+<td class="left">列出全部container，包括没有run/start的container</td>
+<td class="left">docker ps -a</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">不指定-a时，列出活动着的container</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">stop</td>
+<td class="left">&#xa0;</td>
+<td class="left">停止一个container</td>
+<td class="left">docker stop &lt;container&gt;</td>
+</tr>
+
+<tr>
+<td class="left">rm</td>
+<td class="left">&#xa0;</td>
+<td class="left">删除一个container；container需要先stop掉</td>
+<td class="left">docker rm &lt;container&gt;</td>
+</tr>
+
+<tr>
+<td class="left">run</td>
+<td class="left">&#xa0;</td>
+<td class="left">基于image创建container</td>
+<td class="left">docker run [OPTIONS] &lt;image&gt; [COMMAND] [ARG&#x2026;]</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">OPTIONS表示选项，如指定名字，端口，文件，网络等</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">COMMAND表示应用启动后执行的命令</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">ARG表示COMMAND的参数</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;name</td>
+<td class="left">指定container名字</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">-p</td>
+<td class="left">端口映射，docker内部端口与host端口</td>
+<td class="left">-p 8080:8080</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">-v</td>
+<td class="left">文件映射</td>
+<td class="left">-v &lt;host-project&gt;:/projects/&lt;project&gt;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;network</td>
+<td class="left">指定网络</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;ip</td>
+<td class="left">指定ip</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">-e</td>
+<td class="left">环境变量</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">-d</td>
+<td class="left">deatch，后台完行</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">-i</td>
+<td class="left">可以terminal交互</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">-t</td>
+<td class="left">有终端</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">-it</td>
+<td class="left">-i, -t组合，用于启动terminal命令行交互</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">exec</td>
+<td class="left">&#xa0;</td>
+<td class="left">如果后台已经有一个container处于run/start状态，</td>
+<td class="left">docker exec -it &lt;conainer&gt; sh</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">使用exec可以执行一条command，右边的命令可以</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">attach到container上</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">inspect</td>
+<td class="left">&#xa0;</td>
+<td class="left">查看container内部配置；比如不记得是否指定了volume</td>
+<td class="left">docker inspect [OPTIONS] NAME\ID [NAME\ID&#x2026;]</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;format</td>
+<td class="left">&#x2013;format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'</td>
+<td class="left">查看IP</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;format='{{range .NetworkSettings.Networks}}{{.MacAddress}}{{end}}'</td>
+<td class="left">查看Mac地址</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;format='{{json .HostConfig.Binds}}'</td>
+<td class="left">查看绑定</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;format='{{json .Config.Mounts}}'</td>
+<td class="left">查看文件挂载</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;format='{{json .Config.Image}}'</td>
+<td class="left">查看image</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;format='{{json .Config.ExportedPorts}}'</td>
+<td class="left">查看外部端口</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;format='{{json .HostConfig.Links}}'</td>
+<td class="left">查看conainer之间的连接配置</td>
+</tr>
+
+<tr>
+<td class="left">port</td>
+<td class="left">&#xa0;</td>
+<td class="left">列出container端口</td>
+<td class="left">docker port CONTAINER [PRIVATE_PORT[/PROTOCOL]]</td>
+</tr>
+
+<tr>
+<td class="left"><a href="https://docs.docker.com/engine/reference/commandline/network_create/">network create</a></td>
+<td class="left">&#xa0;</td>
+<td class="left">创建网络</td>
+<td class="left">docker network create [OPTIONS] &lt;network&gt;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">如果不设置网络，那么docker会配置一个默认网络</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;driver</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;driver=bridge</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;subnet</td>
+<td class="left">子网络</td>
+<td class="left">&#x2013;subnet=172.16.238.0/24</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#x2013;gateway</td>
+<td class="left">网关设置</td>
+<td class="left">&#x2013;gateway=172.16.238.1</td>
+</tr>
+
+<tr>
+<td class="left">network rm</td>
+<td class="left">&#xa0;</td>
+<td class="left">删除network；该network没有被使用时才可删除</td>
+<td class="left">docker rm &lt;network&gt;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Docker Node.js</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+如果你尝试nodejs开发，需要下载一个nodejs专用的docker image；通过docker search node命令可以某个node的image，一般选大家标星数比较大的，当然也可以自己定制image:<br  />
+</p>
+<pre class="example">
+docker search node
+NAME                                   DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
+node                                   Node.js is a JavaScript-based platform for...   4940                [OK]                
+mhart/alpine-node                      Minimal Node.js built on Alpine Linux           330                                     
+mongo-express                          Web-based MongoDB admin interface, written...   208                 [OK]                
+selenium/node-chrome                                                                   133                                     [OK]
+iojs                                   io.js is an npm compatible platform origin...   124                 [OK]                
+nodered/node-red-docker                Node-RED Docker images.                         107                                     [OK]
+prom/node-exporter                                                                     55                                      [OK]
+digitallyseamless/nodejs-bower-grunt    Node.js w/ Bower &amp; Grunt Dockerfile for t...   42                                      [OK]
+readytalk/nodejs                       Node.js based off the official Debian Whee...   39                                      [OK]
+kkarczmarczyk/node-yarn                Node docker image with yarn package manage...   35                                      [OK]
+circleci/node                          Node.js is a JavaScript-based platform for...   28                                      
+bitnami/node                           Bitnami Node.js Docker Image                    27                                      [OK]
+iron/node                              Tiny Node image                                 25                                      
+nodesource/trusty                      The Official NodeSource Docker Images           12                                      
+appsvc/node                            Azure App Service Node.js dockerfiles           9                                       [OK]
+cusspvz/node                           🌐 Super small Node.js container (~15MB) ba...   8                                       [OK]
+basi/node-exporter                     Node exporter image that allows to expose ...   5                                       [OK]
+jprjr/stackbrew-node                   A stackbrew/ubuntu-based image for Docker,...   2                                       [OK]
+ppc64le/node                           Node.js is a JavaScript-based platform for...   2                                       
+nodecg/nodecg                          Create broadcast graphics using Node.js an...   1                                       [OK]
+resin/artik710-node                    Node.js is a JavaScript-based platform for...   1                                       
+myob/node                              Base node.js image                              0                                       [OK]
+camptocamp/node-collectd               rancher node monitoring agent                   0                                       [OK]
+thingswise/node-docker                 Node container                                  0                                       [OK]
+appsvctest/node                        node build                                      0                                       [OK]
+</pre>
+
+<p>
+我们选择标星数较大的mhart/alpine-node；理论上可以使用docker pull mhart/alpine-node命令拉取，只不过总是拉取最新的image；工程开发中一般需要指定某个稳定的tag<a id="docker-tag" name="docker-tag"></a>，可以在 <a href="https://hub.docker.com/">docker hub</a> 网站上查找某个docker后，查看其tag；也可以用以下的命令行解决，需要先安装jq这个json解析工具(brew install jq)，只不过去网站上查看tag的话可以看出某个tag的具体信息:<br  />
+</p>
+<pre class="example">
+$ curl -s -S "https://hub.docker.com/v2/repositories/mhart/alpine-node/tags/?page=1&amp;page_size=250" | jq .results[].name
+"base-8"
+"base-8.9"
+"base-8.9.4"
+"8"
+"8.9"
+"8.9.4"
+"base-6"
+"base-6.12"
+"base-6.12.3"
+"6"
+"6.12"
+"6.12.3"
+"base-9"
+"base-9.3"
+"base-9.3.0"
+"base"
+"9"
+"9.3"
+"9.3.0"
+"latest"
+"base-9.2"
+"base-9.2.1"
+"base-8.9.3"
+"base-6.12.2"
+"base-4"
+"base-4.8"
+"base-4.8.7"
+"4"
+"4.8"
+"4.8.7"
+"6.12.2"
+"9.2"
+"9.2.1"
+"8.9.3"
+"base-6.12.1"
+"base-8.9.2"
+"8.9.2"
+"6.12.1"
+"base-9.2.0"
+"9.2.0"
+"base-8.9.1"
+"8.9.1"
+"base-9.1"
+"base-9.1.0"
+"base-6.12.0"
+"base-4.8.6"
+"4.8.6"
+"6.12.0"
+"9.1"
+"9.1.0"
+"base-9.0"
+"base-9.0.0"
+"9.0"
+"9.0.0"
+"base-8.9.0"
+"8.9.0"
+"base-8.8"
+"base-8.8.1"
+"8.8"
+"8.8.1"
+"base-8.8.0"
+"base-6.11"
+"base-6.11.5"
+"base-4.8.5"
+"4.8.5"
+"6.11.5"
+"6.11"
+"8.8.0"
+"base-8.7.0"
+"base-8.7"
+"8.7"
+"8.7.0"
+"base-6.11.4"
+"6.11.4"
+"base-8.6.0"
+"base-8.6"
+"8.6"
+"8.6.0"
+"8.5"
+"8.5.0"
+"base-8.5.0"
+"base-8.5"
+"base-6.11.3"
+"6.11.3"
+"base-8.4"
+"base-8.4.0"
+"8.4"
+"8.4.0"
+"base-8.3"
+"base-8.3.0"
+"8.3"
+"8.3.0"
+"base-6.11.2"
+"6.11.2"
+"base-8.2"
+"base-8.2.1"
+"8.2"
+"8.2.1"
+"base-8.2.0"
+"8.2.0"
+</pre>
+
+<p>
+选定tag后，可以使用拉取alpine-node，并开启一个名为demo-node的container，其中8081是nodejs项目中mock server指定的端口号，需要EXPOSE给HOST；并将host的home目录指定到container的/data目录:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">$ cd ~
+$ mkdir npm-demo <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">&#21019;&#24314;demo&#30446;&#24405;</span>
+$ docker pull mhart/alpine-node:9.3 <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">&#25289;&#21462;image</span>
+$ docker run -it -d --name demo-node -p 8081:8081 -v ~/npm-demo:/data -d mhart/alpine-node:9.3 sh <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">run&#19968;&#20010;container&#22312;&#21518;&#21488;</span>
+</pre>
+</div>
+
+<p>
+然后进入到container命令行控制台，设置npm的registry、更新npm:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">$ docker exec -it demo-node sh <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">&#36827;&#20837;container tty</span>
+$ npm config set registry http://registry.npm.taobao.org
+$ npm update -g
+</pre>
+</div>
+
+<p>
+然后安装weex-toolkit<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">$ npm install weex-toolkit -g
+&#25253;&#38169; init toolkit directory error!
+we suggest you run <span style="color: #8b7355;">"sudo chmod 777 ~"</span> and re installor you can try <span style="color: #8b7355;">"mkdir ~/.xtoolkit&amp;&amp;chmod 777 .xtoolkit"</span>
+$ sudo chmod 777 ~; mkdir ~/.xtoolkit; chmod 777 ~/.xtoolkit; npm install weex-toolkit -g <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">&#20877;&#27425;&#23433;&#35013;weex-toolkit</span>
+</pre>
+</div>
+
+<p>
+对目前data创建weex project，其实就是Mac上的~/demo-npm目录<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">$ cd /
+$ weex create data <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">&#21019;&#24314;weex project&#21040;/data</span>
+$ cd /data
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">npm-shrinkwrap.json being "out of sync"&#65292;npm ERR! tar.unpack unzip error /tmp/npm-106-c96b359e/registry.npm.taobao.org/http-proxy/download/xxxx.tgz&#30340;&#38169;&#35823;</span>
+$ npm shrinkwrap
+$ npm install
+$ npm run dev
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">&#21040;HOST&#20877;&#36830;&#21040;container&#19978;: docker exec -it demo-node sh</span>
+$ weex src/index.vue
+
+info weex JS bundle saved at /root/.weex_tmp 
+info Mon Jan 08 2018 13:54:50 GMT+0000 (UTC)WebSocket  is listening on port 8082 
+info Mon Jan 08 2018 13:54:50 GMT+0000 (UTC)http  is listening on port 8081 
+info http://172.17.0.3:8081/?hot-reload_controller&amp;<span style="color: #2e8b57;">page</span>=index.js&amp;<span style="color: #2e8b57;">loader</span>=xhr&amp;<span style="color: #2e8b57;">wsport</span>=8082&amp;<span style="color: #2e8b57;">type</span>=vue
+</pre>
+</div>
+
+<p>
+根据以上log可以看出container在172.17.0.3的8081端口提供服务，172.17.0.3在host上并不能访问，使用docker ps后，可以看到以下情况，host的0.0.0.0:8081映射为container的8081端口。所以只需要将上面172.17.0.3替换为0.0.0.0/127.0.0.1/localhost就可以在host端流星器中访问了。<br  />
+</p>
+<pre class="example">
+$ docker ps
+CONTAINER ID        IMAGE                   COMMAND             CREATED             STATUS              PORTS                    NAMES
+c53867394490        mhart/alpine-node:9.3   "sh"                6 minutes ago       Up 35 seconds       0.0.0.0:8081-&gt;8081/tcp   demo-node
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> <a href="https://hub.docker.com/_/mariadb/">Docker MySQL</a></h2>
+<div class="outline-text-2" id="text-4">
 <p>
 既然我们决定了开发机上统一使用 docker 来装载基础组件，拿 MySQL 为例，在没有 docker 的情况下，由于操作系统 Linux/Unix/Mac 的不同和各操作系统发行版之间的碎片化，MySQL 在不同的  操作系统之间的安装、启动命令都是不同的，显然增加了学习成本 (当然会在不同的平台下配置运行这些组件可能是必备技能)。下面我们先列一下各平台下，MySQL 的安装运行命令。<br  />
 </p>
@@ -1826,9 +2386,9 @@ docker 启动完成后，Docker 的 daemon 进程就有了，docker 的命令行
 上表中显示的各操作系统之间安装和启动 MySQL 的不同之处。所以一般而言，在服务器开发领域，开发小组成员不得不统一操作系统的发行版和版本号进行开发，尽可能地统一开发环境。但即使是这样，由于开发环境处于开发式的操作系统中，所以每位开发人员的所配置的开发环境难以保持完全一致，这会使得相同的代码在不同的机器上产生不同的效果的机率大大增加。比如大家安装的 MySQL 版本号不一样，软件运行依赖的 JRE 的版本号不一样等等。<br  />
 </p>
 </div>
-<div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> 获取 image</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 获取 image</h3>
+<div class="outline-text-3" id="text-4-1">
 <p>
 我们使用 <a href="https://zh.wikipedia.org/wiki/MariaDB">mariadb 5.5.53</a> 版本，该版本继承了 MySQL 5.5 的完整的功能，与 MySQL 完全兼容。<br  />
 </p>
@@ -1856,6 +2416,7 @@ mariadb             5.5.53              6a892eac8622        6 days ago          
 所以在 Mac 上我们需要设置 docker registry mirror 为国内的 DaoCloud 服务商:<br  />
 </p>
 
+
 <div class="figure">
 <p><img src="images/Docker-Add-Registry.png" alt="Docker-Add-Registry.png" /><br  />
 </p>
@@ -1864,9 +2425,9 @@ mariadb             5.5.53              6a892eac8622        6 days ago          
 </div>
 </div>
 
-<div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> 运行 MySQL Docker 实例</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> 运行 MySQL Docker 实例</h3>
+<div class="outline-text-3" id="text-4-2">
 <p>
 我们使用以下命令，指定好 MySQL 的实例名、root 密码和从启动的基准 image，并运行。<br  />
 其中my-container-name 表示实例容器的名字，root-password 表示 MySQL root 账户的密码，tag 表示 mariadb 拉下来的版本号。<br  />
@@ -1887,9 +2448,9 @@ a6bd1c1690ee        mariadb:5.5.53      <span style="color: #8b7355;">"docker-en
 </div>
 </div>
 
-<div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3"><span class="section-number-3">2.3</span> 连接 MySQL Container Instance</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> 连接 MySQL Container Instance</h3>
+<div class="outline-text-3" id="text-4-3">
 <p>
 我们可以使用 docker attach 命令连接 container:<br  />
 </p>
@@ -1915,9 +2476,9 @@ my-mariadb
 </div>
 </div>
 
-<div id="outline-container-sec-2-3-1" class="outline-4">
-<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> 错误的连接方式</h4>
-<div class="outline-text-4" id="text-2-3-1">
+<div id="outline-container-sec-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> 错误的连接方式</h4>
+<div class="outline-text-4" id="text-4-3-1">
 <p>
 然后再 run 一个带 shell 的 container:<br  />
 </p>
@@ -1927,123 +2488,13 @@ my-mariadb
 <pre class="src src-sh">$ docker run --name my-mariadb -e <span style="color: #2e8b57;">MYSQL_ROOT_PASSWORD</span>=root -d mariadb:5.5.53 -it /bin/bash
 </pre>
 </div>
-
-<p>
-但这样的做法是错误的，所以我们还是用原来 run，再使用 docker exec 在 my-mariadb 的容器中运行 bash 命令，这是一种变相连接 MySQL 的方法，连接到 container，并且新起一个 bash 进程。<br  />
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-sh">$ docker exec -it my-mariadb bash
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-2-3-2" class="outline-4">
-<h4 id="sec-2-3-2"><span class="section-number-4">2.3.2</span> 使用 Volume</h4>
-<div class="outline-text-4" id="text-2-3-2">
-<p>
-当我们通过上面的命令进入 mariadb 的时候，我们发现，并不能访问宿主操作系统。也就是 docker container 相对于外界来说就是个隔离的区间，这样就不能访问 Host 的文件系统。如果 MySQL 的布署更新脚本存在于 Host 的文件系统中，想要在 container 中执行这些脚本是非常困难的(当然你可以放到网络中，然后在 container 中进行下载)。<br  />
-</p>
-
-<p>
-类似于 VirtualBox/Vmware 虚拟机可以支持 Host 和 virtual machine 之间的文件映射，Docker 也支持这种<a href="https://docs.docker.com/engine/tutorials/dockervolumes">文件映射</a> ，在 docker 中，称为数据卷。数据卷相当于将 Host 的某个目录映射到 container 中的某个文件目录中，该目录的作用就直接与外界 Host 的某个目录连接。我们可以使用 -v 的参数进行试验。<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-sh">// &#22686;&#21152; -v /data, -p 3306:3306
-$ docker run --name my-mariadb -p 3306:3306 -v /data -e <span style="color: #2e8b57;">MYSQL_ROOT_PASSWORD</span>=root -d mariadb:5.5.53
-</pre>
-</div>
-
-<p>
-我们再查看该文件卷是如何被映射的:<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-sh">$ docker inspect my-mariadb
-...
-<span style="color: #8b7355;">"Mounts"</span>: [
-...
-    {
-        <span style="color: #8b7355;">"Name"</span>: <span style="color: #8b7355;">"c08e59..."</span>,
-        <span style="color: #8b7355;">"Source"</span>: <span style="color: #8b7355;">"/var/lib/docker/volumes/c08e59.../_data"</span>,
-        <span style="color: #8b7355;">"Destination"</span>: <span style="color: #8b7355;">"/data"</span>,
-        <span style="color: #8b7355;">"Driver"</span>: <span style="color: #8b7355;">"local"</span>,
-        ...
-    }
-...
-</pre>
-</div>
-
-<p>
-我们可以看到，container 中的 /data 被映射到了 /var/lib 下的某个文件夹下。当然在 Mac OSX 下，该文件夹并不存在。在 Linux 下应该是否在的，这里没有去做验证。<br  />
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-2-3-3" class="outline-4">
-<h4 id="sec-2-3-3"><span class="section-number-4">2.3.3</span> Volume 映射到 [Host Directory]<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup></h4>
-<div class="outline-text-4" id="text-2-3-3">
-<p>
-当然我们还可以指定映射一个已有的文件夹给 container，如 -v [host directory] : [container directory]<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-sh">$ docker stop my-mariadb
-$ docker rm my-mariadb
-$ docker run --name my-mariadb -p 3306:3306 -v /Users/gadmyth:/data -e <span style="color: #2e8b57;">MYSQL_ROOT_PASSWORD</span>=root -d mariadb:5.5.53
-</pre>
-</div>
-
-<p>
-我们登录 my-mariadb 后发现，可以从 /data 目录下访问 /User/gadmyth 的主机 Host 目录。<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-sh">$ docker exec -it my-mariadb bash
-<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">&#36827;&#20837;&#20102;docker</span>
-root@480a979e6715:/# 
-root@480a979e6715:/data# ls -lh | head -n 10
-total 653M
--rw-r--r--  1 root root  450 Apr 23  2016 1.org
--rw-r--r--  1 root root  13M Oct 25 15:00 1.txt
--rwxr-xr-x  1 root root  57M Oct 26 01:57 AlipayWallet.armv7
--rw-r--r--  1 root root  87K Oct 26 02:33 AlipayWallet.txt
-drwx------  4 root root  136 May 27 09:07 Applications
-drwxr-xr-x  6 root root  204 Apr 25  2016 ConsumerLoan
-drwx------ 62 root root 2.1K Nov  3 08:04 Desktop
--rw-r--r--  1 root root 108M Oct 25 16:17 Docker.dmg
-drwx------ 52 root root 1.8K Nov  4  2016 Documents
-</pre>
-</div>
-
-<p>
-通过 docker inspect 再次查看 my-mariadb，docker 把 Host 的 /Users/gadmyth 目录映射成了 /data:<br  />
-</p>
-<div class="org-src-container">
-
-<pre class="src src-sh">$ docker inspect my-mariadb
-...
-<span style="color: #8b7355;">"Mounts"</span>: [
-...
-    {
-        <span style="color: #8b7355;">"Source"</span>: <span style="color: #8b7355;">"/Users/gadmyth"</span>,
-        <span style="color: #8b7355;">"Destination"</span>: <span style="color: #8b7355;">"/data"</span>,
-        ...
-    }
-...
-</pre>
 </div>
 </div>
 </div>
 </div>
-</div>
-
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Docker Redis</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Docker Redis</h2>
+<div class="outline-text-2" id="text-5">
 <p>
 我们的 Demo 的项目中有用到非关系型数据库 Redis，主要用于图片缓存。我们基于 redis:3.0-alpine 的版本，运行一个 redis container。<br  />
 </p>
@@ -2058,17 +2509,17 @@ $ docker run --name my-redis -p 6379:6379 -d redis:3.0-alpine
 </div>
 </div>
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Docker Tornado</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Docker Tornado</h2>
+<div class="outline-text-2" id="text-6">
 <p>
 服务器端我们使用 Tornado 框架。基于以上的方法，我们可以使用 docker 来运行一个 tornado 的container。有两种方法可以运行带有 tornado 的 container，一种是 `docker pull &lt;some-tornado-docker-image&gt;`，使用现成的线上 tornado 的 image，另一种方法是，我们先挑选一个干净的 Linux/Unix 服务器版本，进入后从头安全全套的与 tornado 开发相关的组件。在这里，我们直接从一个干净的 centOS:6.6 的 image 开始，使用命令行来制作 tornado 的 container。<br  />
 </p>
 </div>
 
-<div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 从 centOS image 生成 tornado 环境</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1"><span class="section-number-3">6.1</span> 从 centOS image 生成 tornado 环境</h3>
+<div class="outline-text-3" id="text-6-1">
 <p>
 我们先拉取一个干净的 6.6 的 centOS image，然后登录:<br  />
 </p>
@@ -2113,9 +2564,9 @@ $ docker exec -it my-tornado bash
 </div>
 </div>
 
-<div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> 使用 [Dockerfile]<sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup> 生成自己的 image</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> 使用 [Dockerfile]<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup> 生成自己的 image</h3>
+<div class="outline-text-3" id="text-6-2">
 <p>
 当然我们不可能每次都从某个初始的 image 从头使用命令生成自己的 image。docker 提供了一种 DSL 来定义如何生成自己的 image。如下就是我们的 Dockerfile，其中定义了我们的 image 是基于 centos:6.6 这个 image的，紧接着定义了该 image 的维护者。定义完后运行软件升级安装，并提示已经安装完毕。docker 定义了一系列的 Dockerfile 的关键字，表示不同的任务和语义。以下列出了主要的、常用的关键字。<br  />
 </p>
@@ -2216,16 +2667,16 @@ $ docker build -t <span style="color: #8b7355;">"tornado:gadmyth"</span> .
 </div>
 </div>
 
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> docker container 的连接</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> docker container 的连接</h2>
+<div class="outline-text-2" id="text-7">
 <p>
 我们运行起来各项目服务后，就需要连接服务器和数据库了。<br  />
 </p>
 </div>
-<div id="outline-container-sec-5-1" class="outline-3">
-<h3 id="sec-5-1"><span class="section-number-3">5.1</span> 初始化数据库</h3>
-<div class="outline-text-3" id="text-5-1">
+<div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> 初始化数据库</h3>
+<div class="outline-text-3" id="text-7-1">
 <p>
 不过 MySQL 数据库并没有进行数据库初始化。我们将 mysql-init.sql 脚本放在 docker volume (/data) 下，进入 my-mariadb container 后，执行下面的代码，对数据库进行初始化:<br  />
 </p>
@@ -2261,9 +2712,9 @@ $ exit
 </div>
 </div>
 
-<div id="outline-container-sec-5-2" class="outline-3">
-<h3 id="sec-5-2"><span class="section-number-3">5.2</span> 连接 Tornado, MySQL, Redis</h3>
-<div class="outline-text-3" id="text-5-2">
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2"><span class="section-number-3">7.2</span> 连接 Tornado, MySQL, Redis</h3>
+<div class="outline-text-3" id="text-7-2">
 <p>
 连接各个不同的服务的话，需要在 docker run 的时候使用 &#x2013;link 选项进行连接，参数为 &lt;container-name&gt;:&lt;link-name&gt;，如下命令中，my-tornado 的 container 连接了 my-redis 和 my-mariadb 这两个 container，当然这两个 container 的状态是 active 的。<br  />
 </p>
@@ -2282,9 +2733,9 @@ continue--&gt; --name my-tornado -d tornado:gadmyth /bin/bash
 </p>
 </div>
 
-<div id="outline-container-sec-5-2-1" class="outline-4">
-<h4 id="sec-5-2-1"><span class="section-number-4">5.2.1</span> 基于 debian:jessie 的 python image 创建 tornado image</h4>
-<div class="outline-text-4" id="text-5-2-1">
+<div id="outline-container-sec-7-2-1" class="outline-4">
+<h4 id="sec-7-2-1"><span class="section-number-4">7.2.1</span> 基于 debian:jessie 的 python image 创建 tornado image</h4>
+<div class="outline-text-4" id="text-7-2-1">
 <p>
 我们改用基于 python:2.7 的 image 来构建我们自己的 image。Dockerfile 修改如下:<br  />
 </p>
@@ -2319,9 +2770,9 @@ RUN easy_install poster
 </div>
 </div>
 
-<div id="outline-container-sec-5-2-2" class="outline-4">
-<h4 id="sec-5-2-2"><span class="section-number-4">5.2.2</span> 配置程序的config</h4>
-<div class="outline-text-4" id="text-5-2-2">
+<div id="outline-container-sec-7-2-2" class="outline-4">
+<h4 id="sec-7-2-2"><span class="section-number-4">7.2.2</span> 配置程序的config</h4>
+<div class="outline-text-4" id="text-7-2-2">
 <p>
 然后我们再运行 5.2 提到的方法，连接 Tornado, MySQL, Redis 生成 my-tornado 的 container 后，使用 docker exec 连接上 my-tornado，我们需要修改服务器程序的配置参数。我们先看一下 my-tornado 的 hosts 文件:<br  />
 </p>
@@ -2364,9 +2815,9 @@ ff02::2 ip6-allrouters
 </p>
 </div>
 </div>
-<div id="outline-container-sec-5-2-3" class="outline-4">
-<h4 id="sec-5-2-3"><span class="section-number-4">5.2.3</span> 运行结果</h4>
-<div class="outline-text-4" id="text-5-2-3">
+<div id="outline-container-sec-7-2-3" class="outline-4">
+<h4 id="sec-7-2-3"><span class="section-number-4">7.2.3</span> 运行结果</h4>
+<div class="outline-text-4" id="text-7-2-3">
 <p>
 当然现在数据库里还空的，我们在 my-tornado 的 container 中使用 python 脚本对 my-mariadb 数据库 container 进行数据导入。<br  />
 </p>
@@ -2394,14 +2845,14 @@ $ python image_import.py
 </div>
 </div>
 
-<div id="outline-container-sec-5-3" class="outline-3">
-<h3 id="sec-5-3"><span class="section-number-3">5.3</span> 使用 docker compose 连接 container</h3>
+<div id="outline-container-sec-7-3" class="outline-3">
+<h3 id="sec-7-3"><span class="section-number-3">7.3</span> 使用 docker compose 连接 container</h3>
 </div>
 </div>
 
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6"><span class="section-number-2">6</span> 私有 docker hub 的搭建</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> 私有 docker hub 的搭建</h2>
+<div class="outline-text-2" id="text-8">
 <p>
 我们构建好自己的 docker image 后，可能需要分享给团队。<br  />
 </p>
@@ -2411,15 +2862,166 @@ $ python image_import.py
 </p>
 </div>
 </div>
+
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> <a href="https://docs.docker.com/compose">Docker compose</a></h2>
+<div class="outline-text-2" id="text-9">
+<p>
+Container之间有依赖关系，启动有先后顺序，当Container的数量变大，依赖关系变复杂后，需要对Container的启动关闭等进行自动化管理；Docker compose使用yaml配置文件配置container的port、volume、network、command、entrypoint等基本配置，以及container之间的依赖关系。<br  />
+</p>
+</div>
+<div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1"><span class="section-number-3">9.1</span> <a href="https://docs.docker.com/v1.7/compose/yml/">YAML 模板文件</a></h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li>version<br  />
+docker compose 模板版本号<br  />
+</li>
+<li>services<br  />
+version=2 时，所有 service 都要在 services 下<br  />
+</li>
+<li>image/build<br  />
+指定 image 或 Dockerfile 的目录<br  />
+</li>
+<li>ports/expose<br  />
+指定 host 和 container 之间的端口映射，使用 ports，expose 没什么用<br  />
+</li>
+<li>environment<br  />
+指定环境变量<br  />
+</li>
+<li>volumes/add/copy<br  />
+指定 container 和 host 之间的文件映射，使用 volumes 就好<br  />
+</li>
+<li>networks<br  />
+指定网段<br  />
+<ul class="org-ul">
+<li>ipv4_address<br  />
+    指定ip，便于 war 包，jar 包里的配置<br  />
+</li>
+</ul>
+</li>
+<li>links/external_links<br  />
+  指 container 应当连接到的其他 container，external 表示其他 container 不受 compose 管理<br  />
+</li>
+<li>entrypoint<br  />
+指定 container 启动脚本<br  />
+</li>
+<li>command<br  />
+指定 container 启动运行的命令，如果只带参数，表示是默认 command 后面加上参数<br  />
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2"><span class="section-number-3">9.2</span> docker-compose 命令</h3>
+<div class="outline-text-3" id="text-9-2">
+<p>
+<a href="https://github.com/docker/compose/issues/3419">解决 docker-compose 命令慢的问题</a><br  />
+关闭 wifi 再执行命令<br  />
+</p>
+<ul class="org-ul">
+<li>docker-compose build<br  />
+一般来说，如果 docker-compose 文件中的 service 指定了 build 参数，那么就需要 build 命令从某目录的 Dockerfile 中进行 build image<br  />
+</li>
+<li>docker-compose up<br  />
+必要时创建 netork、image、container，并 start container; 没有配置 network 时，会创建默认 network<br  />
+</li>
+<li>docker-compose down<br  />
+stop container, 并 delete container，应该还会 delete image<br  />
+</li>
+<li>docker-compose start<br  />
+批量 start container，没有 image/container/network 时会报错<br  />
+</li>
+<li>docker-compose stop<br  />
+批量 stop container，不删除 container/image/network<br  />
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9-3" class="outline-3">
+<h3 id="sec-9-3"><span class="section-number-3">9.3</span> docker-compose 示例文件</h3>
+<div class="outline-text-3" id="text-9-3">
+<div class="org-src-container">
+
+<pre class="src src-yaml"><span style="color: #2e8b57;">version</span>: <span style="color: #8b7355;">'2'</span>
+<span style="color: #2e8b57;">services</span>:
+  <span style="color: #2e8b57;">demo-mysql</span>:
+    <span style="color: #2e8b57;">image</span>: wangxian/alpine-mysql
+    <span style="color: #2e8b57;">ports</span>:
+      - 3306:3306
+    <span style="color: #2e8b57;">environment</span>:
+      <span style="color: #2e8b57;">MYSQL_ROOT_PASSWORD</span>: root
+      <span style="color: #2e8b57;">MYSQL_DATABASE</span>: sports
+      <span style="color: #2e8b57;">MYSQL_USER</span>: test
+      <span style="color: #2e8b57;">MYSQL_PASSWORD</span>: 39<span style="color: #cd9b1d;">*Sports</span>
+    <span style="color: #2e8b57;">volumes</span>:
+      - .:/data
+      - ./data/sports.sql:/docker-entrypoint-initdb.d/sports.sql:ro
+    <span style="color: #2e8b57;">networks</span>:
+      <span style="color: #2e8b57;">demo-net</span>:
+        <span style="color: #2e8b57;">ipv4_address</span>: 172.16.238.3
+    <span style="color: #2e8b57;">command</span>: [<span style="color: #8b7355;">"--character-set-server=utf8mb4"</span>, <span style="color: #8b7355;">"--collation-server=utf8mb4_unicode_ci"</span>]
+
+  <span style="color: #2e8b57;">demo-redis</span>:
+    <span style="color: #2e8b57;">image</span>: redis:3.0-alpine
+    <span style="color: #2e8b57;">ports</span>:
+      - 6379:6379
+    <span style="color: #2e8b57;">volumes</span>:
+      - .:/data
+    <span style="color: #2e8b57;">networks</span>:
+      <span style="color: #2e8b57;">demo-net</span>:
+        <span style="color: #2e8b57;">ipv4_address</span>: 172.16.238.2
+
+  <span style="color: #2e8b57;">demo-hawks</span>:
+    <span style="color: #2e8b57;">image</span>: java:8u72-jre-alpine
+    <span style="color: #2e8b57;">volumes</span>:
+      - .:/data
+    <span style="color: #2e8b57;">ports</span>:
+      - 8082:8082
+    <span style="color: #2e8b57;">links</span>:
+      - demo-mysql
+      - demo-redis
+    <span style="color: #2e8b57;">networks</span>:
+      <span style="color: #2e8b57;">demo-net</span>:
+        <span style="color: #2e8b57;">ipv4_address</span>: 172.16.238.6
+    <span style="color: #2e8b57;">entrypoint</span>: /data/entrypoint/hawks.sh
+
+  <span style="color: #2e8b57;">demo-olympic</span>:
+    <span style="color: #2e8b57;">image</span>: tomcat:8.5-jre8-alpine
+    <span style="color: #2e8b57;">ports</span>:
+      - 8081:8081
+    <span style="color: #2e8b57;">volumes</span>:
+      - .:/data
+    <span style="color: #2e8b57;">networks</span>:
+      <span style="color: #2e8b57;">demo-net</span>:
+        <span style="color: #2e8b57;">ipv4_address</span>: 172.16.238.7
+    <span style="color: #2e8b57;">links</span>:
+      - demo-mysql
+      - demo-redis
+    <span style="color: #2e8b57;">entrypoint</span>: /data/entrypoint/olympic.sh
+
+<span style="color: #2e8b57;">networks</span>:
+  <span style="color: #2e8b57;">demo-net</span>:
+    <span style="color: #2e8b57;">driver</span>: bridge
+    <span style="color: #2e8b57;">driver_opts</span>:
+      <span style="color: #2e8b57;">com.docker.network.enable_ipv6</span>: <span style="color: #8b7355;">"false"</span>
+    <span style="color: #2e8b57;">ipam</span>:
+      <span style="color: #2e8b57;">driver</span>: default
+      <span style="color: #2e8b57;">config</span>:
+      - <span style="color: #2e8b57;">subnet</span>: 172.16.238.0/24
+        <span style="color: #2e8b57;">gateway</span>: 172.16.238.1
+</pre>
+</div>
+</div>
+</div>
+</div>
 <div id="footnotes">
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
 <div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p class="footpara">
-<a href="https://docs.docker.com/engine/tutorials/dockervolumes/#mount-a-host-directory-as-a-data-volume">https://docs.docker.com/engine/tutorials/dockervolumes/#mount-a-host-directory-as-a-data-volume</a><br  />
-</p></div>
-
-<div class="footdef"><sup><a id="fn.2" name="fn.2" class="footnum" href="#fnr.2">2</a></sup> <p class="footpara">
 <a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/">https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/</a><br  />
 </p></div>
 
@@ -2429,9 +3031,8 @@ $ python image_import.py
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-26 Wed 00:22&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-20 Sun 18:55</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2018-01-09 Tue 00:03</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

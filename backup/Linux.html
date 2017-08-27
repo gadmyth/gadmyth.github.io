@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Linux</title>
-<!-- 2017-08-27 Sun 10:12 -->
+<title>Linux相关</title>
+<!-- 2017-08-27 Sun 16:34 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1643,14 +1643,526 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Linux</h1>
+<h1 class="title">Linux相关</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. linux启动sshd密码访问</a></li>
+<li><a href="#sec-2">2. ssh如何不使用密码</a></li>
+<li><a href="#sec-3">3. Linux命令列出所有可用命令和别名</a></li>
+<li><a href="#sec-4">4. 从Fedora 24升级到Fedora 25服务器</a></li>
+<li><a href="#sec-5">5. Linux自启动服务</a>
+<ul>
+<li><a href="#sec-5-1">5.1. chkconfig</a>
+<ul>
+<li><a href="#sec-5-1-1">5.1.1. chkconfig的配置脚本</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-6">6. lighttpd</a>
+<ul>
+<li><a href="#sec-6-1">6.1. create lighttpd.conf</a></li>
+<li><a href="#sec-6-2">6.2. 启动http服务</a></li>
+</ul>
+</li>
+<li><a href="#sec-7">7. 使用命令行查看端口是否开放</a></li>
+<li><a href="#sec-8">8. 命令行查看端口占用</a></li>
+<li><a href="#sec-9">9. Fedora上开启8000端口</a></li>
+<li><a href="#sec-10">10. PAX 压缩工具</a>
+<ul>
+<li><a href="#sec-10-1">10.1. .Z 文件</a></li>
+<li><a href="#sec-10-2">10.2. .gz</a></li>
+<li><a href="#sec-10-3">10.3. .z</a></li>
+<li><a href="#sec-10-4">10.4. .ar</a></li>
+<li><a href="#sec-10-5">10.5. .tar</a></li>
+</ul>
+</li>
+<li><a href="#sec-11">11. curl 断点续传</a></li>
+<li><a href="#sec-12">12. curl表单上传</a></li>
+<li><a href="#sec-13">13. currentIP</a></li>
+<li><a href="#sec-14">14. Fedora运行objc</a>
+<ul>
+<li><a href="#sec-14-1">14.1. 安装</a></li>
+<li><a href="#sec-14-2">14.2. objc2.0</a></li>
+<li><a href="#sec-14-3">14.3. 执行</a></li>
+<li><a href="#sec-14-4">14.4. 解决cc1obj问题</a></li>
+<li><a href="#sec-14-5">14.5. lib库找不到</a></li>
+</ul>
+</li>
+<li><a href="#sec-15">15. Linux Zip加密压缩</a></li>
+<li><a href="#sec-16">16. Expect命令行自动交互</a></li>
+<li><a href="#sec-17">17. jq: json处理</a>
+<ul>
+<li><a href="#sec-17-1">17.1. 格式化</a></li>
+<li><a href="#sec-17-2">17.2. 数组取元素</a></li>
+<li><a href="#sec-17-3">17.3. 取单元素并过滤</a></li>
+<li><a href="#sec-17-4">17.4. 取每个元素并过滤</a></li>
+<li><a href="#sec-17-5">17.5. 取出元素并过滤，再生成数组</a></li>
+<li><a href="#sec-17-6">17.6. 排序</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> linux启动sshd密码访问</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-THE BUFFER IS NOT LOADED YET. PRESS ANY KEY TO LOAD IT.</p>
+编辑/etc/ssh/sshd_config<br  />
+第一个PasswordAuthentication yes<br  />
+再重启sshd: service sshd restart<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> ssh如何不使用密码</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+在A上的命令:<br  />
+</p>
+<p>
+在B上的命令:<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> <a href="http://ask.helplib.com/216424">Linux命令列出所有可用命令和别名</a></h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>bash内置compgen命令<br  />
+<ul class="org-ul">
+<li>compgen -c 列出可以运行的所有命令<br  />
+</li>
+<li>compgen -a 列出可以运行的所有别名<br  />
+</li>
+<li>compgen -b 列出可以运行的所有built-ins<br  />
+</li>
+<li>compgen -k 列出可以运行的所有关键字<br  />
+</li>
+<li>compgen -A function 列出可以运行的所有函数<br  />
+</li>
+<li>compgen -A function -abck 逐一列出上面所有内容<br  />
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> <a href="https://www.howtoing.com/upgrade-fedora-24-to-fedora-25-workstation-server/">从Fedora 24升级到Fedora 25服务器</a></h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+
+<pre class="src src-sh">sudo dnf upgrade --refresh
+sudo dnf install dnf-plugin-system-upgrade
+sudo dnf system-upgrade download --allowerasing --releasever=25
+sudo dnf clean packages
+sudo dnf system-upgrade reboot
+</pre>
+</div>
+<ul class="org-ul">
+<li><a href="https://fedoraproject.org/wiki/DNF_system_upgrade#Resolving_post-upgrade_issues">DNF system upgrade会遇到的问题</a><br  />
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Linux自启动服务</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> <a href="http://www.cnblogs.com/panjun-Donet/archive/2010/08/10/1796873.html">chkconfig</a></h3>
+<div class="outline-text-3" id="text-5-1">
+</div><div id="outline-container-sec-5-1-1" class="outline-4">
+<h4 id="sec-5-1-1"><span class="section-number-4">5.1.1</span> chkconfig的配置脚本</h4>
+<div class="outline-text-4" id="text-5-1-1">
+</div><ol class="org-ol"><li><a id="sec-5-1-1-1" name="sec-5-1-1-1"></a>自启动脚本示例<br  /><ol class="org-ol"><li><a id="sec-5-1-1-1-1" name="sec-5-1-1-1-1"></a><a href="pppoe">pppoe的自启动脚本</a><br  /></li>
+<li><a id="sec-5-1-1-1-2" name="sec-5-1-1-1-2"></a><a href="emacs-daemon">emacs daemon的自启动脚本</a><br  /></li></ol>
+</li>
+<li><a id="sec-5-1-1-2" name="sec-5-1-1-2"></a>脚本注意点<br  /><div class="outline-text-5" id="text-5-1-1-2">
+<p>
+脚本在/etc/init.d目录下<br  />
+</p>
+</div>
+<ol class="org-ol"><li><a id="sec-5-1-1-2-1" name="sec-5-1-1-2-1"></a>需要有chkconfig行<br  /><div class="outline-text-6" id="text-5-1-1-2-1">
+<ol class="org-ol">
+<li>运行级(这个不太懂)<br  />
+</li>
+<li>启动优先级(00 - 99)<br  />
+</li>
+<li>停止优先级(00 - 99)<br  />
+</li>
+</ol>
+</div>
+</li>
+<li><a id="sec-5-1-1-2-2" name="sec-5-1-1-2-2"></a>需要有description行<br  /></li></ol>
+</li>
+<li><a id="sec-5-1-1-3" name="sec-5-1-1-3"></a>增加启动服务命令<br  /><div class="outline-text-5" id="text-5-1-1-3">
+<ul class="org-ul">
+<li>chkconfig &#x2013;add pppoe<br  />
+</li>
+<li>chkconfig &#x2013;level 35 pppoe on<br  />
+</li>
+<li>chkconfig &#x2013;level 01246 pppoe off<br  />
+</li>
+</ul>
+</div>
+<ol class="org-ol"><li><a id="sec-5-1-1-3-1" name="sec-5-1-1-3-1"></a>level等级<br  /><div class="outline-text-6" id="text-5-1-1-3-1">
+<ul class="org-ul">
+<li>等级0表示：表示关机<br  />
+</li>
+<li>等级1表示：单用户模式<br  />
+</li>
+<li>等级2表示：无网络连接的多用户命令行模式<br  />
+</li>
+<li>等级3表示：有网络连接的多用户命令行模式<br  />
+</li>
+<li>等级4表示：不可用<br  />
+</li>
+<li>等级5表示：带图形界面的多用户模式<br  />
+</li>
+<li>等级6表示：重新启动<br  />
+</li>
+</ul>
+</div>
+</li></ol>
+</li></ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> lighttpd</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+<a href="http://redmine.lighttpd.net/projects/lighttpd/wiki/TutorialConfiguration">http://redmine.lighttpd.net/projects/lighttpd/wiki/TutorialConfiguration</a><br  />
+</p>
+</div>
+<div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1"><span class="section-number-3">6.1</span> create lighttpd.conf</h3>
+<div class="outline-text-3" id="text-6-1">
+<div class="org-src-container">
+
+<pre class="src src-conf"><span style="color: #2e8b57;">server.document-root</span> = <span style="color: #8b7355;">"/var/www/"</span> 
+
+<span style="color: #2e8b57;">server.port</span> = 3000
+
+<span style="color: #2e8b57;">mimetype.assign</span> = (
+  <span style="color: #8b7355;">".html"</span> =&gt; <span style="color: #8b7355;">"text/html"</span>, 
+  <span style="color: #8b7355;">".txt"</span> =&gt; <span style="color: #8b7355;">"text/plain"</span>,
+  <span style="color: #8b7355;">".jpg"</span> =&gt; <span style="color: #8b7355;">"image/jpeg"</span>,
+  <span style="color: #8b7355;">".png"</span> =&gt; <span style="color: #8b7355;">"image/png"</span> 
+)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> 启动http服务</h3>
+<div class="outline-text-3" id="text-6-2">
+<div class="org-src-container">
+
+<pre class="src src-bash">lighttpd -f lighttpd.conf
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> 使用命令行查看端口是否开放</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+nc -w 10 -n -z 192.168.0.100 80-9999<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> 命令行查看端口占用</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+lsof -Pnl +M -i4<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> Fedora上开启8000端口</h2>
+<div class="outline-text-2" id="text-9">
+<div class="org-src-container">
+
+<pre class="src src-sh">sudo /sbin/iptables -I INPUT -p tcp --dport 8000 -j ACCEPT
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> <a href="http://liumh.com/2015/10/21/ios-image-related-matching/">PAX 压缩工具</a></h2>
+<div class="outline-text-2" id="text-10">
+</div><div id="outline-container-sec-10-1" class="outline-3">
+<h3 id="sec-10-1"><span class="section-number-3">10.1</span> .Z 文件</h3>
+<div class="outline-text-3" id="text-10-1">
+<p>
+compress, uncompress<br  />
+自适应 Lempel-Zev 编码<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-2" class="outline-3">
+<h3 id="sec-10-2"><span class="section-number-3">10.2</span> .gz</h3>
+<div class="outline-text-3" id="text-10-2">
+<p>
+gzip<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-3" class="outline-3">
+<h3 id="sec-10-3"><span class="section-number-3">10.3</span> .z</h3>
+<div class="outline-text-3" id="text-10-3">
+<p>
+pack<br  />
+Huffman 编码，只能压缩小于8MB文件<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-4" class="outline-3">
+<h3 id="sec-10-4"><span class="section-number-3">10.4</span> .ar</h3>
+<div class="outline-text-3" id="text-10-4">
+<p>
+pax<br  />
+可压缩 8GB<br  />
+可修改压缩算法<br  />
+可抽取目录<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-5" class="outline-3">
+<h3 id="sec-10-5"><span class="section-number-3">10.5</span> .tar</h3>
+<div class="outline-text-3" id="text-10-5">
+<p>
+pax, tar, untar<br  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> <a href="https://gist.github.com/303182519/132568fd0e58cae57202">curl 断点续传</a></h2>
+<div class="outline-text-2" id="text-11">
+<p>
+curl -C - -O &lt;URL&gt;<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> curl表单上传</h2>
+<div class="outline-text-2" id="text-12">
+<p>
+@之后表示上传的文件名，&lt;之后表示文件内容<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">curl -F <span style="color: #8b7355;">"file=@&lt;file-name&gt;;uKey=xxxx;_api_key=xxxxx;"</span> &lt;API&gt;
+</pre>
+</div>
+<p>
+蒲公英网站的上传API是 <a href="https://www.pgyer.com/apiv1/app/upload">https://www.pgyer.com/apiv1/app/upload</a> ，可以使用此命令进行自动上传包<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> currentIP</h2>
+<div class="outline-text-2" id="text-13">
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #cd6600;">require</span> <span style="color: #8b7355;">'socket'</span>
+ip_address = <span style="color: #00688b;">Socket</span>.ip_address_list.find { |ai| ai.ipv4? &amp;&amp; !ai.ipv4_loopback? }.ip_address
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14"><span class="section-number-2">14</span> Fedora运行objc</h2>
+<div class="outline-text-2" id="text-14">
+</div><div id="outline-container-sec-14-1" class="outline-3">
+<h3 id="sec-14-1"><span class="section-number-3">14.1</span> 安装</h3>
+<div class="outline-text-3" id="text-14-1">
+<div class="org-src-container">
+
+<pre class="src src-sh">sudo dnf search gnustep
+sudo dnf install gnustep-make
+sudo dnf install gnustep-base
+sudo dnf install gnustep-devel
+sudo dnf install gnustep-filesystem
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-14-2" class="outline-3">
+<h3 id="sec-14-2"><span class="section-number-3">14.2</span> objc2.0</h3>
+<div class="outline-text-3" id="text-14-2">
+<p>
+objc2.0在GNUStep里不支持<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-14-3" class="outline-3">
+<h3 id="sec-14-3"><span class="section-number-3">14.3</span> 执行</h3>
+<div class="outline-text-3" id="text-14-3">
+<div class="org-src-container">
+
+<pre class="src src-sh">gcc test.m -o test -l objc
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">gcc <span style="color: #ff00ff;">`gnustep-config --objc-flags`</span> -lgnustep-base hello.m -o hello
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-14-4" class="outline-3">
+<h3 id="sec-14-4"><span class="section-number-3">14.4</span> 解决cc1obj问题</h3>
+<div class="outline-text-3" id="text-14-4">
+<div class="org-src-container">
+
+<pre class="src src-objc">sudo dnf <span style="color: #00688b;">install</span> <span style="color: #2e8b57;">gcc</span>-objc gcc-objc++ libobjc
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-14-5" class="outline-3">
+<h3 id="sec-14-5"><span class="section-number-3">14.5</span> lib库找不到</h3>
+<div class="outline-text-3" id="text-14-5">
+<div class="org-src-container">
+
+<pre class="src src-sh">sudo ln -s /usr/lib/gcc/x86_64-redhat-linux/6.4.1/include/objc /usr/local/include/objc
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-15" class="outline-2">
+<h2 id="sec-15"><span class="section-number-2">15</span> Linux Zip加密压缩</h2>
+<div class="outline-text-2" id="text-15">
+<div class="org-src-container">
+
+<pre class="src src-sh">zip -rP &lt;password&gt; test.zip test/
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-16" class="outline-2">
+<h2 id="sec-16"><span class="section-number-2">16</span> Expect命令行自动交互</h2>
+<div class="outline-text-2" id="text-16">
+<p>
+<a href="http://topcaver.com/macos-ssh-auto-login-expect">http://topcaver.com/macos-ssh-auto-login-expect</a><br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-17" class="outline-2">
+<h2 id="sec-17"><span class="section-number-2">17</span> jq: json处理</h2>
+<div class="outline-text-2" id="text-17">
+<p>
+<a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a><br  />
+</p>
+</div>
+
+<div id="outline-container-sec-17-1" class="outline-3">
+<h3 id="sec-17-1"><span class="section-number-3">17.1</span> 格式化</h3>
+<div class="outline-text-3" id="text-17-1">
+<p>
+pretty print by "." command<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">'{"a": 1, "b": 2}'</span> | jq <span style="color: #8b7355;">"."</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-17-2" class="outline-3">
+<h3 id="sec-17-2"><span class="section-number-3">17.2</span> 数组取元素</h3>
+<div class="outline-text-3" id="text-17-2">
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">'[{"a": 1, "b": 2}, {"a": 3, "b": 4}]'</span> | jq <span style="color: #8b7355;">".[0]"</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-17-3" class="outline-3">
+<h3 id="sec-17-3"><span class="section-number-3">17.3</span> 取单元素并过滤</h3>
+<div class="outline-text-3" id="text-17-3">
+<p>
+取出第一个元素后，过滤给{about: &lt;value&gt;, block: &lt;value&gt;}的dict生成器，&lt;value&gt;使用 .key 的方式获取。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">'[{"a": 1, "b": 2}, {"a": 3, "b": 4}]'</span> | jq <span style="color: #8b7355;">'.[0] | {about: .a, block: .b}'</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-17-4" class="outline-3">
+<h3 id="sec-17-4"><span class="section-number-3">17.4</span> 取每个元素并过滤</h3>
+<div class="outline-text-3" id="text-17-4">
+<p>
+从数组中每取出一个元素，过滤给dict生成器；输出若干个独立的dict<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">'[{"a": 1, "b": 2}, {"a": 3, "b": 4}]'</span> | jq <span style="color: #8b7355;">'.[] | {about: .a, block: .b}'</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-17-5" class="outline-3">
+<h3 id="sec-17-5"><span class="section-number-3">17.5</span> 取出元素并过滤，再生成数组</h3>
+<div class="outline-text-3" id="text-17-5">
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">'[{"a": 1, "b": 2}, {"a": 3, "b": 4}]'</span> | jq <span style="color: #8b7355;">'[.[] | {about: .a, block: .b}]'</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-17-6" class="outline-3">
+<h3 id="sec-17-6"><span class="section-number-3">17.6</span> 排序</h3>
+<div class="outline-text-3" id="text-17-6">
+<p>
+以下数据排序, example.json<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js">[
+  {<span style="color: #8b7355;">"type"</span>: <span style="color: #8b7355;">"2"</span>, <span style="color: #8b7355;">"name"</span>: <span style="color: #8b7355;">"no"</span>},
+  {<span style="color: #8b7355;">"type"</span>: <span style="color: #8b7355;">"1"</span>, <span style="color: #8b7355;">"name"</span>: <span style="color: #8b7355;">"yes"</span>},
+  {<span style="color: #8b7355;">"type"</span>: <span style="color: #8b7355;">"3"</span>, <span style="color: #8b7355;">"name"</span>: <span style="color: #8b7355;">"type"</span>}
+]
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-sh">jq <span style="color: #8b7355;">'sort_by(.type)'</span> example.json
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-06 Sun 18:34&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-27 Sun 10:12</p>
+<p class="date">Created: 2017-08-27 Sun 16:34</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

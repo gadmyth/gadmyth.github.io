@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Mac</title>
-<!-- 2017-08-27 Sun 10:12 -->
+<title>Mac相关</title>
+<!-- 2017-08-27 Sun 16:34 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1643,14 +1643,570 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Mac</h1>
+<h1 class="title">Mac相关</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Mac上开启8000端口</a></li>
+<li><a href="#sec-2">2. Mac操作</a>
+<ul>
+<li><a href="#sec-2-1">2.1. Mac terminal快捷键</a>
+<ul>
+<li><a href="#sec-2-1-1">2.1.1. 新建标签</a></li>
+<li><a href="#sec-2-1-2">2.1.2. 关闭当前标签</a></li>
+<li><a href="#sec-2-1-3">2.1.3. 保存输出</a></li>
+<li><a href="#sec-2-1-4">2.1.4. 切换标签</a></li>
+<li><a href="#sec-2-1-5">2.1.5. 水平分隔</a></li>
+<li><a href="#sec-2-1-6">2.1.6. 取消水平分隔</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-2">2.2. Mac Finder快捷键</a>
+<ul>
+<li><a href="#sec-2-2-1">2.2.1. 打开Application Folder</a></li>
+<li><a href="#sec-2-2-2">2.2.2. 打开Application里的Utility Folder</a></li>
+<li><a href="#sec-2-2-3">2.2.3. 打开Computer Folder</a></li>
+<li><a href="#sec-2-2-4">2.2.4. 打开Network Folder</a></li>
+<li><a href="#sec-2-2-5">2.2.5. 打开Desktop Folder</a></li>
+<li><a href="#sec-2-2-6">2.2.6. 打开Home Folder</a></li>
+<li><a href="#sec-2-2-7">2.2.7. 打开Network</a></li>
+<li><a href="#sec-2-2-8">2.2.8. 查找文件或文件夹</a></li>
+<li><a href="#sec-2-2-9">2.2.9. 查找文件名</a></li>
+<li><a href="#sec-2-2-10">2.2.10. Goto Folder</a></li>
+<li><a href="#sec-2-2-11">2.2.11. New Folder</a></li>
+<li><a href="#sec-2-2-12">2.2.12. 关闭所有窗口</a></li>
+<li><a href="#sec-2-2-13">2.2.13. 剪贴</a></li>
+<li><a href="#sec-2-2-14">2.2.14. Delete to Trash</a></li>
+<li><a href="#sec-2-2-15">2.2.15. Empty Trash</a></li>
+<li><a href="#sec-2-2-16">2.2.16. 显示软链接的原文件</a></li>
+<li><a href="#sec-2-2-17">2.2.17. 切换显示视图</a></li>
+<li><a href="#sec-2-2-18">2.2.18. Screenshot to Desktop file</a></li>
+<li><a href="#sec-2-2-19">2.2.19. Screenshot to clipboard</a></li>
+<li><a href="#sec-2-2-20">2.2.20. Part Screenshot to Desktop file</a></li>
+<li><a href="#sec-2-2-21">2.2.21. Part Screenshot to clipboard</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-3">2.3. Mac隐藏目录</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Paperlike的Mac驱动</a></li>
+<li><a href="#sec-4">4. Mac上显示iPhone屏幕</a></li>
+<li><a href="#sec-5">5. Mac支持WebDAV</a></li>
+<li><a href="#sec-6">6. 苹果破解软件网站</a></li>
+<li><a href="#sec-7">7. 本地apache服务器</a></li>
+<li><a href="#sec-8">8. spctl 用法</a>
+<ul>
+<li><a href="#sec-8-1">8.1. 新版MacOS Sirra找不到允许任何来源的应用的开关</a></li>
+</ul>
+</li>
+<li><a href="#sec-9">9. brew install 443 timeout</a></li>
+<li><a href="#sec-10">10. Application Loader 加速上传 ipa 文件</a></li>
+<li><a href="#sec-11">11. Mac安装mkpasswd</a></li>
+<li><a href="#sec-12">12. rvm相关命令SSL证书问题</a></li>
+<li><a href="#sec-13">13. Homebrew安装</a>
+<ul>
+<li><a href="#sec-13-1">13.1. brew 安装</a></li>
+<li><a href="#sec-13-2">13.2. 替换国内源</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Mac上开启8000端口</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-THE BUFFER IS NOT LOADED YET. PRESS ANY KEY TO LOAD IT.</p>
+以前是ipfw命令，现在改成pfctl<br  />
+<a href="https://apple.stackexchange.com/questions/142778/how-to-open-a-specific-port-in-firewall-os-x-10-9-4">How to open a specific port in Firewall OS X 10.9.4</a><br  />
+打开/etc/pf.conf，加入以下配置，运行sudo pfctl -f /etc/pf.conf使用配置生效<br  />
+</p>
+<blockquote>
+<p>
+pass in proto tcp from any to any port 8000<br  />
+</p>
+</blockquote>
+
+<p>
+一些常用命令<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">pfctl -f /etc/pf.conf &#36733;&#20837; pf.conf &#25991;&#20214;</span>
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">pfctl -nf /etc/pf.conf &#35299;&#26512;&#25991;&#20214;&#65292;&#20294;&#19981;&#36733;&#20837;</span>
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">pfctl -Nf /etc/pf.conf &#21482;&#36733;&#20837;&#25991;&#20214;&#20013;&#30340;NAT&#35268;&#21017;</span>
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">pfctl -Rf /etc/pf.conf &#21482;&#36733;&#20837;&#25991;&#20214;&#20013;&#30340;&#36807;&#28388;&#35268;&#21017;</span>
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">pfctl -sn &#26174;&#31034;&#24403;&#21069;&#30340;NAT&#35268;&#21017;</span>
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">pfctl -sr &#26174;&#31034;&#24403;&#21069;&#30340;&#36807;&#28388;&#35268;&#21017;</span>
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">pfctl -ss &#26174;&#31034;&#24403;&#21069;&#30340;&#29366;&#24577;&#34920;</span>
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">pfctl -si &#26174;&#31034;&#36807;&#28388;&#29366;&#24577;&#21644;&#35745;&#25968;</span>
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">pfctl -sa &#26174;&#31034;&#20219;&#20309;&#21487;&#26174;&#31034;&#30340;</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Mac操作</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Mac terminal快捷键</h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> 新建标签</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+Cmd + T<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> 关闭当前标签</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+Cmd + W<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-1-3" class="outline-4">
+<h4 id="sec-2-1-3"><span class="section-number-4">2.1.3</span> 保存输出</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<p>
+Cmd + S<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-1-4" class="outline-4">
+<h4 id="sec-2-1-4"><span class="section-number-4">2.1.4</span> 切换标签</h4>
+<div class="outline-text-4" id="text-2-1-4">
+<p>
+Cmd + Shift + {}<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-1-5" class="outline-4">
+<h4 id="sec-2-1-5"><span class="section-number-4">2.1.5</span> 水平分隔</h4>
+<div class="outline-text-4" id="text-2-1-5">
+<p>
+Cmd + D<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-1-6" class="outline-4">
+<h4 id="sec-2-1-6"><span class="section-number-4">2.1.6</span> 取消水平分隔</h4>
+<div class="outline-text-4" id="text-2-1-6">
+<p>
+Cmd + Shift + D<br  />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Mac Finder快捷键</h3>
+<div class="outline-text-3" id="text-2-2">
+</div><div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> 打开Application Folder</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+Cmd + Shift + A<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-2" class="outline-4">
+<h4 id="sec-2-2-2"><span class="section-number-4">2.2.2</span> 打开Application里的Utility Folder</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+Cmd + Shift + U<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-3" class="outline-4">
+<h4 id="sec-2-2-3"><span class="section-number-4">2.2.3</span> 打开Computer Folder</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<p>
+Cmd + Shift + C<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-4" class="outline-4">
+<h4 id="sec-2-2-4"><span class="section-number-4">2.2.4</span> 打开Network Folder</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<p>
+Cmd + Shift + K<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-5" class="outline-4">
+<h4 id="sec-2-2-5"><span class="section-number-4">2.2.5</span> 打开Desktop Folder</h4>
+<div class="outline-text-4" id="text-2-2-5">
+<p>
+Cmd + Shift + D<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-6" class="outline-4">
+<h4 id="sec-2-2-6"><span class="section-number-4">2.2.6</span> 打开Home Folder</h4>
+<div class="outline-text-4" id="text-2-2-6">
+<p>
+Cmd + Shift + H<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-7" class="outline-4">
+<h4 id="sec-2-2-7"><span class="section-number-4">2.2.7</span> 打开Network</h4>
+<div class="outline-text-4" id="text-2-2-7">
+<p>
+Cmd + K<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-8" class="outline-4">
+<h4 id="sec-2-2-8"><span class="section-number-4">2.2.8</span> 查找文件或文件夹</h4>
+<div class="outline-text-4" id="text-2-2-8">
+<p>
+Cmd + F<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-9" class="outline-4">
+<h4 id="sec-2-2-9"><span class="section-number-4">2.2.9</span> 查找文件名</h4>
+<div class="outline-text-4" id="text-2-2-9">
+<p>
+Cmd + Shift + F<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-10" class="outline-4">
+<h4 id="sec-2-2-10"><span class="section-number-4">2.2.10</span> Goto Folder</h4>
+<div class="outline-text-4" id="text-2-2-10">
+<p>
+Cmd + Shift + G<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-11" class="outline-4">
+<h4 id="sec-2-2-11"><span class="section-number-4">2.2.11</span> New Folder</h4>
+<div class="outline-text-4" id="text-2-2-11">
+<p>
+Cmd + Shift + N<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-12" class="outline-4">
+<h4 id="sec-2-2-12"><span class="section-number-4">2.2.12</span> 关闭所有窗口</h4>
+<div class="outline-text-4" id="text-2-2-12">
+<p>
+Cmd + Option + W<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-13" class="outline-4">
+<h4 id="sec-2-2-13"><span class="section-number-4">2.2.13</span> 剪贴</h4>
+<div class="outline-text-4" id="text-2-2-13">
+<p>
+Cmd + X<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-14" class="outline-4">
+<h4 id="sec-2-2-14"><span class="section-number-4">2.2.14</span> Delete to Trash</h4>
+<div class="outline-text-4" id="text-2-2-14">
+<p>
+Cmd + Backspace<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-15" class="outline-4">
+<h4 id="sec-2-2-15"><span class="section-number-4">2.2.15</span> Empty Trash</h4>
+<div class="outline-text-4" id="text-2-2-15">
+<p>
+Cmd + Shift + Backspace<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-16" class="outline-4">
+<h4 id="sec-2-2-16"><span class="section-number-4">2.2.16</span> 显示软链接的原文件</h4>
+<div class="outline-text-4" id="text-2-2-16">
+<p>
+Cmd + R<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-17" class="outline-4">
+<h4 id="sec-2-2-17"><span class="section-number-4">2.2.17</span> 切换显示视图</h4>
+<div class="outline-text-4" id="text-2-2-17">
+<p>
+Cmd + 1, 2, 3, 4<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-18" class="outline-4">
+<h4 id="sec-2-2-18"><span class="section-number-4">2.2.18</span> Screenshot to Desktop file</h4>
+<div class="outline-text-4" id="text-2-2-18">
+<p>
+Cmd + Shift + 3<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-19" class="outline-4">
+<h4 id="sec-2-2-19"><span class="section-number-4">2.2.19</span> Screenshot to clipboard</h4>
+<div class="outline-text-4" id="text-2-2-19">
+<p>
+Cmd + Shift + Control + 3<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-20" class="outline-4">
+<h4 id="sec-2-2-20"><span class="section-number-4">2.2.20</span> Part Screenshot to Desktop file</h4>
+<div class="outline-text-4" id="text-2-2-20">
+<p>
+Cmd + Shift + 4<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2-21" class="outline-4">
+<h4 id="sec-2-2-21"><span class="section-number-4">2.2.21</span> Part Screenshot to clipboard</h4>
+<div class="outline-text-4" id="text-2-2-21">
+<p>
+Cmd + Shift + Control + 4<br  />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Mac隐藏目录</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+chflags nohidden ~/Library<br  />
+chflags hidden ~/Library<br  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Paperlike的Mac驱动</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+重启cmd+R进恢复模式<br  />
+然后命令行csrutil disable<br  />
+再重启<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Mac上显示iPhone屏幕</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Mac打开QuickTime，File-&gt;New Movie Recoding，然后在红色录制点处切换成iPhone<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Mac支持WebDAV</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>修改/etc/apache2/httpd.conf<br  />
+打开mod_dav.so, mod_dav_fs.so, mod_auth_digest.so三项<br  />
+</li>
+<li>修改/etc/apache2/extra/httpd-dav.conf<br  />
+在修改前，最好备份一下该配置<br  />
+<ul class="org-ul">
+<li>将Digest修改为Basic<br  />
+</li>
+<li>运行脚本<br  />
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">"&#20999;&#25442;&#33267;/usr&#30446;&#24405;"</span>
+<span style="color: #cd6600;">cd</span> /usr
+<span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">"&#35774;&#32622;admin&#30340;&#23494;&#30721;"</span>
+htpasswd -c /usr/user.passwd admin
+<span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">"&#27491;&#22312;&#21019;&#24314;&#30456;&#20851;&#30446;&#24405;&#24182;&#20462;&#25913;&#35775;&#38382;&#26435;&#38480;..."</span>
+chgrp www /usr/user.passwd
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">&#24314;&#31435;var&#25991;&#20214;&#22841;&#65292;&#20445;&#23384;DavLockDB&#30456;&#20851;&#25991;&#20214;</span>
+mkdir -p /usr/var
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">&#20462;&#25913;var&#25991;&#20214;&#22841;&#29992;&#25143;&#32676;&#32452;</span>
+chown -R www:www /usr/var
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">&#24314;&#31435;&#19978;&#20256;&#25991;&#20214;&#22841;&#65306;uploads</span>
+mkdir -p /usr/uploads
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">&#20462;&#25913;uploads&#25991;&#20214;&#22841;&#29992;&#25143;&#32676;&#32452;</span>
+chown -R www:www /usr/uploads
+<span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">"&#20462;&#25913;&#23436;&#27605;&#65292;&#35831;&#30830;&#35748;..."</span>
+ls -lG
+<span style="color: #cd6600;">echo</span> <span style="color: #8b7355;">"&#37325;&#26032;&#21551;&#21160;Apache&#26381;&#21153;&#22120;"</span>
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">&#37325;&#26032;&#21551;&#21160;Apache</span>
+apachectl -k restart
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>常见问题<br  />
+mac root需要关闭SIP (System Integrity Protection)，无法修改/usr目录<br  />
+重启Mac，Command+R进入recovery模式，打开终端，输入csrutil disable关闭SIP<br  />
+</li>
+<li>配置Emacs<br  />
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> 苹果破解软件网站</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+<a href="http://xclient.info/">http://xclient.info/</a><br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> 本地apache服务器</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+加入: /private/etc/apache2/users/gadmyth.conf, 内容为:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-xml">&lt;<span style="color: #cd9b1d;">Directory</span> "/Users/gadmyth/Sites/"&gt;
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride None
+    require all granted
+&lt;/<span style="color: #cd9b1d;">Directory</span>&gt;
+</pre>
+</div>
+<p>
+里面有FollewSymLinks<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> spctl 用法</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+<a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man8/spctl.8.html">spctl文档</a><br  />
+</p>
+</div>
+<div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1"><span class="section-number-3">8.1</span> 新版MacOS Sirra找不到允许任何来源的应用的开关</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+sudo spctl &#x2013;master-disable<br  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> brew install 443 timeout</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+<a href="https://github.com/Homebrew/legacy-homebrew/issues/43154">解决办法</a><br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #cd6600;">export</span> <span style="color: #2e8b57;">SSL_CERT_DIR</span>=<span style="color: #8b7355;">"/usr/local/etc/openssl/certs"</span>
+<span style="color: #cd6600;">export</span> <span style="color: #2e8b57;">SSL_CERT_FILE</span>=<span style="color: #8b7355;">"/usr/local/etc/openssl/cert.pem"</span>
+</pre>
+</div>
+<p>
+不过还是无解<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> <a href="http://stackoverflow.com/questions/8395000/application-loader-apple-stuck-on-sending-api-usage-to-itunes-connect">Application Loader 加速上传 ipa 文件</a></h2>
+<div class="outline-text-2" id="text-10">
+<p>
+将 443 端口改为 80 端口<br  />
+</p>
+
+<p>
+I had this problem when behind a firewall. I got around it by going to Xcode &gt; Contents &gt; Applications &gt; Application Loader &gt; Contents &gt; MacOS &gt; itms &gt; java &gt; lib - Open net.properties with TextEdit and change the line #<br  />
+ https.proxyPort=443 to https.proxyPort=80. This enables the application to use the HTTP port for HTTPS. Worked straight away after this. Hope this helps.<br  />
+</p>
+
+<p>
+入命令后，再右键open<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> Mac安装mkpasswd</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+<a href="https://github.com/PrototypeAlex/mkpasswd">mkpasswd</a>: gem install mkpasswd<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> rvm相关命令SSL证书问题</h2>
+<div class="outline-text-2" id="text-12">
+<p>
+brew, cocoapods都使用的ruby。<br  />
+</p>
+<blockquote>
+<p>
+ERROR:  While executing gem &#x2026; (OpenSSL::SSL::SSLError)<br  />
+hostname "upyun.gems.ruby-china.org" does not match the server certificate<br  />
+</p>
+</blockquote>
+
+<p>
+需要更新rvm<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #7f7f7f;">#</span><span style="color: #7f7f7f;">method1</span>
+rvm -v
+rvm get head
+
+<span style="color: #7f7f7f;">#</span><span style="color: #7f7f7f;">method2</span>
+gem update --system
+
+<span style="color: #7f7f7f;">#</span><span style="color: #7f7f7f;">method3</span>
+apt-get install openssl ??????
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> Homebrew安装</h2>
+<div class="outline-text-2" id="text-13">
+</div><div id="outline-container-sec-13-1" class="outline-3">
+<h3 id="sec-13-1"><span class="section-number-3">13.1</span> <a href="https://brew.sh/">brew</a> 安装</h3>
+<div class="outline-text-3" id="text-13-1">
+<div class="org-src-container">
+
+<pre class="src src-sh">/usr/bin/ruby -e <span style="color: #8b7355;">"$(</span><span style="color: #ff00ff;">curl</span><span style="color: #8b7355;"> -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-13-2" class="outline-3">
+<h3 id="sec-13-2"><span class="section-number-3">13.2</span> <a href="https://mirrors.tuna.tsinghua.edu.cn/help/homebrew/">替换国内源</a></h3>
+<div class="outline-text-3" id="text-13-2">
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #cd6600;">cd</span> <span style="color: #8b7355;">"$(</span><span style="color: #ff00ff;">brew</span><span style="color: #8b7355;"> --repo)"</span>
+git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
+
+<span style="color: #cd6600;">cd</span> <span style="color: #8b7355;">"$(</span><span style="color: #ff00ff;">brew</span><span style="color: #8b7355;"> --repo)/Library/Taps/homebrew/homebrew-core"</span>
+git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git
+
+brew update
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-06 Sun 17:30&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-27 Sun 10:12</p>
+<p class="date">Created: 2017-08-27 Sun 16:34</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

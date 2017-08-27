@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>git</title>
-<!-- 2017-08-27 Sun 10:12 -->
+<title>Git相关</title>
+<!-- 2017-08-27 Sun 16:33 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -1643,14 +1643,297 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">git</h1>
+<h1 class="title">Git相关</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. git删除远程tag</a></li>
+<li><a href="#sec-2">2. git删除远程branch</a></li>
+<li><a href="#sec-3">3. git清除远程已删除的分支</a></li>
+<li><a href="#sec-4">4. 将某个目录下的文件提交到另一个git上</a></li>
+<li><a href="#sec-5">5. Git未commit如何找回</a></li>
+<li><a href="#sec-6">6. git如何push部分的local commit</a></li>
+<li><a href="#sec-7">7. git merge问题</a></li>
+<li><a href="#sec-8">8. git hooks</a></li>
+<li><a href="#sec-9">9. git submodule</a>
+<ul>
+<li><a href="#sec-9-1">9.1. 添加submodule</a></li>
+<li><a href="#sec-9-2">9.2. Pull submodule</a></li>
+<li><a href="#sec-9-3">9.3. Push submodule</a></li>
+<li><a href="#sec-9-4">9.4. 删除</a></li>
+</ul>
+</li>
+<li><a href="#sec-10">10. git subtree</a>
+<ul>
+<li><a href="#sec-10-1">10.1. 添加repo</a></li>
+<li><a href="#sec-10-2">10.2. 添加subtree</a></li>
+<li><a href="#sec-10-3">10.3. split subtree</a></li>
+<li><a href="#sec-10-4">10.4. Pull subtree</a></li>
+<li><a href="#sec-10-5">10.5. Push subtree</a></li>
+<li><a href="#sec-10-6">10.6. Demo</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> git删除远程tag</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+
+<pre class="src src-sh">git push origin --delete tag &lt;tagname&gt;
+git push origin :refs/tags/&lt;tagname&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> git删除远程branch</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+
+<pre class="src src-sh">git push origin --delete &lt;branchName&gt;
+git push origin :&lt;branchName&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> git清除远程已删除的分支</h2>
+<div class="outline-text-2" id="text-3">
 <p>
-THE BUFFER IS NOT LOADED YET. PRESS ANY KEY TO LOAD IT.</p>
+比如协作者删除了一批feature branch，并push到origin，另一个协作者pull后本地feature branch还在，以下命令可以批量删除远程没有的分支。但此命令有个问题，本地开发的分支如果刻意不push到远程，会被误删。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">git remote prune origin
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 将某个目录下的文件提交到另一个git上</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+git subtree add &#x2013;prefix=&lt;subdir&gt; &lt;sub-repo&gt; &lt;branch&gt;<br  />
+git remote add &lt;sub-repo&gt; &lt;remote-repo-addr&gt;<br  />
+git subtree push &#x2013;prefix=&lt;subdir&gt; &lt;sub-repo&gt; &lt;branch&gt;<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Git未commit如何找回</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+事件: git stash过一次，切到其他branch，做了一些事，回来git stash pop，误操作git checkout -f<br  />
+stash历史中已经没有记录了，而且没有commit，所以git reflog也没有用<br  />
+解决办法，由于stash过一次，所以，使用git fsck &#x2013;lost-found，拿到一堆悬空blob<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-example">....
+....
+dangling blob 65f8cc663f9c222a1991102681081e3291acb942
+dangling blob f8f827e40b7bb3fe1963dcedb21d72143ac48772
+dangling commit 227bed807a88c0ce22b03159152cdcc6484094d8
+dangling blob e37bccbcbb9c31c72bd1bba59e9a5778f1143a0e
+dangling blob 227cadbf04eed5f5e7b98f578aa17549ac805ae0
+dangling blob 387c6725012fba6c2bb219f071b1dc07076ce216
+dangling blob 527cd410b58836b349349670f1cd8a56037b2d39
+dangling blob 6bfc5c92455871aa8308e5f88366524529c5ae00
+dangling blob 757c39c048f0af7f805a6cb17ffa7996cb0b4e05
+dangling blob 977c25555e15edb63a4c347761e5c66cc86c87db
+dangling blob ba7c4bffb5696704adf8f073b39687b1f9c4fbbf
+dangling commit ce7c7de25f0945e497bfde773edb272a55f9365a
+dangling blob b7fd98ad5e5bf4be7767e547b522461bb8874910
+dangling blob 9efe7a69941a43a05257a0c522bc9590c711b0a5
+dangling blob 91ff7550aa9dde3522ee42ba9d3e706893dff3fc
+</pre>
+</div>
+<p>
+找到里面的commit，一个一个地 git show &#x2013;stat，找到上次stash的历史 5571a<br  />
+最后 git stash apply 5571a就能恢复原来的东西，当然可能还可以用git merge恢复<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> git如何push部分的local commit</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+目前只知道以下的reset方法<br  />
+</p>
+<ul class="org-ul">
+<li>reset方法<br  />
+先记住HEAD的hash值: 12ea<br  />
+需要提交的commit是59f8<br  />
+<div class="org-src-container">
+
+<pre class="src src-sh">git reset --hard 59f8
+git push origin &lt;branch&gt;
+git checkout 12ea
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> git merge问题</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+git merge -Xtheirs Dev<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> <a href="https://github.com/git-hooks/git-hooks/wiki">git hooks</a></h2>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodule</a></h2>
+<div class="outline-text-2" id="text-9">
+</div><div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1"><span class="section-number-3">9.1</span> 添加submodule</h3>
+<div class="outline-text-3" id="text-9-1">
+<div class="org-src-container">
+
+<pre class="src src-sh">git submodule add &lt;repo&gt; path
+</pre>
+</div>
+<p>
+添加后会配置.gitsubmodules的配置文件<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2"><span class="section-number-3">9.2</span> Pull submodule</h3>
+<div class="outline-text-3" id="text-9-2">
+<div class="org-src-container">
+
+<pre class="src src-sh">git submodule update --init --recursive
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9-3" class="outline-3">
+<h3 id="sec-9-3"><span class="section-number-3">9.3</span> Push submodule</h3>
+<div class="outline-text-3" id="text-9-3">
+<div class="org-src-container">
+
+<pre class="src src-sh">git submodule foreach --recursive git pull origin master
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9-4" class="outline-3">
+<h3 id="sec-9-4"><span class="section-number-3">9.4</span> 删除</h3>
+<div class="outline-text-3" id="text-9-4">
+<p>
+在.gitsubmodules文件中删除信息，再执行以下命令。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">git rm --cached &lt;submodule-dir&gt; &amp;&amp; rm --rf &lt;submodule-dir&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> <a href="http://www.cnblogs.com/jingwhale/p/6054492.html">git subtree</a></h2>
+<div class="outline-text-2" id="text-10">
+<p>
+<a href="https://github.com/apenwarr/git-subtree/blob/master/git-subtree.txt">https://github.com/apenwarr/git-subtree/blob/master/git-subtree.txt</a><br  />
+</p>
+</div>
+<div id="outline-container-sec-10-1" class="outline-3">
+<h3 id="sec-10-1"><span class="section-number-3">10.1</span> 添加repo</h3>
+<div class="outline-text-3" id="text-10-1">
+<p>
+-f表示添加后fetch<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">git remote add -f &lt;repo-name&gt; &lt;repo-url&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10-2" class="outline-3">
+<h3 id="sec-10-2"><span class="section-number-3">10.2</span> 添加subtree</h3>
+<div class="outline-text-3" id="text-10-2">
+<p>
+squash表示拉取时合并成一次commit, &#x2013;prefix可以写成-P<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">git subtree add --prefix=&lt;sub-dir&gt; &lt;repo-name&gt; &lt;branch&gt; --squash
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10-3" class="outline-3">
+<h3 id="sec-10-3"><span class="section-number-3">10.3</span> split subtree</h3>
+<div class="outline-text-3" id="text-10-3">
+<div class="org-src-container">
+
+<pre class="src src-sh">git subtree split --prefix=&lt;sub-dir&gt; --annotate=<span style="color: #8b7355;">"(sub)"</span> -b sub
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10-4" class="outline-3">
+<h3 id="sec-10-4"><span class="section-number-3">10.4</span> Pull subtree</h3>
+<div class="outline-text-3" id="text-10-4">
+<div class="org-src-container">
+
+<pre class="src src-sh">git fetch &lt;repo-name&gt; &lt;branch&gt;
+git subtree pull --prefix=&lt;sub-dir&gt; &lt;repo-name&gt; &lt;branch&gt; --squash
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10-5" class="outline-3">
+<h3 id="sec-10-5"><span class="section-number-3">10.5</span> Push subtree</h3>
+<div class="outline-text-3" id="text-10-5">
+<div class="org-src-container">
+
+<pre class="src src-sh">git subtree push --prefix=&lt;sub-dir&gt; &lt;repo-name&gt; &lt;branch&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10-6" class="outline-3">
+<h3 id="sec-10-6"><span class="section-number-3">10.6</span> Demo</h3>
+<div class="outline-text-3" id="text-10-6">
+<p>
+不需要加remote repo<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">git subtree add -P ProductDetail ~/product-detail master --squash
+git subtree split -P ProductDetail -b product-detail
+git checkout product-detail
+<span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">modify and commit somthing...</span>
+git subtree push ~/product-detail product-detail:master
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-06 Sun 17:26&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-27 Sun 10:12</p>
+<p class="date">Created: 2017-08-27 Sun 16:33</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
