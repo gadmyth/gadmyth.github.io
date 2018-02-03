@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>消息盒子开发</title>
-<!-- 2017-08-27 Sun 10:11 -->
+<!-- 2018-02-03 Sat 21:18 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -296,7 +296,7 @@ body{
     overflow-x:hidden;
     -webkit-font-smoothing: antialiased;
     letter-spacing: .3px;
-    line-height: 1.7;
+    line-height: 2.2;
 }
 
 #content{
@@ -311,8 +311,8 @@ body{
 
 p{
     font-size:16px;
-    line-height:1.7;
-    margin:0px 0px 0px 0px;
+    line-height:2.2;
+    margin:0px 0px 9px 0px;
 }
 
 b,strong{
@@ -322,14 +322,14 @@ blockquote{
     background-color: #F0F0F0;
     border-left:5px solid #CCCCCC;
     font-style:italic;
-    line-height:1.7;
+    line-height:2.2;
     margin:0px 0px 24px 0px;
     /* margin-left:24px; */
     padding: 6px 20px;
 }
 
 ul,ol,dl{
-    line-height:1.7;
+    line-height:2.2;
     list-style-image:none;
     /* list-style:none; */
     margin:0px 0px 24px 0px;
@@ -346,7 +346,7 @@ dd{
 
 #content .section ul,#content .toctree-wrapper ul,article ul{
     list-style:disc;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ul li,#content .toctree-wrapper ul li,article ul li{
@@ -370,7 +370,7 @@ dd{
 
 #content .section ol,#content ol,article ol{
     list-style:decimal;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ol li,#content ol li,article ol li{
@@ -772,7 +772,7 @@ a .fa,a #content .admonition-title,#content a .admonition-title{
 
 .wy-alert,#content .note,#content .attention,#content .caution,#content .danger,#content .error,#content .hint,#content .important,#content .tip,#content .warning,#content .seealso,#content .admonitiontodo{
     padding:12px;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px;
     /* background:#e7f2fa; */
 }
@@ -2437,8 +2437,23 @@ hideList表示数据库中比showList更旧的分段消息。无论fetchList和h
 <h2 id="sec-5"><span class="section-number-2">5</span> 消息推送</h2>
 <div class="outline-text-2" id="text-5">
 <p>
-我们的服务器的消息推送集成了极光推送。可以参照[极光推送的RESTFUL API](<a href="http://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/">http://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/</a>)进行推送，其消息发送格式如下。其中Authorization是Header信息，格式为Basic，空格，再加上base64字符串，其生成算法为 Base64(JPUSH_APP_KEY + ":" + JPUSH_MASTER_SECRET)<br  />
+我们的服务器的消息推送集成了极光推送。可以参照[极光推送的RESTFUL API](<a href="http://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/">http://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/</a>)进行推送，其消息发送格式如下。其中Authorization是Header信息，格式为Basic，空格，再加上base64字符串，其生成算法为<br  />
 </p>
+<pre class="example">
+Base64(JPUSH_APP_KEY + ":" + JPUSH_MASTER_SECRET)
+</pre>
+
+<pre class="example">
+The Authorization field is constructed as follows:
+
+1. The username and password are combined with a single colon. (:). This means that the username itself cannot contain a colon.
+2. The resulting string is encoded into an octet sequence. The character set to use for this encoding is by default unspecified, as long as it is compatible with US-ASCII, but the server may suggest use of UTF-8.
+3. The resulting string is encoded using a variant of Base64.
+4. The authorization method and a space (e.g. "Basic ") is then prepended to the encoded string.
+For example, if the browser uses Aladdin as the username and OpenSesame as the password, then the field's value is the base64-encoding of Aladdin:OpenSesame, or QWxhZGRpbjpPcGVuU2VzYW1l. Then the Authorization header will appear as:
+
+Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
+</pre>
 
 <div class="org-src-container">
 
@@ -3553,8 +3568,8 @@ pragma index_info('unque_index');
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-03-31 11:58&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
 <p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-27 Sun 10:11</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2018-02-03 Sat 21:18</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

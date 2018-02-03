@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>iOS10富文本推送通知</title>
-<!-- 2017-08-20 Sun 18:55 -->
+<!-- 2018-02-03 Sat 20:39 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -296,7 +296,7 @@ body{
     overflow-x:hidden;
     -webkit-font-smoothing: antialiased;
     letter-spacing: .3px;
-    line-height: 1.7;
+    line-height: 2.2;
 }
 
 #content{
@@ -311,8 +311,8 @@ body{
 
 p{
     font-size:16px;
-    line-height:1.7;
-    margin:0px 0px 0px 0px;
+    line-height:2.2;
+    margin:0px 0px 9px 0px;
 }
 
 b,strong{
@@ -322,14 +322,14 @@ blockquote{
     background-color: #F0F0F0;
     border-left:5px solid #CCCCCC;
     font-style:italic;
-    line-height:1.7;
+    line-height:2.2;
     margin:0px 0px 24px 0px;
     /* margin-left:24px; */
     padding: 6px 20px;
 }
 
 ul,ol,dl{
-    line-height:1.7;
+    line-height:2.2;
     list-style-image:none;
     /* list-style:none; */
     margin:0px 0px 24px 0px;
@@ -346,7 +346,7 @@ dd{
 
 #content .section ul,#content .toctree-wrapper ul,article ul{
     list-style:disc;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ul li,#content .toctree-wrapper ul li,article ul li{
@@ -370,7 +370,7 @@ dd{
 
 #content .section ol,#content ol,article ol{
     list-style:decimal;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ol li,#content ol li,article ol li{
@@ -772,7 +772,7 @@ a .fa,a #content .admonition-title,#content a .admonition-title{
 
 .wy-alert,#content .note,#content .attention,#content .caution,#content .danger,#content .error,#content .hint,#content .important,#content .tip,#content .warning,#content .seealso,#content .admonitiontodo{
     padding:12px;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px;
     /* background:#e7f2fa; */
 }
@@ -1700,7 +1700,12 @@ for the JavaScript code in this tag.
 <ul class="org-ul">
 <li>App远程推送开关:<br  />
 如果你的App要使用推送功能，首先需要打开App的远程推送开关。<br  />
-<img src="images/enable-push-notifications.png" alt="enable-push-notifications.png" /><br  />
+
+
+<div class="figure">
+<p><img src="images/enable-push-notifications.png" alt="enable-push-notifications.png" /><br  />
+</p>
+</div>
 </li>
 <li>打开推送的后台模式:<br  />
 iOS7开始，苹果提供了后台接收远程消息的功能，进程在后台存活时也能接收到消息<br  />
@@ -1709,6 +1714,7 @@ iOS7开始，苹果提供了后台接收远程消息的功能，进程在后台�
 <pre class="src src-objc">- (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">application</span>:(<span style="color: #00688b;">UIApplication</span> *)<span style="color: #2e8b57;">application</span> <span style="color: #cd9b1d;">didReceiveRemoteNotification</span>:(<span style="color: #00688b;">NSDictionary</span> *)<span style="color: #2e8b57;">userInfo</span> <span style="color: #cd9b1d;">fetchCompletionHandler</span>:(<span style="color: #00688b;">void</span> (^)(<span style="color: #00688b;">UIBackgroundFetchResult</span> <span style="color: #2e8b57;">result</span>))<span style="color: #2e8b57;">completionHandler</span> <span style="color: #cd9b1d;">NS_AVAILABLE_IOS</span>(7_0);
 </pre>
 </div>
+
 
 <div class="figure">
 <p><img src="images/remote-notification-background-modes.png" alt="remote-notification-background-modes.png" /><br  />
@@ -1786,8 +1792,13 @@ attachment-image是我们自定义的字段，表示该条推送附带的图片U
 <div class="outline-text-3" id="text-3-1">
 <p>
 下图展示了新建的过程，在Xcode里点击File-&gt;New-&gt;Target-&gt;Notficiation Service Extension<br  />
-<img src="images/create-NSE-target.png" alt="create-NSE-target.png" /><br  />
 </p>
+
+
+<div class="figure">
+<p><img src="images/create-NSE-target.png" alt="create-NSE-target.png" /><br  />
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-sec-3-2" class="outline-3">
@@ -1795,8 +1806,13 @@ attachment-image是我们自定义的字段，表示该条推送附带的图片U
 <div class="outline-text-3" id="text-3-2">
 <p>
 在命名BundleID的时候需要注意的是，其前缀最好包含App Target的bundleID。<br  />
-<img src="images/NSE-bundle-identifier.png" alt="NSE-bundle-identifier.png" /><br  />
 </p>
+
+
+<div class="figure">
+<p><img src="images/NSE-bundle-identifier.png" alt="NSE-bundle-identifier.png" /><br  />
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-sec-3-3" class="outline-3">
@@ -1910,8 +1926,13 @@ didReceiveRemoteNotification回调提供了contentHandler回调block，调用后
 <div class="outline-text-4" id="text-3-3-6">
 <p>
 经过上面几步操作，我们最终在系统消息中心显示了带图片的推送样式。<br  />
-<img src="iOS10-Rich-Notification/rich-notificotion-in-center.png" alt="rich-notificotion-in-center.png" /><br  />
 </p>
+
+
+<div class="figure">
+<p><img src="images/rich-notificotion-in-center.png" alt="rich-notificotion-in-center.png" /><br  />
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-sec-3-3-7" class="outline-4">
@@ -1943,8 +1964,13 @@ iOS10的Notification Content Extension为开发者提供了自定义force touch�
 <div class="outline-text-3" id="text-4-1">
 <p>
 下图展示了新建的过程，在Xcode里点击File-&gt;New-&gt;Target-&gt;Notficiation Content Extension<br  />
-<img src="images/create-NC-target.png" alt="create-NC-target.png" /><br  />
 </p>
+
+
+<div class="figure">
+<p><img src="images/create-NC-target.png" alt="create-NC-target.png" /><br  />
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-sec-4-2" class="outline-3">
@@ -1952,8 +1978,13 @@ iOS10的Notification Content Extension为开发者提供了自定义force touch�
 <div class="outline-text-3" id="text-4-2">
 <p>
 Extension创建后，其Info.plist里指定了NSExtensionMainStoryboard字段，表示自定义界面使用相应名字的storyboard；下图是一个定制化的界面，显示一张正方形的图片:<br  />
-<img src="images/NC-storyboard.png" alt="NC-storyboard.png" /><br  />
 </p>
+
+
+<div class="figure">
+<p><img src="images/NC-storyboard.png" alt="NC-storyboard.png" /><br  />
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-sec-4-3" class="outline-3">
@@ -1995,8 +2026,13 @@ category需要在Info.plist中进行配置，设置UNNotificationExtensionCatego
 <p>
 我们使用了李笑来老师 <a href="http://caifu.xinshengdaxue.com/#!/news/1">财富自由之路</a> 网站的favicon，也是他的头像。下图就是消息force touch后展示的样子。<br  />
 你可以根据自己App的设计来重新布局你的消息展示形式。<br  />
-<img src="images/force-touch-rich-notification.png" alt="force-touch-rich-notification.png" /><br  />
 </p>
+
+
+<div class="figure">
+<p><img src="images/force-touch-rich-notification.png" alt="force-touch-rich-notification.png" /><br  />
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-sec-4-6" class="outline-3">
@@ -2041,8 +2077,8 @@ category需要在Info.plist中进行配置，设置UNNotificationExtensionCatego
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-06-01 Thu&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
 <p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-20 Sun 18:55</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2018-02-03 Sat 20:39</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

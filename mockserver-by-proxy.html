@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Mock Server和代理服务器</title>
-<!-- 2017-08-27 Sun 10:12 -->
+<title>Mock Server</title>
+<!-- 2018-02-03 Sat 20:49 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -296,7 +296,7 @@ body{
     overflow-x:hidden;
     -webkit-font-smoothing: antialiased;
     letter-spacing: .3px;
-    line-height: 1.7;
+    line-height: 2.2;
 }
 
 #content{
@@ -311,8 +311,8 @@ body{
 
 p{
     font-size:16px;
-    line-height:1.7;
-    margin:0px 0px 0px 0px;
+    line-height:2.2;
+    margin:0px 0px 9px 0px;
 }
 
 b,strong{
@@ -322,14 +322,14 @@ blockquote{
     background-color: #F0F0F0;
     border-left:5px solid #CCCCCC;
     font-style:italic;
-    line-height:1.7;
+    line-height:2.2;
     margin:0px 0px 24px 0px;
     /* margin-left:24px; */
     padding: 6px 20px;
 }
 
 ul,ol,dl{
-    line-height:1.7;
+    line-height:2.2;
     list-style-image:none;
     /* list-style:none; */
     margin:0px 0px 24px 0px;
@@ -346,7 +346,7 @@ dd{
 
 #content .section ul,#content .toctree-wrapper ul,article ul{
     list-style:disc;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ul li,#content .toctree-wrapper ul li,article ul li{
@@ -370,7 +370,7 @@ dd{
 
 #content .section ol,#content ol,article ol{
     list-style:decimal;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ol li,#content ol li,article ol li{
@@ -772,7 +772,7 @@ a .fa,a #content .admonition-title,#content a .admonition-title{
 
 .wy-alert,#content .note,#content .attention,#content .caution,#content .danger,#content .error,#content .hint,#content .important,#content .tip,#content .warning,#content .seealso,#content .admonitiontodo{
     padding:12px;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px;
     /* background:#e7f2fa; */
 }
@@ -1643,15 +1643,147 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Mock Server和代理服务器</h1>
+<h1 class="title">Mock Server</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 安装anyproxy</a></li>
+<li><a href="#sec-2">2. 编写proxy配置文件</a></li>
+<li><a href="#sec-3">3. 启动代理服务</a></li>
+<li><a href="#sec-4">4. 支持https解析</a>
+<ul>
+<li><a href="#sec-4-1">4.1. 生成证书</a></li>
+<li><a href="#sec-4-2">4.2. 信任证书</a></li>
+<li><a href="#sec-4-3">4.3. 解析https</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 安装anyproxy<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup></h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+
+<pre class="src src-sh">npm install -g anyproxy
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 编写proxy配置文件</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+以下配置文件内容为proxy配置文件demo，配置文件定义了一系列的相应方法，其中replaceRequestOption是用来提供开发者修改请求，重定向等功能。以下示例中将10.243.157.12(虚拟的服务器ip)的某API请求修改后转发给本地localhost:8000服务器，本地服务器收到请求后，返回相应格式的json。这样做的好处是，随时可以修改数据，达到了mockserver的功能。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js">module.exports = {
+
+    <span style="color: #cd9b1d;">summary</span>:<span style="color: #1c86ee;">function</span>() {
+        <span style="color: #1c86ee;">return</span> <span style="color: #8b7355;">"reverse proxy - assign an IP adress for some request"</span>;
+    },
+
+    <span style="color: #cd9b1d;">replaceRequestOption</span> : <span style="color: #1c86ee;">function</span>(<span style="color: #2e8b57;">req</span>,<span style="color: #2e8b57;">option</span>) {
+        <span style="color: #1c86ee;">var</span> <span style="color: #2e8b57;">newOption</span> = option;
+        <span style="color: #7f7f7f;">//</span><span style="color: #7f7f7f;">options : http://nodejs.org/api/http.html#http_http_request_options_callback</span>
+        console.log(JSON.stringify(newOption));
+        <span style="color: #1c86ee;">if</span>(newOption.hostname == <span style="color: #8b7355;">"10.243.157.12"</span>) {
+            <span style="color: #1c86ee;">if</span> (newOption.path.includes(<span style="color: #8b7355;">"&lt;product&gt;/api/v1/product-detail"</span>)) {
+                <span style="color: #1c86ee;">var</span> <span style="color: #2e8b57;">path</span> = newOption.path;
+                newOption.path = path.replace(<span style="color: #8b7355;">/detail/</span>, <span style="color: #8b7355;">"detail/"</span>);
+                newOption.hostname = <span style="color: #8b7355;">"localhost"</span>;
+                newOption.port     = <span style="color: #8b7355;">"8000"</span>;
+                console.log(<span style="color: #8b7355;">"Change host to %s, change port %s"</span>, newOption.hostname, newOption.port);
+                console.log(<span style="color: #8b7355;">"new option: %s"</span>, JSON.stringify(newOption));
+            }
+        }
+
+        <span style="color: #1c86ee;">return</span> newOption;
+    }
+
+};
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 启动代理服务</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+
+<pre class="src src-sh">anyproxy --port 8888 --rule proxy.js
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> <a href="https://github.com/alibaba/anyproxy/wiki/How-to-config-https-proxy">支持https解析</a></h2>
+<div class="outline-text-2" id="text-4">
+<p>
+使用过Charles的朋友应该明白是怎么回事，本质是就是anyproxy做为中间人，访问端(手机、模拟器、浏览器等)需要信任anyproxy生成的自签名证书。<br  />
+</p>
+</div>
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 生成证书</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+输入以下命令可以生成自定义证书。<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">sudo anyproxy --root
+</pre>
+</div>
+<p>
+该命令会在~/.anyproxy_certs目录下生成rootCA.crt和rootCA.key两个文件。<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> 信任证书</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+anyproxy启动后，可以在浏览器中输入<a href="http://localhost:8002">http://localhost:8002</a> 来进入anyproxy界面端，如图第一行所示，手机端可以输入<a href="http://[pc-ip]:8002/fetchCrtFile">http://[pc-ip]:8002/fetchCrtFile</a> 或者扫二维码进行证书信任。<br  />
+</p>
+
+<div class="figure">
+<p><img src="images/anyproxy-web-client.png" alt="anyproxy-web-client.png" width="700px" /><br  />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> 解析https</h3>
+<div class="outline-text-3" id="text-4-3">
+<div class="org-src-container">
+
+<pre class="src src-sh">anyproxy --port 8888 --rule proxy.js --intercept
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p class="footpara">
+<a href="http://anyproxy.io/cn">http://anyproxy.io/cn</a><br  />
+</p></div>
+
 
 </div>
+</div></div>
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-23 Wed 16:24&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
 <p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-27 Sun 10:12</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2018-02-03 Sat 20:49</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

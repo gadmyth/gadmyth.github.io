@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>iOS 对 UIView 扩展 Click 事件</title>
-<!-- 2017-08-27 Sun 10:11 -->
+<title>UIView点击事件</title>
+<!-- 2018-02-03 Sat 21:14 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -296,7 +296,7 @@ body{
     overflow-x:hidden;
     -webkit-font-smoothing: antialiased;
     letter-spacing: .3px;
-    line-height: 1.7;
+    line-height: 2.2;
 }
 
 #content{
@@ -311,8 +311,8 @@ body{
 
 p{
     font-size:16px;
-    line-height:1.7;
-    margin:0px 0px 0px 0px;
+    line-height:2.2;
+    margin:0px 0px 9px 0px;
 }
 
 b,strong{
@@ -322,14 +322,14 @@ blockquote{
     background-color: #F0F0F0;
     border-left:5px solid #CCCCCC;
     font-style:italic;
-    line-height:1.7;
+    line-height:2.2;
     margin:0px 0px 24px 0px;
     /* margin-left:24px; */
     padding: 6px 20px;
 }
 
 ul,ol,dl{
-    line-height:1.7;
+    line-height:2.2;
     list-style-image:none;
     /* list-style:none; */
     margin:0px 0px 24px 0px;
@@ -346,7 +346,7 @@ dd{
 
 #content .section ul,#content .toctree-wrapper ul,article ul{
     list-style:disc;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ul li,#content .toctree-wrapper ul li,article ul li{
@@ -370,7 +370,7 @@ dd{
 
 #content .section ol,#content ol,article ol{
     list-style:decimal;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ol li,#content ol li,article ol li{
@@ -772,7 +772,7 @@ a .fa,a #content .admonition-title,#content a .admonition-title{
 
 .wy-alert,#content .note,#content .attention,#content .caution,#content .danger,#content .error,#content .hint,#content .important,#content .tip,#content .warning,#content .seealso,#content .admonitiontodo{
     padding:12px;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px;
     /* background:#e7f2fa; */
 }
@@ -1643,20 +1643,21 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">iOS 对 UIView 扩展 Click 事件</h1>
+<h1 class="title">UIView点击事件</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. UIButton扩展 Click 事件</a></li>
-<li><a href="#sec-2">2. 为 UIView 增加 Touch Event Handling 能力</a></li>
-<li><a href="#sec-3">3. UIGestureRecognizer 扩展 Click 事件</a></li>
-<li><a href="#sec-4">4. UIView Category 扩展 Click 事件</a>
+<li><a href="#sec-1">1. UIButton增加Click事件</a></li>
+<li><a href="#sec-2">2. 增加Touch Event响应</a></li>
+<li><a href="#sec-3">3. UIGestureRecognizer增加Click事件</a></li>
+<li><a href="#sec-4">4. Category扩展Click事件</a>
 <ul>
-<li><a href="#sec-4-1">4.1. 4.1 增加 UIControl</a></li>
-<li><a href="#sec-4-2">4.2. UIControl 绑定事件</a></li>
+<li><a href="#sec-4-1">4.1. 增加UIControl</a></li>
+<li><a href="#sec-4-2">4.2. UIControl绑定事件</a></li>
 <li><a href="#sec-4-3">4.3. Responder Chain 的可靠性</a></li>
 <li><a href="#sec-4-4">4.4. 其他注意事项</a></li>
+<li><a href="#sec-4-5">4.5. reference</a></li>
 </ul>
 </li>
 </ul>
@@ -1682,13 +1683,13 @@ UIView 增加 click 事件? 这是一个很好的想法。一般而言，iOS的U
 
 
 <div class="figure">
-<p><img src="images/zhifubao-service.png" alt="zhifubao-service.png" /><br  />
+<p><img src="images/zhifubao-service.png" alt="zhifubao-service.png" width="250px" /><br  />
 </p>
 <p><span class="figure-number">Figure 2:</span> 支付宝首页service入口布局</p>
 </div>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> UIButton扩展 Click 事件</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> UIButton增加Click事件</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 一般的 view 是没有点击事件能力的，对 view 进行点击事件的扩展较简单的方法就是在这个 view 加入一个 UIButton 的 subview，在 Responder Chain 上，代替 UIView 响应点击事件。由于是事件扩展，所以 UIButton 首先是透明的；其次 button 的可点击范围和 view 一样；另外如果 button 有点击效果，那么该 button 应该在 subview 的最下层。<br  />
@@ -1696,28 +1697,27 @@ UIView 增加 click 事件? 这是一个很好的想法。一般而言，iOS的U
 <div class="org-src-container">
 
 <pre class="src src-objc"><span style="color: #00688b;">UIButton</span> *<span style="color: #2e8b57;">button</span> = [<span style="color: #00688b;">UIButton</span> buttonWithStyle:UIButtonTypeSystem];
-[button addTarget:<span style="color: #1c86ee;">self</span> action:<span style="color: #1c86ee;">@selector</span>(xxxClicked:)
-    forControlEvents:UIControlEventTouchUpInside];
+[button addTarget:<span style="color: #1c86ee;">self</span> action:<span style="color: #1c86ee;">@selector</span>(xxxClicked:) forControlEvents:UIControlEventTouchUpInside];
 [view addSubview:button];
-button.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
+button.frame = view.bounds;
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> 为 UIView 增加 Touch Event Handling 能力</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> 增加Touch Event响应</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-在 Responder Chain 中，一般的 UIView 并没有对 Event 进行响应，虽然 hittest 方法找到了该 view，但由于该 view 的 userInteractionEnabled 为 NO，所以系统不把事件交给该 view 处理。只有当 UIView 重载了 UIResponder 的 touch 事件来监听处理用户或系统发出的 Touch Event。不过这种方法就必须对 UIView 继承为某个具体的 NSUIView，并在以下的 UIResponder 方法中增加 Click 的能力。touchesEnded 中实现具体的 click逻辑，touchesBegan 和 touchesEnded/touchesCancelled 配对实现按下和完成的 UI 效果。<br  />
+在 Responder Chain 中，一般的 UIView 并没有对 Event 进行响应，虽然 hittest 方法找到了该 view，但由于该 view 没有override touchesXXX方法，event并没有被处理，而是会默认延着Responder Chain传给nextResponder。只有当 UIView 重载了 UIResponder 的 touch 事件来监听处理用户或系统发出的 Touch Event。不过这种方法就必须继承 UIView 并重载相关方法处理event: 可以在 touchesEnded 中实现具体的 click逻辑，可以在 touchesBegan 和 touchesEnded/touchesCancelled 中配对实现按下和完成的 UI 效果。<br  />
 </p>
 <div class="org-src-container">
 
-<pre class="src src-objc"><span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">NSUIView</span> : <span style="color: #00688b;">UIView</span>
+<pre class="src src-objc"><span style="color: #1c86ee;">@interface</span> <span style="color: #00688b;">SubClassView</span> : <span style="color: #00688b;">UIView</span>
 <span style="color: #7f7f7f;">//</span><span style="color: #7f7f7f;">...</span>
 <span style="color: #1c86ee;">@end</span>
 
-<span style="color: #1c86ee;">@implementation</span> <span style="color: #00688b;">NSUIView</span>
+<span style="color: #1c86ee;">@implementation</span> <span style="color: #00688b;">SubClassView</span>
 - (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">touchesBegan</span>:(<span style="color: #00688b;">NSSet</span>&lt;UITouch *&gt; *)<span style="color: #2e8b57;">touches</span> <span style="color: #cd9b1d;">withEvent</span>:(<span style="color: #00688b;">nullable</span> <span style="color: #00688b;">UIEvent</span> *)<span style="color: #2e8b57;">event</span> {...}
 - (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">touchesMoved</span>:(<span style="color: #00688b;">NSSet</span>&lt;UITouch *&gt; *)<span style="color: #2e8b57;">touches</span> <span style="color: #cd9b1d;">withEvent</span>:(<span style="color: #00688b;">nullable</span> <span style="color: #00688b;">UIEvent</span> *)<span style="color: #2e8b57;">event</span> {...}
 - (<span style="color: #00688b;">void</span>)<span style="color: #cd9b1d;">touchesEnded</span>:(<span style="color: #00688b;">NSSet</span>&lt;UITouch *&gt; *)<span style="color: #2e8b57;">touches</span> <span style="color: #cd9b1d;">withEvent</span>:(<span style="color: #00688b;">nullable</span> <span style="color: #00688b;">UIEvent</span> *)<span style="color: #2e8b57;">event</span> {...}
@@ -1729,7 +1729,7 @@ button.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
 </div>
 
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> UIGestureRecognizer 扩展 Click 事件</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> UIGestureRecognizer增加Click事件</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 以上方法都比较麻烦，不是要加 button，就是要实现事件处理的回调方法。那么是否有一种简单的方法，只提供一个 selector 或 block 就能实现了呢? 手势识别 (UIGestureRecognizer) 就非常符合这样的场景。UIGestureRecognizer 的功能非常强大，不仅支持单击，还支持双击。这样无需改动 UIView 就可以对任意的 view 添加点击事件。<br  />
@@ -1746,22 +1746,22 @@ tap.numberOfTapsRequired = 1;
 </div>
 
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> UIView Category 扩展 Click 事件</h2>
+<h2 id="sec-4"><span class="section-number-2">4</span> Category扩展Click事件</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-虽然 手势识别非常方便，但是代码里面到处都是手势会不会不太好，而且手势识别的缺点是如果手势识别成功，那么事件就直接被 consume 掉了，而且手势之间可能还会发生冲突，所以这么方法不是太适合的解决方案。通过 category 来为 UIView 增强功能，达到如 UIButton、UIControl 一样的功能不失为一种很好的选择。基本思路和本文第一个 section1 的思路一致，在 UIView 的底部加上一层 UIControl，点击 view 后，事件传递给 UIControl。<br  />
+虽然 手势识别非常方便，但是代码里面到处都是手势会不会不太好，而且手势识别的缺点是如果手势识别成功，那么事件就直接被处理了，而且手势之间可能还会发生冲突，所以这么方法不是太适合的解决方案。通过 category 来为 UIView 增强功能，达到如 UIButton、UIControl 一样的功能不失为一种很好的选择。基本思路和本文第一个 section1 的思路一致，在 UIView 的底部加上一层 UIControl，由UIControl接收处理事件。<br  />
 </p>
 
 <p>
-我们不使用像 section2 中继承的做法，转而使用 category 代替，虽然 category 其实也是侵入式的。<br  />
+我们不使用像 section2 中继承的做法，转而使用 category 代替，虽然 category 其实也是侵入式代码。<br  />
 </p>
 </div>
 
 <div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 4.1 增加 UIControl</h3>
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 增加UIControl</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
-对于 category 来说，是没有办法直接增加属性的，不过 objective-c 早就替我们想好了，提供了 Associate Object 的功能，可以动态地将两个 Object 绑定在一起。以下代码使用了 Lazy Create 的方式生成一个 UIControl 的子view:<br  />
+对于 category 来说，是没有办法直接增加属性的，我们使用 Associate Object 功能将UIControl设置为UIView的属性；并且UIControl的生成是懒加载的:<br  />
 </p>
 <div class="org-src-container">
 
@@ -1783,7 +1783,7 @@ tap.numberOfTapsRequired = 1;
 </div>
 
 <div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> UIControl 绑定事件</h3>
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> UIControl绑定事件</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 UIControl 绑定事件非常地简单，本身遵守 Cocoa 的 target-action 机制。所以我们只需要使用 addTarget:action:forControlEvents: 方法就可以了。这样我们就完成了 UIControl 扩展 UIView 的功能了。<br  />
@@ -1800,18 +1800,15 @@ UIControl 绑定事件非常地简单，本身遵守 Cocoa 的 target-action 机
 <p>
 我们注意到 control 的 target 其实是 nil 的。查询 addTarget:action:forControlEvents: API 的文档:<br  />
 </p>
-<blockquote>
+<pre class="example">
+// add target/action for particular event. you can call this multiple times and you can 
+// specify multiple target/actions for a particular event.
+// passing in nil as the target goes up the responder chain. The action may optionally 
+// include the sender and the event in that order the action cannot be NULL. Note that 
+// the target is not retained.
+</pre>
 <p>
-<i>/ add target/action for particular event. you can call this multiple times and you can<br  />
-/</i> specify multiple target/actions for a particular event.<br  />
-<i>/ passing in nil as the target goes up the responder chain. The action may optionally<br  />
-/</i> include the sender and the event in that order the action cannot be NULL. Note that<br  />
-// the target is not retained.<br  />
-</p>
-</blockquote>
-
-<p>
-如果target为nil，那么事件就会沿着响应链向上传递，找到链上某个能够响应 action 的 UIResponder。比如我们使用上述方法为 UIView 的 UIControl 增加了 @selector(clickVisitGoogle)的方法action。那么我们就可以在该 view 所在的 UIViewController(或者它的category) 中定义 clickVisitGoogle 方法。因为 UIViewController 在该 view 的nextResponder 的事件链中，所以点击 view 后，会执行 clickVisitGoogle 的方法。<br  />
+如果target为nil，那么事件就会沿着响应链向上传递，找到链上某个能够响应action的UIResponder。比如我们使用上述方法指定UIControl可以响应clickVisitGoogle，那么我们就可以在UIControl所在的UIViewController中定义clickVisitGoogle方法，点击view后，会延着响应链找到并调用controller中定义的clickVisitGoogle。<br  />
 </p>
 
 
@@ -1837,6 +1834,44 @@ UIControl 绑定事件非常地简单，本身遵守 Cocoa 的 target-action 机
 }
 </pre>
 </div>
+
+<p>
+以下为示例结果:<br  />
+</p>
+<pre class="example">
+2017-12-19 21:09:55.693 TestApp[22096:4926679] UIControl
+2017-12-19 21:09:55.694 TestApp[22096:4926679] ----WDCFProductActionView
+2017-12-19 21:09:55.694 TestApp[22096:4926679] --------UIView
+2017-12-19 21:09:55.694 TestApp[22096:4926679] ------------WDCFFixedProductViewController
+2017-12-19 21:09:55.695 TestApp[22096:4926679] ----------------UIViewControllerWrapperView
+2017-12-19 21:09:55.695 TestApp[22096:4926679] --------------------UINavigationTransitionView
+2017-12-19 21:09:55.695 TestApp[22096:4926679] ------------------------UILayoutContainerView
+2017-12-19 21:09:55.696 TestApp[22096:4926679] ----------------------------WDCFNavController
+2017-12-19 21:09:55.696 TestApp[22096:4926679] --------------------------------UIWindow
+2017-12-19 21:09:55.696 TestApp[22096:4926679] ------------------------------------UIApplication
+2017-12-19 21:09:55.696 TestApp[22096:4926679] ----------------------------------------AppDelegate
+</pre>
+
+
+<div class="figure">
+<p><img src="images/uiview-layout-hierachy.png" alt="uiview-layout-hierachy.png" width="400px" /><br  />
+</p>
+<p><span class="figure-number">Figure 4:</span> 普通页面层级关系</p>
+</div>
+
+<p>
+从nextResponder链和UI层级图中看出，View的nextResponder并不一定是superview，响应链具有以下规则:<br  />
+</p>
+<pre class="example">
+1. The first responder is the hit-tested view (the view under the touch)
+2. Next responder is its super view
+3. The chain continues up the view hierarchy until it reaches a view that is associated with a view controller
+4. That view controller will be the next responder
+5. view controller's next responder is the controller's view's superview (complemented by gadmyth，same as point 2)
+6. If this view controller is a root controller, then the window will be the next responder
+7. The application is the window’s next responder
+8. The last responder in the chain is the App delegate
+</pre>
 </div>
 </div>
 
@@ -1850,7 +1885,7 @@ UIControl 绑定事件非常地简单，本身遵守 Cocoa 的 target-action 机
 <div class="figure">
 <p><img src="images/photo-choose-action.png" alt="photo-choose-action.png" width="400px" /><br  />
 </p>
-<p><span class="figure-number">Figure 4:</span> 头像设置的浮层</p>
+<p><span class="figure-number">Figure 5:</span> 头像设置的浮层</p>
 </div>
 
 <p>
@@ -1891,14 +1926,24 @@ UIControl 绑定事件非常地简单，本身遵守 Cocoa 的 target-action 机
 </ol>
 </div>
 </div>
+
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> reference</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li><a href="https://medium.com/ios-os-x-development/understanding-cocoa-and-cocoa-touch-responder-chain-12fe558ebe97">Understanding cocoa and cocoa touch responder chain</a><br  />
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-23 Fri 16:37&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
 <p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-27 Sun 10:11</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2018-02-03 Sat 21:14</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

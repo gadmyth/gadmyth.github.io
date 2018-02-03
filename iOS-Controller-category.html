@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>iOS category 拆分 Controller</title>
-<!-- 2017-08-20 Sun 18:55 -->
+<title>iOS Controller逻辑拆分</title>
+<!-- 2018-02-03 Sat 21:08 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -296,7 +296,7 @@ body{
     overflow-x:hidden;
     -webkit-font-smoothing: antialiased;
     letter-spacing: .3px;
-    line-height: 1.7;
+    line-height: 2.2;
 }
 
 #content{
@@ -311,8 +311,8 @@ body{
 
 p{
     font-size:16px;
-    line-height:1.7;
-    margin:0px 0px 0px 0px;
+    line-height:2.2;
+    margin:0px 0px 9px 0px;
 }
 
 b,strong{
@@ -322,14 +322,14 @@ blockquote{
     background-color: #F0F0F0;
     border-left:5px solid #CCCCCC;
     font-style:italic;
-    line-height:1.7;
+    line-height:2.2;
     margin:0px 0px 24px 0px;
     /* margin-left:24px; */
     padding: 6px 20px;
 }
 
 ul,ol,dl{
-    line-height:1.7;
+    line-height:2.2;
     list-style-image:none;
     /* list-style:none; */
     margin:0px 0px 24px 0px;
@@ -346,7 +346,7 @@ dd{
 
 #content .section ul,#content .toctree-wrapper ul,article ul{
     list-style:disc;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ul li,#content .toctree-wrapper ul li,article ul li{
@@ -370,7 +370,7 @@ dd{
 
 #content .section ol,#content ol,article ol{
     list-style:decimal;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ol li,#content ol li,article ol li{
@@ -772,7 +772,7 @@ a .fa,a #content .admonition-title,#content a .admonition-title{
 
 .wy-alert,#content .note,#content .attention,#content .caution,#content .danger,#content .error,#content .hint,#content .important,#content .tip,#content .warning,#content .seealso,#content .admonitiontodo{
     padding:12px;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px;
     /* background:#e7f2fa; */
 }
@@ -1643,7 +1643,7 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">iOS category 拆分 Controller</h1>
+<h1 class="title">iOS Controller逻辑拆分</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -1686,12 +1686,10 @@ for the JavaScript code in this tag.
 <p>
 由于 category 不能增加 property，所以我们将所有的 property 放在未被扩展的 interface 中集中进行管理。好处是每个 category 都可以访问到这些 property，坏处是，这些 property 本应该分散在不同的 category 里。当然这与 Class Extension (Class-Continuation Category, cc-category) 看上去矛盾了。原因是 Class Extension 是说在头文件中尽量少地暴露属性和方法，这些实现细节应当放在 cc-category 中。而 category 的作用其实是为了功能的分割，而非属性的分割。cc-category 和 normal category 功能上的区别其实已经表达了这样的意思，一个专门为了隐藏实现细节，另一个专门为了分散逻辑功能。在 Effective Objective-C 2.0 中针对 normal category 就提到:<br  />
 </p>
-<blockquote>
-<p>
-In that case, Objective-C categories can be used to great effect to split up a class<br  />
-into logical subsections that aid not only development but also debugging.<br  />
-</p>
-</blockquote>
+<pre class="example">
+In that case, Objective-C categories can be used to great effect to split up a class
+into logical subsections that aid not only development but also debugging.
+</pre>
 <p>
 相比较而言，Class Continuation Category 有以下的功能:<br  />
 </p>
@@ -1715,8 +1713,8 @@ cc-category 针对的是，如果该类会作为某个开源库中的一部分�
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-09 Sun 11:10&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
 <p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-20 Sun 18:55</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2018-02-03 Sat 21:08</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

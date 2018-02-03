@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>iOS CocoaPods 源码管理</title>
-<!-- 2017-08-20 Sun 18:55 -->
+<title>CocoaPods源码管理</title>
+<!-- 2018-02-03 Sat 20:49 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -296,7 +296,7 @@ body{
     overflow-x:hidden;
     -webkit-font-smoothing: antialiased;
     letter-spacing: .3px;
-    line-height: 1.7;
+    line-height: 2.2;
 }
 
 #content{
@@ -311,8 +311,8 @@ body{
 
 p{
     font-size:16px;
-    line-height:1.7;
-    margin:0px 0px 0px 0px;
+    line-height:2.2;
+    margin:0px 0px 9px 0px;
 }
 
 b,strong{
@@ -322,14 +322,14 @@ blockquote{
     background-color: #F0F0F0;
     border-left:5px solid #CCCCCC;
     font-style:italic;
-    line-height:1.7;
+    line-height:2.2;
     margin:0px 0px 24px 0px;
     /* margin-left:24px; */
     padding: 6px 20px;
 }
 
 ul,ol,dl{
-    line-height:1.7;
+    line-height:2.2;
     list-style-image:none;
     /* list-style:none; */
     margin:0px 0px 24px 0px;
@@ -346,7 +346,7 @@ dd{
 
 #content .section ul,#content .toctree-wrapper ul,article ul{
     list-style:disc;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ul li,#content .toctree-wrapper ul li,article ul li{
@@ -370,7 +370,7 @@ dd{
 
 #content .section ol,#content ol,article ol{
     list-style:decimal;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ol li,#content ol li,article ol li{
@@ -772,7 +772,7 @@ a .fa,a #content .admonition-title,#content a .admonition-title{
 
 .wy-alert,#content .note,#content .attention,#content .caution,#content .danger,#content .error,#content .hint,#content .important,#content .tip,#content .warning,#content .seealso,#content .admonitiontodo{
     padding:12px;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px;
     /* background:#e7f2fa; */
 }
@@ -1643,7 +1643,7 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">iOS CocoaPods 源码管理</h1>
+<h1 class="title">CocoaPods源码管理</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -1656,25 +1656,25 @@ for the JavaScript code in this tag.
 </div>
 </div>
 <p>
-iOS App 随着项目开发迭代，代码量会变得非常地庞大复杂。项目会不可避免地分为底层基础库，上层业务逻辑代码。底层基础库包括各种正交的基础功能，比如网络、存储、控件、基于手机系统 UI 框架的封装等。一般性的 App 有了以上的基础库，那么 App 的搭建就相对容易一些。<br  />
+iOS App随着项目开发迭代，代码量会变得非常地庞大复杂。项目会不可避免地分为底层基础库，上层业务逻辑代码。底层基础库包括各种正交的基础功能，比如网络、存储、控件、基于手机系统UI框架的封装等。一般性的App有了以上的基础库，那么App的搭建就相对容易一些。<br  />
 </p>
 
 <p>
-在一个团队中，基础库可以由专门的团队来维护，以二进制的 framework 或者源码的形式来提供。二进制 framework 有两种形式，一种是由静态库和头文件组成；还有一种是由动态库dylib和头文件组成。动态库在 Xcode 中会以 framework 的文件夹 package 形式存在。<br  />
+在一个团队中，基础库可以由专门的团队来维护，以二进制的framework或者源码的形式来提供。二进制framework有两种形式，一种是由静态库和头文件组成；还有一种是由动态库dylib和头文件组成。动态库在Xcode中会以framework的文件夹package形式存在。<br  />
 </p>
 
 <!--more-->
 
 <p>
-二进制 framework 的缺点是如果有频繁的修改或者 framework 本身不稳定，那么 framework 就会频繁地编译，如果你的项目工程是 git 的话，那么每次 commit 都会将新的二进制库 commit 到 repo 里，增加版本管理库的大小。当然二进制 framework 还是有好处的，这种方式不会泄露源代码，比如针对特定的安全级别高的项目中，网络库中加密的密钥不方便对纯业务开发同学开放，那么以二进制 framework 的形式发布基础控件就相对安全一些。<br  />
+二进制framework的缺点是如果有频繁的修改或者framework本身不稳定，那么framework就会频繁地编译，如果你的项目工程是git的话，那么每次commit都会将新的二进制库commit到repo里，增加版本管理库的大小。当然二进制framework还是有好处的，这种方式不会泄露源代码，比如针对特定的安全级别高的项目中，网络库中加密的密钥不方便对纯业务开发同学开放，那么以二进制framework的形式发布基础控件就相对安全一些。<br  />
 </p>
 
 <p>
-如果你的项目安全等级相对较低，或者你的项目根本就是相对开放的，那么第二种方式就是源码管理。<a href="https://cocoapods.org/">CocoaPods</a> 就是业界非常流行的源码管理方式。其核心思想就是将需要管理的源代码交由某一特定的 repo 库统一进行版本管理。当然这部分代码从特定的 repo 库中 sync 到你的项目中后，这些代码同样也被你的项目 repo 进行版本管理。由于有统一的 repo 库，所以就达到了代码管理和统一分享的作用。<br  />
+如果你的项目安全等级相对较低，或者你的项目根本就是相对开放的，那么第二种方式就是源码管理。<a href="https://cocoapods.org/">CocoaPods</a> 就是业界非常流行的源码管理方式。其核心思想就是将需要管理的源代码交由某一特定的repo库统一进行版本管理。当然这部分代码从特定的repo库中sync到你的项目中后，这些代码同样也被你的项目repo进行版本管理。由于有统一的repo库，所以就达到了代码管理和统一分享的作用。<br  />
 </p>
 
 <p>
-如图是一份 iOS 的基础库示例，其功能是对 Cocoa 的各种基础类 (NSObject, NSArray, NSDictionary, NSUserDefaults) 的 Extension，是非常典型的基础库。<br  />
+如图是一份iOS的基础库示例，其功能是对Cocoa 的各种基础类(NSObject, NSArray, NSDictionary, NSUserDefaults)的Extension，是非常典型的基础库。<br  />
 </p>
 
 <p>
@@ -1686,7 +1686,7 @@ iOS App 随着项目开发迭代，代码量会变得非常地庞大复杂。项
 </p>
 
 <p>
-使用 CocoaPods 进行源码管理的第一步是将该工程进行版本管理，这里我们使用 git:<br  />
+使用CocoaPods进行源码管理的第一步是将该工程进行版本管理，这里我们使用git:<br  />
 </p>
 
 <div class="org-src-container">
@@ -1794,7 +1794,7 @@ $ sudo gem install cocoapods
 </pre>
 </div>
 <p>
-以上的例子中，我们指定了 FrameworkDemo2 的本地基础库(在 FrameworkDemo 工程中，有 FrameworkDemo2.podspec 文件)；也可以指定 FrameworkDemo 的 git source，指定好 tag 后，运行<br  />
+以上的例子中，我们指定了FrameworkDemo2的本地基础库(在FrameworkDemo工程中，有FrameworkDemo2.podspec文件)；也可以指定FrameworkDemo的gitsource，指定好tag后，运行<br  />
 </p>
 <div class="org-src-container">
 
@@ -1836,8 +1836,8 @@ CocoaPods 虽然好用，但是所谓的坑的还是会碰到。使用 CocoaPods
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-08 Sat 08:31&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
 <p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-20 Sun 18:55</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2018-02-03 Sat 20:49</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

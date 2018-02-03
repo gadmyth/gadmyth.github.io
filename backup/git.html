@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Git相关</title>
-<!-- 2017-08-27 Sun 16:33 -->
+<!-- 2018-02-03 Sat 21:22 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -296,7 +296,7 @@ body{
     overflow-x:hidden;
     -webkit-font-smoothing: antialiased;
     letter-spacing: .3px;
-    line-height: 1.7;
+    line-height: 2.2;
 }
 
 #content{
@@ -311,8 +311,8 @@ body{
 
 p{
     font-size:16px;
-    line-height:1.7;
-    margin:0px 0px 0px 0px;
+    line-height:2.2;
+    margin:0px 0px 9px 0px;
 }
 
 b,strong{
@@ -322,14 +322,14 @@ blockquote{
     background-color: #F0F0F0;
     border-left:5px solid #CCCCCC;
     font-style:italic;
-    line-height:1.7;
+    line-height:2.2;
     margin:0px 0px 24px 0px;
     /* margin-left:24px; */
     padding: 6px 20px;
 }
 
 ul,ol,dl{
-    line-height:1.7;
+    line-height:2.2;
     list-style-image:none;
     /* list-style:none; */
     margin:0px 0px 24px 0px;
@@ -346,7 +346,7 @@ dd{
 
 #content .section ul,#content .toctree-wrapper ul,article ul{
     list-style:disc;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ul li,#content .toctree-wrapper ul li,article ul li{
@@ -370,7 +370,7 @@ dd{
 
 #content .section ol,#content ol,article ol{
     list-style:decimal;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ol li,#content ol li,article ol li{
@@ -772,7 +772,7 @@ a .fa,a #content .admonition-title,#content a .admonition-title{
 
 .wy-alert,#content .note,#content .attention,#content .caution,#content .danger,#content .error,#content .hint,#content .important,#content .tip,#content .warning,#content .seealso,#content .admonitiontodo{
     padding:12px;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px;
     /* background:#e7f2fa; */
 }
@@ -1648,30 +1648,53 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. git删除远程tag</a></li>
-<li><a href="#sec-2">2. git删除远程branch</a></li>
-<li><a href="#sec-3">3. git清除远程已删除的分支</a></li>
-<li><a href="#sec-4">4. 将某个目录下的文件提交到另一个git上</a></li>
-<li><a href="#sec-5">5. Git未commit如何找回</a></li>
-<li><a href="#sec-6">6. git如何push部分的local commit</a></li>
-<li><a href="#sec-7">7. git merge问题</a></li>
-<li><a href="#sec-8">8. git hooks</a></li>
-<li><a href="#sec-9">9. git submodule</a>
+<li><a href="#sec-1">1. git数据流转</a></li>
+<li><a href="#sec-2">2. git删除远程tag</a></li>
+<li><a href="#sec-3">3. git删除远程branch</a></li>
+<li><a href="#sec-4">4. git清除远程已删除的分支</a></li>
+<li><a href="#sec-5">5. git format-patch</a></li>
+<li><a href="#sec-6">6. git am</a></li>
+<li><a href="#sec-7">7. 将某个目录下的文件提交到另一个git上</a></li>
+<li><a href="#sec-8">8. Git未commit如何找回</a></li>
+<li><a href="#sec-9">9. git如何push部分的local commit</a></li>
+<li><a href="#sec-10">10. git merge问题</a></li>
+<li><a href="#sec-11">11. git hooks</a></li>
+<li><a href="#sec-12">12. git submodule</a>
 <ul>
-<li><a href="#sec-9-1">9.1. 添加submodule</a></li>
-<li><a href="#sec-9-2">9.2. Pull submodule</a></li>
-<li><a href="#sec-9-3">9.3. Push submodule</a></li>
-<li><a href="#sec-9-4">9.4. 删除</a></li>
+<li><a href="#sec-12-1">12.1. 添加submodule</a></li>
+<li><a href="#sec-12-2">12.2. Pull submodule</a></li>
+<li><a href="#sec-12-3">12.3. Push submodule</a></li>
+<li><a href="#sec-12-4">12.4. 删除</a></li>
 </ul>
 </li>
-<li><a href="#sec-10">10. git subtree</a>
+<li><a href="#sec-13">13. git subtree</a>
 <ul>
-<li><a href="#sec-10-1">10.1. 添加repo</a></li>
-<li><a href="#sec-10-2">10.2. 添加subtree</a></li>
-<li><a href="#sec-10-3">10.3. split subtree</a></li>
-<li><a href="#sec-10-4">10.4. Pull subtree</a></li>
-<li><a href="#sec-10-5">10.5. Push subtree</a></li>
-<li><a href="#sec-10-6">10.6. Demo</a></li>
+<li><a href="#sec-13-1">13.1. 添加repo</a></li>
+<li><a href="#sec-13-2">13.2. 添加subtree</a></li>
+<li><a href="#sec-13-3">13.3. split subtree</a></li>
+<li><a href="#sec-13-4">13.4. Pull subtree</a></li>
+<li><a href="#sec-13-5">13.5. Push subtree</a></li>
+<li><a href="#sec-13-6">13.6. Demo</a></li>
+</ul>
+</li>
+<li><a href="#sec-14">14. git打包</a></li>
+<li><a href="#sec-15">15. git大型文件上传</a></li>
+<li><a href="#sec-16">16. Git操作带有@符号的文件</a></li>
+<li><a href="#sec-17">17. Git连不上github</a></li>
+<li><a href="#sec-18">18. git测试卡在debug1: SSH2_MSG_KEXINIT sent</a></li>
+<li><a href="#sec-19">19. Github Flow和Git Flow两种开发模式</a>
+<ul>
+<li><a href="#sec-19-1">19.1. GitHub Flow</a></li>
+<li><a href="#sec-19-2">19.2. Github Flow前提条件</a></li>
+<li><a href="#sec-19-3">19.3. Github Flow介绍</a></li>
+<li><a href="#sec-19-4">19.4. Git Flow</a></li>
+<li><a href="#sec-19-5">19.5. 常见问题</a></li>
+<li><a href="#sec-19-6">19.6. reference</a></li>
+</ul>
+</li>
+<li><a href="#sec-20">20. Github下载子目录</a>
+<ul>
+<li><a href="#sec-20-1">20.1. reference</a></li>
 </ul>
 </li>
 </ul>
@@ -1679,8 +1702,18 @@ for the JavaScript code in this tag.
 </div>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> git删除远程tag</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> git数据流转</h2>
 <div class="outline-text-2" id="text-1">
+
+<div class="figure">
+<p><img src="images/git-data-flow.png" alt="git-data-flow.png" /><br  />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> git删除远程tag</h2>
+<div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 
 <pre class="src src-sh">git push origin --delete tag &lt;tagname&gt;
@@ -1690,9 +1723,9 @@ git push origin :refs/tags/&lt;tagname&gt;
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> git删除远程branch</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> git删除远程branch</h2>
+<div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
 <pre class="src src-sh">git push origin --delete &lt;branchName&gt;
@@ -1702,9 +1735,9 @@ git push origin :&lt;branchName&gt;
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> git清除远程已删除的分支</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> git清除远程已删除的分支</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 比如协作者删除了一批feature branch，并push到origin，另一个协作者pull后本地feature branch还在，以下命令可以批量删除远程没有的分支。但此命令有个问题，本地开发的分支如果刻意不push到远程，会被误删。<br  />
 </p>
@@ -1716,9 +1749,31 @@ git push origin :&lt;branchName&gt;
 </div>
 </div>
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> 将某个目录下的文件提交到另一个git上</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> git format-patch</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+
+<pre class="src src-sh">git format-patch HEAD^
+git format-patch -1
+git format-patch -1 -4
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> git am</h2>
+<div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+
+<pre class="src src-sh">git am 0001-xxx.patch
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> 将某个目录下的文件提交到另一个git上</h2>
+<div class="outline-text-2" id="text-7">
 <p>
 git subtree add &#x2013;prefix=&lt;subdir&gt; &lt;sub-repo&gt; &lt;branch&gt;<br  />
 git remote add &lt;sub-repo&gt; &lt;remote-repo-addr&gt;<br  />
@@ -1727,9 +1782,9 @@ git subtree push &#x2013;prefix=&lt;subdir&gt; &lt;sub-repo&gt; &lt;branch&gt;<b
 </div>
 </div>
 
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> Git未commit如何找回</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> Git未commit如何找回</h2>
+<div class="outline-text-2" id="text-8">
 <p>
 事件: git stash过一次，切到其他branch，做了一些事，回来git stash pop，误操作git checkout -f<br  />
 stash历史中已经没有记录了，而且没有commit，所以git reflog也没有用<br  />
@@ -1763,9 +1818,9 @@ dangling blob 91ff7550aa9dde3522ee42ba9d3e706893dff3fc
 </div>
 </div>
 
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6"><span class="section-number-2">6</span> git如何push部分的local commit</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> git如何push部分的local commit</h2>
+<div class="outline-text-2" id="text-9">
 <p>
 目前只知道以下的reset方法<br  />
 </p>
@@ -1785,24 +1840,24 @@ git checkout 12ea
 </div>
 </div>
 
-<div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7"><span class="section-number-2">7</span> git merge问题</h2>
-<div class="outline-text-2" id="text-7">
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> git merge问题</h2>
+<div class="outline-text-2" id="text-10">
 <p>
 git merge -Xtheirs Dev<br  />
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-8" class="outline-2">
-<h2 id="sec-8"><span class="section-number-2">8</span> <a href="https://github.com/git-hooks/git-hooks/wiki">git hooks</a></h2>
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> <a href="https://github.com/git-hooks/git-hooks/wiki">git hooks</a></h2>
 </div>
-<div id="outline-container-sec-9" class="outline-2">
-<h2 id="sec-9"><span class="section-number-2">9</span> <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodule</a></h2>
-<div class="outline-text-2" id="text-9">
-</div><div id="outline-container-sec-9-1" class="outline-3">
-<h3 id="sec-9-1"><span class="section-number-3">9.1</span> 添加submodule</h3>
-<div class="outline-text-3" id="text-9-1">
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodule</a></h2>
+<div class="outline-text-2" id="text-12">
+</div><div id="outline-container-sec-12-1" class="outline-3">
+<h3 id="sec-12-1"><span class="section-number-3">12.1</span> 添加submodule</h3>
+<div class="outline-text-3" id="text-12-1">
 <div class="org-src-container">
 
 <pre class="src src-sh">git submodule add &lt;repo&gt; path
@@ -1813,9 +1868,9 @@ git merge -Xtheirs Dev<br  />
 </p>
 </div>
 </div>
-<div id="outline-container-sec-9-2" class="outline-3">
-<h3 id="sec-9-2"><span class="section-number-3">9.2</span> Pull submodule</h3>
-<div class="outline-text-3" id="text-9-2">
+<div id="outline-container-sec-12-2" class="outline-3">
+<h3 id="sec-12-2"><span class="section-number-3">12.2</span> Pull submodule</h3>
+<div class="outline-text-3" id="text-12-2">
 <div class="org-src-container">
 
 <pre class="src src-sh">git submodule update --init --recursive
@@ -1823,9 +1878,9 @@ git merge -Xtheirs Dev<br  />
 </div>
 </div>
 </div>
-<div id="outline-container-sec-9-3" class="outline-3">
-<h3 id="sec-9-3"><span class="section-number-3">9.3</span> Push submodule</h3>
-<div class="outline-text-3" id="text-9-3">
+<div id="outline-container-sec-12-3" class="outline-3">
+<h3 id="sec-12-3"><span class="section-number-3">12.3</span> Push submodule</h3>
+<div class="outline-text-3" id="text-12-3">
 <div class="org-src-container">
 
 <pre class="src src-sh">git submodule foreach --recursive git pull origin master
@@ -1833,9 +1888,9 @@ git merge -Xtheirs Dev<br  />
 </div>
 </div>
 </div>
-<div id="outline-container-sec-9-4" class="outline-3">
-<h3 id="sec-9-4"><span class="section-number-3">9.4</span> 删除</h3>
-<div class="outline-text-3" id="text-9-4">
+<div id="outline-container-sec-12-4" class="outline-3">
+<h3 id="sec-12-4"><span class="section-number-3">12.4</span> 删除</h3>
+<div class="outline-text-3" id="text-12-4">
 <p>
 在.gitsubmodules文件中删除信息，再执行以下命令。<br  />
 </p>
@@ -1847,16 +1902,16 @@ git merge -Xtheirs Dev<br  />
 </div>
 </div>
 </div>
-<div id="outline-container-sec-10" class="outline-2">
-<h2 id="sec-10"><span class="section-number-2">10</span> <a href="http://www.cnblogs.com/jingwhale/p/6054492.html">git subtree</a></h2>
-<div class="outline-text-2" id="text-10">
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> <a href="http://www.cnblogs.com/jingwhale/p/6054492.html">git subtree</a></h2>
+<div class="outline-text-2" id="text-13">
 <p>
 <a href="https://github.com/apenwarr/git-subtree/blob/master/git-subtree.txt">https://github.com/apenwarr/git-subtree/blob/master/git-subtree.txt</a><br  />
 </p>
 </div>
-<div id="outline-container-sec-10-1" class="outline-3">
-<h3 id="sec-10-1"><span class="section-number-3">10.1</span> 添加repo</h3>
-<div class="outline-text-3" id="text-10-1">
+<div id="outline-container-sec-13-1" class="outline-3">
+<h3 id="sec-13-1"><span class="section-number-3">13.1</span> 添加repo</h3>
+<div class="outline-text-3" id="text-13-1">
 <p>
 -f表示添加后fetch<br  />
 </p>
@@ -1867,9 +1922,9 @@ git merge -Xtheirs Dev<br  />
 </div>
 </div>
 </div>
-<div id="outline-container-sec-10-2" class="outline-3">
-<h3 id="sec-10-2"><span class="section-number-3">10.2</span> 添加subtree</h3>
-<div class="outline-text-3" id="text-10-2">
+<div id="outline-container-sec-13-2" class="outline-3">
+<h3 id="sec-13-2"><span class="section-number-3">13.2</span> 添加subtree</h3>
+<div class="outline-text-3" id="text-13-2">
 <p>
 squash表示拉取时合并成一次commit, &#x2013;prefix可以写成-P<br  />
 </p>
@@ -1880,9 +1935,9 @@ squash表示拉取时合并成一次commit, &#x2013;prefix可以写成-P<br  />
 </div>
 </div>
 </div>
-<div id="outline-container-sec-10-3" class="outline-3">
-<h3 id="sec-10-3"><span class="section-number-3">10.3</span> split subtree</h3>
-<div class="outline-text-3" id="text-10-3">
+<div id="outline-container-sec-13-3" class="outline-3">
+<h3 id="sec-13-3"><span class="section-number-3">13.3</span> split subtree</h3>
+<div class="outline-text-3" id="text-13-3">
 <div class="org-src-container">
 
 <pre class="src src-sh">git subtree split --prefix=&lt;sub-dir&gt; --annotate=<span style="color: #8b7355;">"(sub)"</span> -b sub
@@ -1890,9 +1945,9 @@ squash表示拉取时合并成一次commit, &#x2013;prefix可以写成-P<br  />
 </div>
 </div>
 </div>
-<div id="outline-container-sec-10-4" class="outline-3">
-<h3 id="sec-10-4"><span class="section-number-3">10.4</span> Pull subtree</h3>
-<div class="outline-text-3" id="text-10-4">
+<div id="outline-container-sec-13-4" class="outline-3">
+<h3 id="sec-13-4"><span class="section-number-3">13.4</span> Pull subtree</h3>
+<div class="outline-text-3" id="text-13-4">
 <div class="org-src-container">
 
 <pre class="src src-sh">git fetch &lt;repo-name&gt; &lt;branch&gt;
@@ -1901,9 +1956,9 @@ git subtree pull --prefix=&lt;sub-dir&gt; &lt;repo-name&gt; &lt;branch&gt; --squ
 </div>
 </div>
 </div>
-<div id="outline-container-sec-10-5" class="outline-3">
-<h3 id="sec-10-5"><span class="section-number-3">10.5</span> Push subtree</h3>
-<div class="outline-text-3" id="text-10-5">
+<div id="outline-container-sec-13-5" class="outline-3">
+<h3 id="sec-13-5"><span class="section-number-3">13.5</span> Push subtree</h3>
+<div class="outline-text-3" id="text-13-5">
 <div class="org-src-container">
 
 <pre class="src src-sh">git subtree push --prefix=&lt;sub-dir&gt; &lt;repo-name&gt; &lt;branch&gt;
@@ -1911,9 +1966,9 @@ git subtree pull --prefix=&lt;sub-dir&gt; &lt;repo-name&gt; &lt;branch&gt; --squ
 </div>
 </div>
 </div>
-<div id="outline-container-sec-10-6" class="outline-3">
-<h3 id="sec-10-6"><span class="section-number-3">10.6</span> Demo</h3>
-<div class="outline-text-3" id="text-10-6">
+<div id="outline-container-sec-13-6" class="outline-3">
+<h3 id="sec-13-6"><span class="section-number-3">13.6</span> Demo</h3>
+<div class="outline-text-3" id="text-13-6">
 <p>
 不需要加remote repo<br  />
 </p>
@@ -1929,12 +1984,292 @@ git subtree push ~/product-detail product-detail:master
 </div>
 </div>
 </div>
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14"><span class="section-number-2">14</span> git打包</h2>
+<div class="outline-text-2" id="text-14">
+<div class="org-src-container">
+
+<pre class="src src-sh">git archive --format zip --output /home/hainuo/dump.zip master
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">git archive master &gt; /home/hainuo/fds.zip
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-15" class="outline-2">
+<h2 id="sec-15"><span class="section-number-2">15</span> git大型文件上传</h2>
+<div class="outline-text-2" id="text-15">
+<ul class="org-ul">
+<li>安装<a href="https://git-lfs.github.com/">git-lfs</a><br  />
+<div class="org-src-container">
+
+<pre class="src src-sh">brew install git-lfs
+</pre>
+</div>
+</li>
+<li>安装扩展<br  />
+<div class="org-src-container">
+
+<pre class="src src-sh">git lfs install
+</pre>
+</div>
+</li>
+<li>加入大型文件类型<br  />
+加入后，会产生配置文件.gitattributes，需要一并加入到git管理中<br  />
+<div class="org-src-container">
+
+<pre class="src src-sh">git lfs track <span style="color: #8b7355;">"*.a"</span>
+git add .gitattributes
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-16" class="outline-2">
+<h2 id="sec-16"><span class="section-number-2">16</span> Git操作带有@符号的文件</h2>
+</div>
+<div id="outline-container-sec-17" class="outline-2">
+<h2 id="sec-17"><span class="section-number-2">17</span> Git连不上github</h2>
+<div class="outline-text-2" id="text-17">
+<p>
+git fetch, pull时会有以下错误:<br  />
+</p>
+<blockquote>
+<p>
+github ssh_dispatch_run_fatal: Connection to 192.30.255.112 port 22: Connection timed out<br  />
+</p>
+</blockquote>
+<p>
+使用以下命令进行测试:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">ssh -Tv git@github.com <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">-i ~/.ssh/id_rsa</span>
+ssh -Tv git@bitbucket.org <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">-i ~/.ssh/id_rsa</span>
+&#25110;&#32773; ssh -vvv xxx
+</pre>
+</div>
+<p>
+会有停在下面log不动:<br  />
+</p>
+<blockquote>
+<p>
+github timeout expecting SSH2_MSG_KEX_ECDH_REPLY<br  />
+</p>
+</blockquote>
+<p>
+网上的解决方案是在~/.ssh/config(mode: 400)文件中加入Ciphers配置:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">Ciphers aes128-ctr,aes192-ctr,aes256-ctr
+</pre>
+</div>
+<p>
+再使用测试命令测试后, 就会显示连接成功<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-18" class="outline-2">
+<h2 id="sec-18"><span class="section-number-2">18</span> git测试卡在debug1: SSH2_MSG_KEXINIT sent</h2>
+<div class="outline-text-2" id="text-18">
+<p>
+MTU设置太大了，设置为1420后，再进行git测试<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-19" class="outline-2">
+<h2 id="sec-19"><span class="section-number-2">19</span> Github Flow和Git Flow两种开发模式</h2>
+<div class="outline-text-2" id="text-19">
+</div><div id="outline-container-sec-19-1" class="outline-3">
+<h3 id="sec-19-1"><span class="section-number-3">19.1</span> GitHub Flow</h3>
+<div class="outline-text-3" id="text-19-1">
+
+<div class="figure">
+<p><img src="images/github-flow.png" alt="github-flow.png" /><br  />
+</p>
+</div>
+<ul class="org-ul">
+<li>任何在"master"分支中的都是可部署的，这是这个系统中唯一的硬性规定<br  />
+branch之间如何merge，如何开分支，都可以灵活处理(当然一般是按照业界标准做)。<br  />
+master分支几乎不会回滚，有问题建议使用新的commit的修复。<br  />
+master分支总是稳定的，从它部署或者创建一个新的分支总是安全可靠的，这要求push之前需要充分的测试<br  />
+</li>
+<li>feature分支上可以开发新功能<br  />
+</li>
+<li>功能合并时，可以开pull request<br  />
+</li>
+<li>合并到master后，就能马上部署<br  />
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-19-2" class="outline-3">
+<h3 id="sec-19-2"><span class="section-number-3">19.2</span> Github Flow前提条件</h3>
+<div class="outline-text-3" id="text-19-2">
+<ul class="org-ul">
+<li>团队规模在15-20人之内<br  />
+</li>
+<li>部署自动化<br  />
+<ul class="org-ul">
+<li>部署工具: Capistrano，Mina，Fabric,Webistrano,Strano<br  />
+</li>
+<li>部署加锁: pull request很多时，还就部署完，就通过了一个pull request，容易造成问题<br  />
+</li>
+<li>Git Hook自动部署<br  />
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-19-3" class="outline-3">
+<h3 id="sec-19-3"><span class="section-number-3">19.3</span> Github Flow介绍</h3>
+<div class="outline-text-3" id="text-19-3">
+<p>
+<a href="https://guides.github.com/introduction/flow/">Understanding the GitHub Flow</a><br  />
+其中布署验证是在merge回master之前做的<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-19-4" class="outline-3">
+<h3 id="sec-19-4"><span class="section-number-3">19.4</span> Git Flow</h3>
+<div class="outline-text-3" id="text-19-4">
+
+<div class="figure">
+<p><img src="images/git-flow-model.png" alt="git-flow-model.png" width="650px" /><br  />
+</p>
+</div>
+<ul class="org-ul">
+<li>master和develop<br  />
+master保持软件的正常运行状态，不允许直接commit<br  />
+develop分支是开发过程中代码中心分支，不允许直接commit<br  />
+feature分支需要从develop分支新建<br  />
+feature分支合并到develop分支<br  />
+</li>
+<li>release分支<br  />
+从develop分支创建release分支<br  />
+只处理与发布前准备相关的提交: 版本号、元数据添加<br  />
+在release分支上进行UAT测试，并在该分支上修复bug<br  />
+release合并到master并打tag<br  />
+
+
+<div class="figure">
+<p><img src="images/git-flow-main.png" alt="git-flow-main.png" width="700px" /><br  />
+</p>
+</div>
+</li>
+<li>hotfix处理<br  />
+前提: release中发现bug，develop在开发新功能，bug需要及早处理发布<br  />
+从上次发布的tag(即master分支)创建hotfix分支<br  />
+修复bug后，hotfix分支pull request到master，并创建新tag<br  />
+hotfix分支pull request到develop分支<br  />
+如果release分支存在，那么hotfix分支应该pull request到release分支(release分支最后会将hotfix merge回develop)<br  />
+
+
+<div class="figure">
+<p><img src="images/git-flow-hotfix.png" alt="git-flow-hotfix.png" width="600px" /><br  />
+</p>
+</div>
+</li>
+<li>git小组开发<br  />
+小组成员间可以进行fetch，相互之间可以建立group-origin<br  />
+
+
+<div class="figure">
+<p><img src="images/git-centr-decentr@2x.png" alt="git-centr-decentr@2x.png" width="600px" /><br  />
+</p>
+</div>
+</li>
+<li>feature分支合并<br  />
+应当使用no-fast forward merge(no-ff)，可以明显地看出哪些commit是属于feature分支的<br  />
+<div class="org-src-container">
+
+<pre class="src src-sh">git merge --no-ff
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="images/git-merge-without-ff@2x.png" alt="git-merge-without-ff@2x.png" width="600px" /><br  />
+</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-19-5" class="outline-3">
+<h3 id="sec-19-5"><span class="section-number-3">19.5</span> 常见问题</h3>
+<div class="outline-text-3" id="text-19-5">
+<ul class="org-ul">
+<li>如何修bug?<br  />
+</li>
+<li>merge流程是如何的?<br  />
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-19-6" class="outline-3">
+<h3 id="sec-19-6"><span class="section-number-3">19.6</span> reference</h3>
+<div class="outline-text-3" id="text-19-6">
+<ul class="org-ul">
+<li><a href="http://www.cnblogs.com/sloong/p/5868292.html">http://www.cnblogs.com/sloong/p/5868292.html</a><br  />
+</li>
+<li><a href="http://blog.csdn.net/gonjay/article/details/8657238">http://blog.csdn.net/gonjay/article/details/8657238</a><br  />
+</li>
+<li><a href="https://lucamezzalira.com/2014/03/10/git-flow-vs-github-flow/">https://lucamezzalira.com/2014/03/10/git-flow-vs-github-flow/</a><br  />
+</li>
+<li><a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a><br  />
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-20" class="outline-2">
+<h2 id="sec-20"><span class="section-number-2">20</span> Github下载子目录</h2>
+<div class="outline-text-2" id="text-20">
+<p>
+可以使用svn export来下载某个branch或者tag下的子目录，可以使用svn ls来查看branch或者tags:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">$ svn ls https://github.com/apache/incubator-weex
+branches/
+tags/
+trunk/
+
+$ svn export https://github.com/apache/incubator-weex/tags/0.17.0/ios/playground/bundlejs bundlejs-0.17.0
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-20-1" class="outline-3">
+<h3 id="sec-20-1"><span class="section-number-3">20.1</span> reference</h3>
+<div class="outline-text-3" id="text-20-1">
+<ul class="org-ul">
+<li><a href="https://www.seanw.org/blog/download-git-repo-subdirectory/">Download a Git subdirectory from GitHub</a><br  />
+</li>
+<li><a href="https://coderwall.com/p/o2fasg/how-to-download-a-project-subdirectory-from-github">How to download a project subdirectory from GitHub</a><br  />
+</li>
+<li><a href="https://stackoverflow.com/questions/9609835/git-export-from-github-remote-repository/18324428#18324428">git export from github remote repository</a><br  />
+</li>
+<li><a href="https://stackoverflow.com/questions/7106012/download-a-single-folder-or-directory-from-a-github-repo">Download a single folder or directory from a GitHub repo</a><br  />
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-06 Sun 17:26&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
-<p class="date">Created: 2017-08-27 Sun 16:33</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
+<p class="date">Created: 2018-02-03 Sat 21:22</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

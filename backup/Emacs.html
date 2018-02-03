@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Emacs相关</title>
-<!-- 2017-08-20 Sun 18:55 -->
+<!-- 2018-02-03 Sat 21:31 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -296,7 +296,7 @@ body{
     overflow-x:hidden;
     -webkit-font-smoothing: antialiased;
     letter-spacing: .3px;
-    line-height: 1.7;
+    line-height: 2.2;
 }
 
 #content{
@@ -311,8 +311,8 @@ body{
 
 p{
     font-size:16px;
-    line-height:1.7;
-    margin:0px 0px 0px 0px;
+    line-height:2.2;
+    margin:0px 0px 9px 0px;
 }
 
 b,strong{
@@ -322,14 +322,14 @@ blockquote{
     background-color: #F0F0F0;
     border-left:5px solid #CCCCCC;
     font-style:italic;
-    line-height:1.7;
+    line-height:2.2;
     margin:0px 0px 24px 0px;
     /* margin-left:24px; */
     padding: 6px 20px;
 }
 
 ul,ol,dl{
-    line-height:1.7;
+    line-height:2.2;
     list-style-image:none;
     /* list-style:none; */
     margin:0px 0px 24px 0px;
@@ -346,7 +346,7 @@ dd{
 
 #content .section ul,#content .toctree-wrapper ul,article ul{
     list-style:disc;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ul li,#content .toctree-wrapper ul li,article ul li{
@@ -370,7 +370,7 @@ dd{
 
 #content .section ol,#content ol,article ol{
     list-style:decimal;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ol li,#content ol li,article ol li{
@@ -772,7 +772,7 @@ a .fa,a #content .admonition-title,#content a .admonition-title{
 
 .wy-alert,#content .note,#content .attention,#content .caution,#content .danger,#content .error,#content .hint,#content .important,#content .tip,#content .warning,#content .seealso,#content .admonitiontodo{
     padding:12px;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px;
     /* background:#e7f2fa; */
 }
@@ -1650,8 +1650,60 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#sec-1">1. emacs高亮当前行</a></li>
 <li><a href="#sec-2">2. emacs webdav内置插件</a></li>
-<li><a href="#sec-3">3. Xcode文件用Emacs打开</a></li>
-<li><a href="#sec-4">4. Emacs WebDav</a></li>
+<li><a href="#sec-3">3. 改变defvar, defconst的值</a></li>
+<li><a href="#sec-4">4. Xcode文件用Emacs打开</a></li>
+<li><a href="#sec-5">5. Emacs WebDav</a></li>
+<li><a href="#sec-6">6. Mac下Emacs使用locate</a></li>
+<li><a href="#sec-7">7. Emacs查找文件的几种方法</a>
+<ul>
+<li><a href="#sec-7-1">7.1. Git下</a>
+<ul>
+<li><a href="#sec-7-1-1">7.1.1. 当前目录或文件在git repo中，查找的文件也是当前git repo中</a></li>
+<li><a href="#sec-7-1-2">7.1.2. 查找的文件在另外的git repo目录下</a></li>
+<li><a href="#sec-7-1-3">7.1.3. 备注</a></li>
+</ul>
+</li>
+<li><a href="#sec-7-2">7.2. 非Git下</a></li>
+</ul>
+</li>
+<li><a href="#sec-8">8. Projectile较有用函数</a></li>
+<li><a href="#sec-9">9. 列出你使用的字体</a></li>
+<li><a href="#sec-10">10. Emacs Rsync镜像</a></li>
+<li><a href="#sec-11">11. Emacs基本函数</a></li>
+<li><a href="#sec-12">12. Lexcial Scope</a></li>
+<li><a href="#sec-13">13. Emacs tls包</a></li>
+<li><a href="#sec-14">14. Emacs plist vs. alist</a></li>
+<li><a href="#sec-15">15. keymap定义</a></li>
+<li><a href="#sec-16">16. eval-and-compile</a></li>
+<li><a href="#sec-17">17. Emacs正则表达式</a>
+<ul>
+<li><a href="#sec-17-1">17.1. 反向搜索</a></li>
+</ul>
+</li>
+<li><a href="#sec-18">18. cc-imenu-objc-generic-expression</a></li>
+<li><a href="#sec-19">19. edbi</a>
+<ul>
+<li><a href="#sec-19-1">19.1. 安装perl插件</a></li>
+<li><a href="#sec-19-2">19.2. 启动方式</a></li>
+<li><a href="#sec-19-3">19.3. mysql soruce</a></li>
+</ul>
+</li>
+<li><a href="#sec-20">20. Emacs MELPA包搜索</a></li>
+<li><a href="#sec-21">21. Emacs查看文件ascii编码形式</a></li>
+<li><a href="#sec-22">22. org-mode引用其他文件</a></li>
+<li><a href="#sec-23">23. org-mode BEGIN_SRC不执行命令</a></li>
+<li><a href="#sec-24">24. org-mode EXPORT选项</a></li>
+<li><a href="#sec-25">25. orgmode examples</a></li>
+<li><a href="#sec-26">26. xwidget浏览器插件</a>
+<ul>
+<li><a href="#sec-26-1">26.1. reference</a></li>
+</ul>
+</li>
+<li><a href="#sec-27">27. TeXmacs</a>
+<ul>
+<li><a href="#sec-27-1">27.1. TeXmacs中文字体</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1676,26 +1728,1036 @@ url-dav<br  />
 </div>
 
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Xcode文件用Emacs打开</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> 改变defvar, defconst的值</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a href="http://apple.stackexchange.com/questions/60005/how-to-use-a-custom-text-editor-like-emacs-app-or-macvim-in-xcode-4">http://apple.stackexchange.com/questions/60005/how-to-use-a-custom-text-editor-like-emacs-app-or-macvim-in-xcode-4</a><br  />
-Finder右击一个文件，然后Get-Info，Open With里选中Emacs<br  />
-</p>
-
-<p>
-Xcode preference里有key bindings, 里面有Open With External Editor, bind为Command+F1<br  />
+使用eval-defun (C-M-x)使用值重新生效<br  />
 </p>
 </div>
 </div>
 
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Emacs WebDav</h2>
+<h2 id="sec-4"><span class="section-number-2">4</span> <a href="http://apple.stackexchange.com/questions/60005/how-to-use-a-custom-text-editor-like-emacs-app-or-macvim-in-xcode-4">Xcode文件用Emacs打开</a></h2>
 <div class="outline-text-2" id="text-4">
+<p>
+Finder右击一个文件，然后Get-Info，Open With里选中Emacs<br  />
+Xcode preference里有key bindings, 里面有Open With External Editor, bind为Command+F1<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Emacs WebDav</h2>
+<div class="outline-text-2" id="text-5">
 <p>
 Emacs只有webdav的两个client端, 一个是内置的url-dav, 一个是el-dav. 并没有提供webdav的server实现.<br  />
 不知道是否可以扩展elnode来实现 <a href="http://www.webdav.org/specs/rfc4918.html">webdav</a> 服务器端.<br  />
 </p>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Mac下Emacs使用locate</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+helm插件中有helm-locate工具，使用系统的locate进行文件搜索。locate更新db的命令如下:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">sudo /usr/libexec/locate.updatedb
+</pre>
+</div>
+<p>
+会更新/var/db/locate.database文件<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Emacs查找文件的几种方法</h2>
+<div class="outline-text-2" id="text-7">
+</div><div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> Git下</h3>
+<div class="outline-text-3" id="text-7-1">
+</div><div id="outline-container-sec-7-1-1" class="outline-4">
+<h4 id="sec-7-1-1"><span class="section-number-4">7.1.1</span> 当前目录或文件在git repo中，查找的文件也是当前git repo中</h4>
+<div class="outline-text-4" id="text-7-1-1">
+<ul class="org-ul">
+<li>使用counsel-git. 如果文件没有被git add, counsel-git就找不到<br  />
+</li>
+<li>使用textmate-goto-file. 只要上级目录中有.git目录就可以<br  />
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-1-2" class="outline-4">
+<h4 id="sec-7-1-2"><span class="section-number-4">7.1.2</span> 查找的文件在另外的git repo目录下</h4>
+<div class="outline-text-4" id="text-7-1-2">
+<ul class="org-ul">
+<li>使用projectile-switch-project切换到某git下<br  />
+</li>
+<li>使用counsel-locate定位文件<br  />
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-1-3" class="outline-4">
+<h4 id="sec-7-1-3"><span class="section-number-4">7.1.3</span> 备注</h4>
+<div class="outline-text-4" id="text-7-1-3">
+<p>
+不使用helm插件<br  />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2"><span class="section-number-3">7.2</span> 非Git下</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li>使用counsel-locate定位文件<br  />
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> Projectile较有用函数</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>projectile-kill-buffers (C-c p k)<br  />
+关闭当前工程所有打开的文件<br  />
+</li>
+<li>projectile-find-file-in-known-project (C-c p F)<br  />
+会对所有project做索引，较慢；查找文件UI也有卡顿；还不如用locate<br  />
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> 列出你使用的字体</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+list-fontsets<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> Emacs Rsync镜像</h2>
+<div class="outline-text-2" id="text-10">
+<pre class="example">
+rsync://elpa.emacs-china.org/elpa/
+rsync://mirrors.tuna.tsinghua.edu.cn/elpa/
+rsync://elpa.gnu.org/elpa/
+rsync://melpa.org/packages/
+</pre>
+
+<p>
+同步方法<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #cd6600;">cd</span> /opt/
+sudo mkdir elpa
+<span style="color: #cd6600;">cd</span> elpa
+rsync -r rsync://mirrors.tuna.tsinghua.edu.cn/elpa/melpa .
+</pre>
+</div>
+
+<p>
+tsinghua源好像废了，可以换成emacs-china源<br  />
+</p>
+<pre class="example">
+http://elpa.emacs-china.org
+rsync://elpa.emacs-china.org/elpa/
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> Emacs基本函数</h2>
+<div class="outline-text-2" id="text-11">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">package</td>
+<td class="left">method</td>
+<td class="left">comment</td>
+</tr>
+
+<tr>
+<td class="left">subr.el</td>
+<td class="left">with-silent-modifications</td>
+<td class="left">好像没有改变buffer(通常改变overlay); annotate.el就应该使用这个函数</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">with-file-modes</td>
+<td class="left">(with-file-modes #o0600 (write-region &#x2026;))</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">set-file-modes</td>
+<td class="left">(set-file-modes file #o0600)</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">setq-local</td>
+<td class="left">set variable in current buffer</td>
+</tr>
+
+<tr>
+<td class="left">subr-x.el</td>
+<td class="left">string-remove-prefix</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">string-remove-suffix</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">fileio.c</td>
+<td class="left">file-name-nondirectory</td>
+<td class="left">取文件名，不带dir</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">file-name-directory</td>
+<td class="left">取文件名中的dir部分</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">directory-file-name</td>
+<td class="left">unix上会去除最后的路径分隔符"/"</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">file-name-as-directory</td>
+<td class="left">直接在文件名后加上路径分隔符"/"</td>
+</tr>
+
+<tr>
+<td class="left">files.el</td>
+<td class="left">executable-find</td>
+<td class="left">在exec-path里查找command</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">file-expand-wildcards</td>
+<td class="left">(file-expand-wildcards "*/*.png")</td>
+</tr>
+
+<tr>
+<td class="left">url相关</td>
+<td class="left">url-https-file-readable-p</td>
+<td class="left">https是否可读</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-retrieve</td>
+<td class="left">(url-retrieve "<a href="https://xx.el">https://xx.el</a>" (lambda (s) (end-of-buffer) (eval-print-last-sexp)))</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-generic-parse-url</td>
+<td class="left">parse一个url, 正则解析并生成各部分的结构体; downcase host和scheme, unhex host</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-recreate-url</td>
+<td class="left">适合将url结构改变某些slot后, 再生成新的url, 讲了url的生成过程; 不会hexify</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-encode-url</td>
+<td class="left">generic-parse后, 各部分hexify, 再recreate-url</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-strip-leading-spaces</td>
+<td class="left">去除前空白</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-eat-trailing-space</td>
+<td class="left">去除后空白</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-parse-query-string</td>
+<td class="left">解析query string</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-build-query-string</td>
+<td class="left">生成query string</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-hexify-string</td>
+<td class="left">url编码</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-unhex-string</td>
+<td class="left">url解码</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-insert-entities-in-string</td>
+<td class="left">将string中的&amp;&lt;&gt;" 转成HTML Mark的and形式</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-get-url-at-point</td>
+<td class="left">获取url</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">url-data</td>
+<td class="left">将data:image/png;base64,&lt;b64-str&gt;parse为对象后, 解析里面的各项到buffer</td>
+</tr>
+
+<tr>
+<td class="left">timer.el</td>
+<td class="left">with-timeout</td>
+<td class="left">macro</td>
+</tr>
+
+<tr>
+<td class="left">buffer (c)</td>
+<td class="left">buffer-substring</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">buffer-substring-no-properties</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">thing-at-point</td>
+<td class="left">thing-at-point</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">symbol-at-point</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">word-at-point</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">Condition (c)</td>
+<td class="left">unwind-protect</td>
+<td class="left">相当于java中的finally, 无论是否抛出异常, 都会执行</td>
+</tr>
+
+<tr>
+<td class="left">json.el</td>
+<td class="left">json-encode</td>
+<td class="left">(json-encode t)</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">(json-encode '(1 2 3))</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">(json-encode '(:foo 1 :bar 2 :baz 3))</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">json-read-from-string</td>
+<td class="left">(json-read-from-string "4.6")</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">(let ((json-object-type 'plist)) (json-read-from-string "{\"foo\": true}"))</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">(let ((json-object-type 'string)) (json-read-from-string "{\"foo\": true}"))</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">(let ((json-object-type 'hash-table)) (json-read-from-string "{\"foo\": true}"))</td>
+</tr>
+
+<tr>
+<td class="left">callproc.c</td>
+<td class="left">call-process-region</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">syntax (c)</td>
+<td class="left">set-syntax-table</td>
+<td class="left">与forward-char, forward-word有关</td>
+</tr>
+
+<tr>
+<td class="left">buildin func</td>
+<td class="left">format-time-string</td>
+<td class="left">(format-time-string "%a, %d %b %Y %T GMT" nil t)</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">system-time-locale</td>
+<td class="left">与format-time-string有点关系</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">setcar, setcdr</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">assoc key list</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">regexp</td>
+<td class="left">looking-at</td>
+<td class="left">(point)后是否有匹配</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">match-begging, match-end</td>
+<td class="left">匹配位置</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">match-string num</td>
+<td class="left">num表示第num个分组(分组就是用圆括号括起来的)匹配; num为0表示整个regexp匹配</td>
+</tr>
+
+<tr>
+<td class="left">buffer 位置</td>
+<td class="left">forward-char num</td>
+<td class="left">向前num个字符</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">skip-chars-forward regexp</td>
+<td class="left">遇到regexp里的字符后停下</td>
+</tr>
+
+<tr>
+<td class="left">type convert</td>
+<td class="left">string-to-number</td>
+<td class="left">(string-to-number "100")</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">char-to-string</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">int-to-string</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">cl包</td>
+<td class="left">cl-defstruct</td>
+<td class="left">定义结构体</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">cl-eval-when</td>
+<td class="left">(cl-eval-when (load eval) &#x2026;) 等于 (progn &#x2026;)</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">require, defmacro 等同于 (cl-eval-when (compile load eval) &#x2026;)</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">(eval-and-compile &#x2026;) 等同于 (cl-eval-when (compile load eval) &#x2026;)</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">compile就是编译成elc文件</td>
+<td class="left">(cl-eval-when (compile)           (setq foo1 'bar))</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">load表示加载elc文件</td>
+<td class="left">(cl-eval-when (load)              (setq foo2 'bar))</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">eval表示load el文件</td>
+<td class="left">(cl-eval-when (compile load)      (setq foo3 'bar))</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">(cl-eval-when (eval)              (setq foo4 'bar))</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">(cl-eval-when (eval compile)      (setq foo5 'bar))</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">(cl-eval-when (eval load)         (setq foo6 'bar))</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">(cl-eval-when (eval compile load) (setq foo7 'bar))</td>
+</tr>
+
+<tr>
+<td class="left">gv</td>
+<td class="left">gv-setter</td>
+<td class="left">在url-parse.el.gz中用到, 和setf有点关系</td>
+</tr>
+
+<tr>
+<td class="left">eval.c</td>
+<td class="left">autoload method file</td>
+<td class="left">当调用method的时候, 自动load file文件?</td>
+</tr>
+
+<tr>
+<td class="left">simple.el</td>
+<td class="left">kill-new string</td>
+<td class="left">make string into the kill ring</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">goto-line</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">line-number-at-pos</td>
+<td class="left">当前position所在的行数</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">goto-char</td>
+<td class="left">不在simple.el里; 基本函数</td>
+</tr>
+
+<tr>
+<td class="left">coding.c</td>
+<td class="left">encode-coding-string</td>
+<td class="left">(encode-coding-string string 'utf8)</td>
+</tr>
+
+<tr>
+<td class="left">data.c</td>
+<td class="left">multibyte-string-p</td>
+<td class="left">是否是多字节</td>
+</tr>
+
+<tr>
+<td class="left">custom.el</td>
+<td class="left">defcustom</td>
+<td class="left">(defcustom some-symbol "initial-value" :type 'string)</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">defface</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">fns.c</td>
+<td class="left">put SYMBOL PROPNAME VALUE</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">get SYMBOL PROPNAME</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">plist-put PLIST PROP VAL</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">byte-run.el</td>
+<td class="left">defsubst</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">eval-and-compile</td>
+<td class="left">lexical-binding</td>
+</tr>
+
+<tr>
+<td class="left">ivy.el</td>
+<td class="left">ivy-done, ivy-exit</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">ivy&#x2013;exhibit</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">selected candidate</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">ivy-auto-select-single-candidate</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">ivy&#x2013;minibuffer-setup hook</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">ivy-restrict-to-matches</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">ivy&#x2013;filter</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">ivy-text</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">ivy&#x2013;all-candidates</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">ivy&#x2013;prompt-selected-p</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">ivy-index, ivy&#x2013;index</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">editfns.c</td>
+<td class="left">float-time</td>
+<td class="left">1512985191.42054</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">current-time-string</td>
+<td class="left">Mon Dec 11 17:37:23 2017</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">time-less-p</td>
+<td class="left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> Lexcial Scope</h2>
+<div class="outline-text-2" id="text-12">
+<p>
+emacs lisp本身是dynamic scope的。let就是dynamic scope的实际使用。emacs 24.1后，支持了lexial scope，需要设置lexcial-binding为t<br  />
+静态作用域和动态作用域的一个重要区别在于：静态作用域规则查找一个变量声明时依赖的是源程序中块之间的静态关系；而动态作用域规则依赖的是程序执行时的函数调用顺序。说的具体点，就是静态作用域查找的是距离当前作用域最近的外层作用域中同名标识符的声明，而动态作用域则是查找最近的活动记录。<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> Emacs tls包</h2>
+<div class="outline-text-2" id="text-13">
+<p>
+gnutls.el.gz, tls.el.gz<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14"><span class="section-number-2">14</span> Emacs plist vs. alist</h2>
+<div class="outline-text-2" id="text-14">
+<ul class="org-ul">
+<li>alist<br  />
+alist中key可以重复, 取值时得到的是靠前的<br  />
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">((key1 . value1)
+ (key2 . value2)
+ (key3 . value3))
+</pre>
+</div>
+</li>
+<li>plist<br  />
+plist中key是distinct的<br  />
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(key1 value1
+      key2 value2
+      key3 value3)
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-15" class="outline-2">
+<h2 id="sec-15"><span class="section-number-2">15</span> keymap定义</h2>
+<div class="outline-text-2" id="text-15">
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #1c86ee;">defvar</span> <span style="color: #2e8b57;">some-mode-map</span>
+  (<span style="color: #1c86ee;">let</span> ((map (make-sparse-keymap)))
+    (define-key map (kbd <span style="color: #8b7355;">"C-m"</span>) 'some-command)
+    (define-key map [remap exist-command] 'some-command)
+    map) <span style="color: #cd853f;">"DOC STRING"</span>)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-16" class="outline-2">
+<h2 id="sec-16"><span class="section-number-2">16</span> eval-and-compile</h2>
+<div class="outline-text-2" id="text-16">
+<p>
+list 'quote和eval应该是一对相反操作<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #1c86ee;">defmacro</span> <span style="color: #cd9b1d;">eval-and-compile</span> (<span style="color: #00688b;">&amp;rest</span> body)
+  (<span style="color: #1c86ee;">declare</span> (debug t) (indent 0))
+  (list 'quote (eval (cons 'progn body) lexical-binding)))
+</pre>
+</div>
+
+<p>
+body为(+ 1 2), 传入时, 代码如下, 因为是macro, 所以最后需要eval一下:<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(eval (list 'quote (eval (cons 'progn '((+ 1 2))) lexical-binding)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-17" class="outline-2">
+<h2 id="sec-17"><span class="section-number-2">17</span> Emacs正则表达式</h2>
+<div class="outline-text-2" id="text-17">
+</div><div id="outline-container-sec-17-1" class="outline-3">
+<h3 id="sec-17-1"><span class="section-number-3">17.1</span> 反向搜索</h3>
+<div class="outline-text-3" id="text-17-1">
+<p>
+re-search-backward是反向搜索; match-beginning带的参数subexp是正则表达式的分组index, 返回匹配字符串的位置. 如果index为0, 表示全部regexp<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #1c86ee;">while</span> (re-search-backward <span style="color: #8b7355;">"hello</span><span style="color: #8b7355; font-weight: bold;">\\</span><span style="color: #8b7355; font-weight: bold;">(</span><span style="color: #8b7355;">.*</span><span style="color: #8b7355; font-weight: bold;">\\</span><span style="color: #8b7355; font-weight: bold;">)</span><span style="color: #8b7355;">is"</span> nil t)
+  (<span style="color: #1c86ee;">let</span> ((start (match-beginning 1))
+        (end (match-end 1)))
+    (<span style="color: #1c86ee;">if</span> start
+        (message <span style="color: #8b7355;">"position: %S, %S, %S"</span> start end (buffer-substring-no-properties start end)))))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-18" class="outline-2">
+<h2 id="sec-18"><span class="section-number-2">18</span> cc-imenu-objc-generic-expression</h2>
+<div class="outline-text-2" id="text-18">
+<pre class="example">
+"^\\([[:alpha:]_][[:alnum:]_:&lt;&gt;~]*\\)[ 	]*([ 	]*\\([^ 	(*][^)]*\\)?)[ 	]*[^ 	;(]\\|^\\&lt;[^()\n]*[^[:alnum:]_:&lt;&gt;~]\\([[:alpha:]_][[:alnum:]_:&lt;&gt;~]*\\)\\([ 	\n]\\|\\\\\n\\)*(\\([ 	\n]\\|\\\\\n\\)*\\([^ 	\n(*][^()]*\\(([^()]*)[^()]*\\)*\\)?)\\([ 	\n]\\|\\\\\n\\)*[^ 	\n;(]\\|\\(^[-+][:[:alnum:]()*_&lt;&gt;\n	 ]*[;{]\\|^@interface[	 ]+[[:alnum:]_]+[	 ]*:\\|^@interface[	 ]+[[:alnum:]_]+[	 ]*([[:alnum:]_]+)\\|^@interface[	 ]+[[:alnum:]_]+[	 ]*.*$\\|^@implementation[	 ]+[[:alnum:]_]+[	 ]*([[:alnum:]_]+)\\|^@implementation[	 ]+[[:alnum:]_]+\\|^@protocol[	 ]+[[:alnum:]_]+\\)"
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-19" class="outline-2">
+<h2 id="sec-19"><span class="section-number-2">19</span> edbi</h2>
+<div class="outline-text-2" id="text-19">
+</div><div id="outline-container-sec-19-1" class="outline-3">
+<h3 id="sec-19-1"><span class="section-number-3">19.1</span> 安装perl插件</h3>
+<div class="outline-text-3" id="text-19-1">
+<div class="org-src-container">
+
+<pre class="src src-sh">cpan RPC::EPC::Service DBI DBD::SQLite DBD::Pg DBD::mysql
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-19-2" class="outline-3">
+<h3 id="sec-19-2"><span class="section-number-3">19.2</span> 启动方式</h3>
+<div class="outline-text-3" id="text-19-2">
+<ul class="org-ul">
+<li>command启动<br  />
+edbi:open-db-viewer<br  />
+</li>
+<li>elisp启动<br  />
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #1c86ee;">setq</span> conn1 (edbi:start))
+<span style="color: #7f7f7f;">;</span><span style="color: #7f7f7f;">(edbi:connect conn1 '("dbi:SQLite:dbname=./test.sqlite" "" ""))</span>
+(edbi:connect conn1 '(<span style="color: #8b7355;">"dbi:mysql:database=sports:host=127.0.0.1"</span> <span style="color: #8b7355;">"user"</span> <span style="color: #8b7355;">"passwd"</span>))
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-19-3" class="outline-3">
+<h3 id="sec-19-3"><span class="section-number-3">19.3</span> mysql soruce</h3>
+<div class="outline-text-3" id="text-19-3">
+<p>
+#+BEGIN_EXAMPLE<br  />
+dbi:mysql:database=sports:host=127.0.0.1<br  />
+#+END_EXMAPLE<br  />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-20" class="outline-2">
+<h2 id="sec-20"><span class="section-number-2">20</span> Emacs MELPA包搜索</h2>
+<div class="outline-text-2" id="text-20">
+<p>
+<a href="http://melpa.milkbox.net/">http://melpa.milkbox.net/</a><br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-21" class="outline-2">
+<h2 id="sec-21"><span class="section-number-2">21</span> Emacs查看文件ascii编码形式</h2>
+<div class="outline-text-2" id="text-21">
+<ul class="org-ul">
+<li>find-file-literally命令, buffer-file-coding-system为no-conversion<br  />
+</li>
+<li>使用find-file打开的文件, 由于set-buffer-file-coding-system设置为utf-8, 所以打开后的buffer的buffer-file-coding-system是utf-8<br  />
+</li>
+<li>C-x C-m C-h可以查看与coding-system相关的命令<br  />
+</li>
+<li>C-h C: describe-coding-system<br  />
+</li>
+<li>使用unicad package自动识别文件打开后应该使用什么coding system进行加载<br  />
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-22" class="outline-2">
+<h2 id="sec-22"><span class="section-number-2">22</span> <a href="http://orgmode.org/manual/Include-files.html">org-mode引用其他文件</a></h2>
+<div class="outline-text-2" id="text-22">
+<p>
+引入emacs-lisp的源文件<br  />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-org"><span style="color: #7f7f7f;">#+INCLUDE: "~/.emacs" src emacs-lisp</span>
+</pre>
+</div>
+
+<p>
+C-c '可以访问该文件<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-23" class="outline-2">
+<h2 id="sec-23"><span class="section-number-2">23</span> org-mode BEGIN_SRC不执行命令</h2>
+<div class="outline-text-2" id="text-23">
+<p>
+加入:exports none<br  />
+</p>
+</div>
+</div>
+<div id="outline-container-sec-24" class="outline-2">
+<h2 id="sec-24"><span class="section-number-2">24</span> <a href="http://orgmode.org/manual/Export-settings.html">org-mode EXPORT选项</a></h2>
+</div>
+<div id="outline-container-sec-25" class="outline-2">
+<h2 id="sec-25"><span class="section-number-2">25</span> <a href="http://home.fnal.gov/~neilsen/notebook/orgExamples/org-examples.html">orgmode examples</a></h2>
+</div>
+<div id="outline-container-sec-26" class="outline-2">
+<h2 id="sec-26"><span class="section-number-2">26</span> xwidget浏览器插件</h2>
+<div class="outline-text-2" id="text-26">
+<p>
+M-x xwidget-webkit-browse-url<br  />
+前提是Emacs build with xwidgets support<br  />
+</p>
+</div>
+<div id="outline-container-sec-26-1" class="outline-3">
+<h3 id="sec-26-1"><span class="section-number-3">26.1</span> reference</h3>
+<div class="outline-text-3" id="text-26-1">
+<ul class="org-ul">
+<li><a href="https://emacs.stackexchange.com/questions/25037/compile-emacs-with-xwidget-under-osx">Mac下编译xwidget</a><br  />
+  主要是还要安装gtk+-3.0，这个库可以使用brew安装，使用brew search搜索gtk的包<br  />
+<div class="org-src-container">
+
+<pre class="src src-sh">brew search gtk
+</pre>
+</div>
+
+<p>
+而且可能还需要安装X11<br  />
+</p>
+</li>
+<li><a href="https://www.tuicool.com/articles/e63yuq">Mac OS X 下配置 GTK 开发环境</a><br  />
+<ul class="org-ul">
+<li>安装Command Line Tools<br  />
+<div class="org-src-container">
+
+<pre class="src src-sh">xcode-select --install
+</pre>
+</div>
+</li>
+<li>安装XQuartz (X11 Server)<br  />
+<a href="http://xquartz.macosforge.org/landing/">官网安装</a><br  />
+LaunchPad的other目录下，有X11，但其实并没有安装，点击后可以进行安装<br  />
+</li>
+<li>安装homebrew<br  />
+ruby -e "$(curl -fsSL <a href="https://raw.github.com/Homebrew/homebrew/go/install">https://raw.github.com/Homebrew/homebrew/go/install</a>)"<br  />
+</li>
+<li>安装pkg-config<br  />
+<div class="org-src-container">
+
+<pre class="src src-sh">brew install pkg-config
+</pre>
+</div>
+</li>
+<li>安装gtk+3<br  />
+<div class="org-src-container">
+
+<pre class="src src-sh">brew install gtk+3
+</pre>
+</div>
+</li>
+<li>配置pkg-config路径<br  />
+因为brew安装的路径都带有Cellar目录，不在传统unix PATH的默认配置中，需要手动配置。其中的cairo不知道是什么。该配置文件需要配置在.profile/.bashrc文件能source到的地方<br  />
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #cd6600;">export</span> <span style="color: #2e8b57;">PKG_CONFIG_PATH</span>=<span style="color: #8b7355;">"/usr/X11/lib/pkgconfig:/usr/local/Cellar/cairo/1.12.16/lib/pkgconfig/"</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-27" class="outline-2">
+<h2 id="sec-27"><span class="section-number-2">27</span> TeXmacs</h2>
+<div class="outline-text-2" id="text-27">
+<p>
+<a href="http://x-wei.github.io/TeXmacs_intro.html">学术文章写作利器: TeXmacs介绍</a><br  />
+<a href="http://www.yinwang.org/blog-cn/2012/09/18/texmacs">TeXmacs：一个真正“所见即所得”的排版系统</a><br  />
+<a href="https://www.mindomo.com/mindmap/texmacs-b207992c90c046bdbe4053cbdf88b5d5">王垠思维导图</a><br  />
+<a href="http://www.texmacs.org/tmweb/manual/web-manual.en.html">The TeXmacs manual</a><br  />
+</p>
+</div>
+<div id="outline-container-sec-27-1" class="outline-3">
+<h3 id="sec-27-1"><span class="section-number-3">27.1</span> TeXmacs中文字体</h3>
+<div class="outline-text-3" id="text-27-1">
+<p>
+可以下载中文字体ttc/ttf文件放在~/.TeXmacs/fonts/truetype目录下<br  />
+</p>
+</div>
 </div>
 </div>
 </div>
@@ -1703,8 +2765,8 @@ Emacs只有webdav的两个client端, 一个是内置的url-dav, 一个是el-dav.
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-06 Sun 18:34&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
 <p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-20 Sun 18:55</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2018-02-03 Sat 21:31</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

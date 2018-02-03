@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>iOS 越狱开发讨论：Cydia 源和 deb 安装包</title>
-<!-- 2017-08-20 Sun 18:55 -->
+<title>越狱: Cydia源和DEB包</title>
+<!-- 2018-02-03 Sat 21:17 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="gadmyth" />
@@ -296,7 +296,7 @@ body{
     overflow-x:hidden;
     -webkit-font-smoothing: antialiased;
     letter-spacing: .3px;
-    line-height: 1.7;
+    line-height: 2.2;
 }
 
 #content{
@@ -311,8 +311,8 @@ body{
 
 p{
     font-size:16px;
-    line-height:1.7;
-    margin:0px 0px 0px 0px;
+    line-height:2.2;
+    margin:0px 0px 9px 0px;
 }
 
 b,strong{
@@ -322,14 +322,14 @@ blockquote{
     background-color: #F0F0F0;
     border-left:5px solid #CCCCCC;
     font-style:italic;
-    line-height:1.7;
+    line-height:2.2;
     margin:0px 0px 24px 0px;
     /* margin-left:24px; */
     padding: 6px 20px;
 }
 
 ul,ol,dl{
-    line-height:1.7;
+    line-height:2.2;
     list-style-image:none;
     /* list-style:none; */
     margin:0px 0px 24px 0px;
@@ -346,7 +346,7 @@ dd{
 
 #content .section ul,#content .toctree-wrapper ul,article ul{
     list-style:disc;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ul li,#content .toctree-wrapper ul li,article ul li{
@@ -370,7 +370,7 @@ dd{
 
 #content .section ol,#content ol,article ol{
     list-style:decimal;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px}
 
 #content .section ol li,#content ol li,article ol li{
@@ -772,7 +772,7 @@ a .fa,a #content .admonition-title,#content a .admonition-title{
 
 .wy-alert,#content .note,#content .attention,#content .caution,#content .danger,#content .error,#content .hint,#content .important,#content .tip,#content .warning,#content .seealso,#content .admonitiontodo{
     padding:12px;
-    line-height:1.7;
+    line-height:2.2;
     margin-bottom:24px;
     /* background:#e7f2fa; */
 }
@@ -1643,7 +1643,7 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">iOS 越狱开发讨论：Cydia 源和 deb 安装包</h1>
+<h1 class="title">越狱: Cydia源和DEB包</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -1680,17 +1680,17 @@ for the JavaScript code in this tag.
 </div>
 </div>
 <p>
-虽然 iPhone 的越狱用户不多，但是在 iOS 8.0 出来之前，iOS 并没有所谓的 App Extension 的功能，iOS 的一些核心功能是不会开放给第三方用户进行二次开发的。<br  />
+虽然iPhone的越狱用户不多，但是在iOS8.0出来之前，iOS并没有所谓的App Extension的功能，iOS的一些核心功能是不会开放给第三方用户进行二次开发的。<br  />
 </p>
 
 <p>
-举个例子，第三输入法的开发就只能放在越狱的手机上使用。一般来说，类似的 Extension 功能，都会以一个动态库的形式被安装在 iOS darwin 系统的某个路径下，然后由 Mobile Substrate(现MS改名为Cydia Substrate了) 这个越狱后的装载系统将该路径目录下的所有的动态库在某种条件下进行装载。<br  />
+举个例子，第三输入法的开发就只能放在越狱的手机上使用。一般来说，如果想对所有App开发扩展功能，都会以一个动态库的形式被安装在iOS darwin系统的某个路径下，然后由Mobile Substrate(现已改名Cydia Substrate) 这个越狱后的装载系统将该路径目录下的所有的动态库在某种条件下进行装载。<br  />
 </p>
 
 <!--more-->
 
 <p>
-当你的手机越狱完成后，就会在 SpringBoard 上看到 Cydia 的App，该 App 只能在越狱后的手机上看到，长按该 App 后会发现，它其实是一个系统 App，删除不掉的。Cydia 类似于 App Store，里面管理着很多的 SoftWare Source，类似于 ubuntu 的 apt-get，Fedora 的 dnf，centOS 的 yum，就是一个包管理器。<br  />
+当你的手机越狱完成后，就会在SpringBoard上看到Cydia的App，该App只能在越狱后的手机上看到，长按该App后会发现，它其实是一个系统App，长按icon不可删除。Cydia是越狱环境下的App Store，可以下载很多扩展功能的deb包，和Linux的apt-get、dnf、yum一样，管理deb包的安装、升级和卸载。<br  />
 </p>
 
 
@@ -1798,7 +1798,7 @@ for the JavaScript code in this tag.
 </p>
 
 <p>
-以上表格中，我们看到第一行中显示的"自己的测试源"，意思是说，对于该渠道的软件包，我自己制作了相应的 Cydia 测试源，包名就是第一行中的包名。假设我们已经将该源制作好了，接下来我们就来演示一下如果在 Cydia 中添加源。<br  />
+以上表格中，我们看到第一行中显示的"自己的测试源"，意思是说，对于该渠道的软件包，我自己制作了相应的Cydia测试源，包名就是第一行中的包名。假设我们已经将该源制作好了，接下来我们就来演示一下如果在Cydia中添加源。<br  />
 </p>
 </div>
 
@@ -1820,7 +1820,7 @@ for the JavaScript code in this tag.
 <h3 id="sec-1-2"><span class="section-number-3">1.2</span> 通过 Release 和 Packages 文件更新源</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
-点击上图 Dialog 中的添加源后，Cydia 就正式开始更新各种源下的软件包了。下图中显示了 Cydia 通过 Release 和 Packages 文件来更新各种软件。<br  />
+点击上图Dialog中的添加源后，Cydia就正式开始更新各种源下的软件包了。下图中显示了Cydia通过Release和Packages文件来更新各种软件。<br  />
 </p>
 
 <div class="figure">
@@ -1862,7 +1862,7 @@ for the JavaScript code in this tag.
 <h2 id="sec-2"><span class="section-number-2">2</span> deb 打包</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-deb 打包的过程比较复杂，第一步我们需要将源代码通过 Makefile 来编译成各种二进制文件，比如 dylib 动态库、二进制可执行文件等。第二步是将资源文件以一定的文件层级放置。第三步是编写 deb 包的各种脚本，这些脚本会在安装或卸载时执行。第四步是将所有以上这些文件上传到iPhone文件系统的某个目录下，对里面的二进制文件进行签名，并最终打成 deb 包。<br  />
+deb打包的过程比较复杂，第一步我们需要将源代码通过Makefile来编译成各种二进制文件，比如dylib动态库、二进制可执行文件等。第二步是将资源文件以一定的文件层级放置。第三步是编写deb包的各种脚本，这些脚本会在安装或卸载时执行。第四步是将所有以上这些文件上传到iPhone文件系统的某个目录下，对里面的二进制文件进行签名，并最终打成deb包。<br  />
 </p>
 </div>
 
@@ -1877,7 +1877,7 @@ deb 打包的过程比较复杂，第一步我们需要将源代码通过 Makefi
 </div>
 
 <p>
-deb 包除了需要安装到 iOS 文件系统中的一系列的文件外，还由包含了一些 meta-data file 组成，如上图中的 DEBIAN 文件夹，这些 file 中 control 是用来指明 deb 包的 meta-data 的，比如 name, package, version, depends 这几样必不可少的。preinst, postinst 是在安装前和安装后执行的脚本，prerm, postrm 中在卸载前后执行的脚本，目的是做一些扫尾工作，比如把安装时的文件系统进行清空，注销某些系统文件，卸载后不再有残留标识。<br  />
+deb包除了需要安装到iOS文件系统中的一系列的文件外，还由包含了一些meta-data file组成，如上图中的DEBIAN文件夹，这些file中control是用来指明deb包的meta-data的，比如name,package,version,depends这几样必不可少的。preinst,postinst是在安装前和安装后执行的脚本，prerm,postrm中在卸载前后执行的脚本，目的是做一些扫尾工作，比如把安装时的文件系统进行清空，注销某些系统文件，卸载后不再有残留标识。<br  />
 </p>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -1906,26 +1906,56 @@ deb 包除了需要安装到 iOS 文件系统中的一系列的文件外，还�
 
 <tr>
 <td class="left">preinst</td>
-<td class="left">安装时会自动传入install或upgrade的参数</td>
-<td class="left">declare -a cydia</td>
+<td class="left">安装前准备工作</td>
+<td class="left">安装时会自动传入install或upgrade的参数  cydia</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">declare -a</td>
 </tr>
 
 <tr>
 <td class="left">postinst</td>
-<td class="left">安装完后执行的脚本，处理安装文件的权限设置，文件备份</td>
-<td class="left">将输入法设置的App放到/Applications下，&lt;br&gt;这是系统App所在的目录，有root权限；&lt;br&gt;将自己的输入法注册到系统中去；&lt;br&gt;plutil转化二进制和txt的plist文件，进行修改内容；&lt;br&gt; 获得超级权限，sticky，4755，1755</td>
+<td class="left">安装完后执行的脚本</td>
+<td class="left">处理安装文件的权限设置，文件备份</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">将输入法设置的App放到系统App目录/Applications下</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">将自己的输入法注册到系统中去；</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">plutil转化二进制和txt的plist文件，进行修改内容；</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">获得超级权限，sticky，4755，1755</td>
 </tr>
 
 <tr>
 <td class="left">prerm</td>
+<td class="left">&#xa0;</td>
 <td class="left">uninstall时保存备份文件，将输入法从settings列表中去除</td>
-<td class="left">/</td>
 </tr>
 
 <tr>
 <td class="left">postrm</td>
+<td class="left">&#xa0;</td>
 <td class="left">安装完deb包，提示用户reboot手机，或重启SpringBoard</td>
-<td class="left">/</td>
 </tr>
 </tbody>
 </table>
@@ -2039,7 +2069,7 @@ Depends: mobilesubstrate (&gt;=0.9.3005-1), firmware (&gt;= 4.0)
 <h3 id="sec-2-2"><span class="section-number-3">2.2</span> 上传到iPhone手机</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
-我们制作好二进制可执行文件、动态库、静态库后，需要上传到iPhone手机上使用 iOS 系统中的 ldid 命令行工具对这些文件进行签名，使用 dpkg-deb 命令行工具对所有可运行文件和资源文件进行打包。由于当时(2012年)年少不懂事，在 Mac 上没有找到 ldid 文件，所以只变向地求助于 iOS 系统来干这两件事。那么我们首先需要做的事情是将所有文件通过 scp 来上传到 iPhone 上。我们在 Cydia 中找到 OpenSSH 这个 Tweak 进行安装:<br  />
+我们制作好二进制可执行文件、动态库、静态库后，需要上传到iPhone手机上使用iOS系统中的ldid命令行工具对这些文件进行签名，使用dpkg-deb命令行工具对所有可运行文件和资源文件进行打包。由于当时(2012年)年少不懂事，在Mac上没有找到ldid文件，所以只变向地求助于iOS系统来干这两件事。那么我们首先需要做的事情是将所有文件通过scp来上传到iPhone上。我们在Cydia中找到OpenSSH这个Tweak进行安装:<br  />
 </p>
 
 
@@ -2050,7 +2080,7 @@ Depends: mobilesubstrate (&gt;=0.9.3005-1), firmware (&gt;= 4.0)
 </div>
 
 <p>
-然后再下载 usbmuxd 的1.0.8版本(之后较新的版本里没有 python-client 了)，然后执行以下脚本，将 usb 的 22 端口映射成主机的localhost 的 2222 端口，所以主机对 localhost 的 2222 端口的通信都会被转发到 usb 的 22 端口。这时候我们可以使用 scp copy 文件到 iPhone 上。ssh 使用 root 登录 iPhone 的默认密码是 alpine。<br  />
+然后再下载usbmuxd的1.0.8版本(之后较新的版本里没有python-client了)，然后执行以下脚本，将usb的22端口映射成主机的localhost的2222端口，所以主机对localhost的2222端口的通信都会被转发到usb的22端口。这时候我们可以使用scpcopy文件到iPhone上。ssh使用root登录iPhone的默认密码是alpine。<br  />
 </p>
 
 
@@ -2103,7 +2133,7 @@ deb 打包命令非常简单，直接使用 dpkg-deb -b 就行了。<br  />
 <h2 id="sec-3"><span class="section-number-2">3</span> 渠道号修改</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-由于上表中所述，我们的输入法一共有 9 个渠道包，那么是否需要每个渠道包都重新打包一遍呢? 显然是不需要的。我们利用好 dpkg 命令就可以将 deb 包解压后，修改其中的内容，再将包重新打上即可。<br  />
+由于上表中所述，我们的输入法一共有9个渠道包，那么是否需要每个渠道包都重新打包一遍呢?显然是不需要的。我们利用好dpkg命令就可以将deb包解压后，修改其中的内容，再将包重新打上即可。<br  />
 </p>
 <div class="org-src-container">
 
@@ -2126,14 +2156,14 @@ dpkg-deb -b ./channel-02 TouchPalIME-channel-02.deb
 <h2 id="sec-4"><span class="section-number-2">4</span> <a href="http://iphonedevwiki.net/index.php/Repository_Management">Cydia 源制作</a></h2>
 <div class="outline-text-2" id="text-4">
 <p>
-我们可以制作和发布自己的源，只要我们遵循 Cydia 的源的制作规范。Cydia源需要在源目录下放置 Release 和 Packages 两个文件，供 Cydia 进行包更新。如果 Cydia 源地址是 &lt;cydia-source&gt;，那么Packages 和 Release 的路径就是 &lt;cydia-source&gt;/Packages，&lt;cydia-source&gt;/Release。一般来说我们会对 Packages 进行 gzip 和 bzip2 压缩。所以会存在 &lt;cydia-source&gt;/Packages.gz，&lt;cydia-source&gt;/Packages.bz2 文件。<br  />
+我们可以制作和发布自己的源，只要我们遵循Cydia的源的制作规范。Cydia源需要在源目录下放置Release和Packages两个文件，供Cydia进行包更新。如果Cydia源地址是&lt;cydia-source&gt;，那么Packages和Release的路径就是&lt;cydia-source&gt;/Packages，&lt;cydia-source&gt;/Release。一般来说我们会对Packages进行gzip和bzip2压缩。所以会存在&lt;cydia-source&gt;/Packages.gz，&lt;cydia-source&gt;/Packages.bz2文件。<br  />
 </p>
 </div>
 <div id="outline-container-sec-4-1" class="outline-3">
 <h3 id="sec-4-1"><span class="section-number-3">4.1</span> <a href="https://github.com/gadmyth/heroku-cl-example/blob/master/public/cydia/Packages">Packages</a> 文件制作</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
-以下是Packages文件的示例，该文件是所有 Package 的 Meta-Data 存放地，有些信息是为了供 Cydia Package Detail 页面显示而用，有的是为了下载核对文件信息。最重要的几个是 Filename 和 MD5、SHA1、SHA256 等。Filename 是文件的相对路径，做下载使用，其余 3 个是用于下载后对文件进行校验，以验证文件是否下载正确。<br  />
+以下是Packages文件的示例，该文件是所有Package的Meta-Data存放地，有些信息是为了供CydiaPackageDetail页面显示而用，有的是为了下载核对文件信息。最重要的几个是Filename和MD5、SHA1、SHA256等。Filename是文件的相对路径，做下载使用，其余3个是用于下载后对文件进行校验，以验证文件是否下载正确。<br  />
 </p>
 <pre class="example">
 Package: com.cootek.touchpalinputmethod
@@ -2160,7 +2190,7 @@ Sponsor: CooTek
 <h3 id="sec-4-2"><span class="section-number-3">4.2</span> <a href="https://github.com/gadmyth/heroku-cl-example/blob/master/public/cydia/Release">Release</a> 文件制作</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
-Release 文件比较简单，其中和 Packages 文件一样有 Version 字段，但个人认为，该字段的使用好像不是很正确，尚待研究。<br  />
+Release文件比较简单，其中和Packages文件一样有Version字段，但个人认为，该字段的使用好像不是很正确，尚待研究。<br  />
 </p>
 <pre class="example">
 Origin: GADMYTH
@@ -2179,7 +2209,7 @@ Description: Distribution of TouchPal InputMethod for iOS (支持iPhone5S, iOS6,
 <h2 id="sec-5"><span class="section-number-2">5</span> 附录</h2>
 <div class="outline-text-2" id="text-5">
 <p>
-附录中介绍一些补充知识，比如 dpkg 命令等。<br  />
+附录中介绍一些补充知识，比如dpkg命令等。<br  />
 </p>
 </div>
 <div id="outline-container-sec-5-1" class="outline-3">
@@ -2303,8 +2333,8 @@ Description: Distribution of TouchPal InputMethod for iOS (支持iPhone5S, iOS6,
 <p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-14 Fri 12:53&gt;</span></span></p>
 <p class="author">Author: gadmyth</p>
 <p class="email">Email: <a href="mailto:gadmyth@gmail.com">gadmyth@gmail.com</a></p>
-<p class="date">Created: 2017-08-20 Sun 18:55</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2018-02-03 Sat 21:17</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
